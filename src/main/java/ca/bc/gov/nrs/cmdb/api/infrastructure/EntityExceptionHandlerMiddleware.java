@@ -31,8 +31,8 @@ public class EntityExceptionHandlerMiddleware extends ResponseEntityExceptionHan
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
-    @ExceptionHandler(value = RestException.class)
-    protected ResponseEntity handleConflict(RestException e, WebRequest request) throws JsonProcessingException
+    @ExceptionHandler(value = HttpException.class)
+    protected ResponseEntity handleConflict(HttpException e, WebRequest request) throws JsonProcessingException
     {
         HttpStatus status = (e.getHttpStatusCode() == null) ? HttpStatus.BAD_REQUEST : e.getHttpStatusCode();
         HttpHeaders headers = new HttpHeaders();

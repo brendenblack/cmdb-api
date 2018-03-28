@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
-import ca.bc.gov.nrs.cmdb.api.infrastructure.RestException;
+import ca.bc.gov.nrs.cmdb.api.infrastructure.HttpException;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequest;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequestHandler;
 import ca.bc.gov.nrs.cmdb.api.models.Secret;
@@ -29,9 +29,11 @@ public class DoCrawl
         private long secretId;
     }
 
+    @Getter
+    @Setter
     public static class Model
     {
-
+        private String crawlId;
     }
 
     @Component("doCrawlHandler")
@@ -41,12 +43,14 @@ public class DoCrawl
 
         private final ServerRepository serverRepository;
         private final SecretsRepository secretsRepository;
+        private final CrawlManager crawlManager;
 
         @Autowired
-        public Handler(ServerRepository serverRepository, SecretsRepository secretsRepository)
+        public Handler(ServerRepository serverRepository, SecretsRepository secretsRepository, CrawlManager crawlManager)
         {
             this.serverRepository = serverRepository;
             this.secretsRepository = secretsRepository;
+            this.crawlManager = crawlManager;
         }
 
         @Override
@@ -67,16 +71,18 @@ public class DoCrawl
 
             if (errors.size() > 0)
             {
-                throw new RestException(String.join(",", errors));
+                throw new HttpException(String.join(",", errors));
             }
 
-            String fqdn = server.get().getFqdn();
             UsernamePasswordSecret cred = (UsernamePasswordSecret)secret.get();
+            log.info("Will attempt to crawl {} with username {}", server.get().getFqdn(), cred.getUsername());
 
-            log.info("Will attempt to crawl {} with username {}", fqdn, cred.getUsername());
+            String crawlId = this.crawlManager.doCrawl(server.get(), cred);
 
+            Model model = new Model();
+            model.setCrawlId(crawlId);
 
-            return null;
+            return model;
         }
 
         @Override

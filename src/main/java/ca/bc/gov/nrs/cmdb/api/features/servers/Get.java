@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers;
 
-import ca.bc.gov.nrs.cmdb.api.infrastructure.RestException;
+import ca.bc.gov.nrs.cmdb.api.infrastructure.HttpException;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequest;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequestHandler;
 import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
@@ -102,7 +102,7 @@ public class Get
             else
             {
                 log.warn("No server was found with id {}", message.getId());
-                throw new RestException(HttpStatus.NOT_FOUND, "No server was found with id " + message.getId());
+                throw new HttpException(HttpStatus.NOT_FOUND, "No server was found with id " + message.getId());
             }
         }
 

@@ -1,0 +1,15 @@
+Filesystem                               Type     1K-blocks      Used Available Use% Mounted on
+/dev/mapper/rootvg-root                  ext4       8125880    542276   7147792   8% /
+devtmpfs                                 devtmpfs  16454568         0  16454568   0% /dev
+shmfs                                    tmpfs     16465196         0  16465196   0% /dev/shm
+tmpfs                                    tmpfs     16465196   1475144  14990052   9% /run
+tmpfs                                    tmpfs     16465196         0  16465196   0% /sys/fs/cgroup
+/dev/mapper/rootvg-usr                   ext4       6061632   3027736   2702940  53% /usr
+/dev/sda1                                ext2        198337    149069     39028  80% /boot
+/dev/mapper/rootvg-opt                   ext4       8125880    519884   7170184   7% /opt
+/dev/mapper/vg01-u02                     ext4      51470816  43025792   5807408  89% /fs/u02
+/dev/mapper/rootvg-var                   ext4       3997376   2538136   1233144  68% /var
+/dev/mapper/rootvg-logaudit              ext4       1998672   1522676    354756  82% /var/log/audit
+/dev/mapper/rootvg-home                  ext4       1998672    642236   1235196  35% /home
+/dev/mapper/rootvg-tmp                   ext4       3997376    366004   3405276  10% /tmp
+//tephra.idir.bcgov/cvisdlvr_attachments cifs     524286880 226892960 297393920  44% /fs/u02/apps_data/cvis/attachments

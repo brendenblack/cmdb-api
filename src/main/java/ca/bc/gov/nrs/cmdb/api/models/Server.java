@@ -1,5 +1,8 @@
 package ca.bc.gov.nrs.cmdb.api.models;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -8,33 +11,53 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
-public class Server extends ConnectableEntity
+@EqualsAndHashCode(of={"fqdn"}, callSuper = false)
+public class Server extends Entity
 {
     public static final String RELATIONSHIP_HAS_FILESYSTEM = "HAS_FILESYSTEM";
+    public static final String RELATIONSHIP_RUNS_OPERATING_SYSTEM = "RUNS_OPERATING_SYSTEM";
 
     @Index(unique = true)
+    @Getter
+    @Setter
     private String fqdn;
 
+    @Getter
+    @Setter
+    private String architecture;
+
     @Relationship(type = RELATIONSHIP_HAS_FILESYSTEM)
-    private Set<FileSystem> filesystems = new HashSet<>();
+    @Getter
+    private Set<FileSystem> fileSystems = new HashSet<>();
 
-    public String getFqdn()
-    {
-        return fqdn;
-    }
+    @Relationship(type = RELATIONSHIP_RUNS_OPERATING_SYSTEM)
+    @Getter
+    @Setter
+    private OperatingSystem operatingSystem;
 
-    public void setFqdn(String fqdn)
-    {
-        this.fqdn = fqdn;
-    }
-
+    /**
+     * Adds a given {@link FileSystem} to this server's filesystem collection
+     * @param fs
+     */
     public void hasFileSystem(FileSystem fs)
     {
-        this.filesystems.add(fs);
+        this.fileSystems.add(fs);
     }
 
-    public Set<FileSystem> getFileSystems()
+    /**
+     * Replaces the existing collection of {@link FileSystem}s with the provided set.
+     *
+     * @param fs
+     */
+    public void hasFileSystems(Set<FileSystem> fs)
     {
-        return this.filesystems;
+        if (fs == null)
+        {
+            fs = new HashSet<>();
+        }
+
+        this.fileSystems = fs;
     }
+
+
 }

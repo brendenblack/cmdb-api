@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers;
 
-import ca.bc.gov.nrs.cmdb.api.infrastructure.RestException;
+import ca.bc.gov.nrs.cmdb.api.infrastructure.HttpException;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequest;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequestHandler;
 import ca.bc.gov.nrs.cmdb.api.models.Server;
@@ -42,7 +42,7 @@ public class Create
             if (result.isPresent())
             {
                 long id = result.get().getId();
-                RestException e = new RestException(HttpStatus.CONFLICT, "A server already exists with the address " + message.getFqdn());
+                HttpException e = new HttpException(HttpStatus.CONFLICT, "A server already exists with the address " + message.getFqdn());
                 e.addHeader("Location", ServersController.PATH + "/" + id);
                 throw e;
             }

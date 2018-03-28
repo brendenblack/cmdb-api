@@ -43,6 +43,7 @@ public class ServersController
         DoCrawl.Model result = this.mediator.send(message, DoCrawl.Model.class);
 
         response.setStatus(HttpStatus.ACCEPTED.value());
+        response.setHeader("Location", result.getCrawlId());
     }
 
     @GetMapping

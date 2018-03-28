@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.secrets;
 
-import ca.bc.gov.nrs.cmdb.api.infrastructure.RestException;
+import ca.bc.gov.nrs.cmdb.api.infrastructure.HttpException;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequest;
 import ca.bc.gov.nrs.cmdb.api.mediator.IRequestHandler;
 import ca.bc.gov.nrs.cmdb.api.models.Secret;
@@ -52,7 +52,7 @@ public class Create
                     break;
                 default:
                     log.warn("Unable to handle unknown secret type of '{}'", message.getType());
-                    throw new RestException("Unknown secret type '" + message.getType() + "'");
+                    throw new HttpException("Unknown secret type '" + message.getType() + "'");
             }
 
             secret.setDescription(message.getDescription());
