@@ -5,6 +5,7 @@ import ca.bc.gov.nrs.cmdb.api.models.UsernamePasswordSecret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,10 +20,14 @@ public class CrawlManager implements CrawlCallback
     private final Map<String,Crawler> crawlers = new HashMap<>();
 
     private static Map<String, CrawlRunnable> crawlsInProgress = new HashMap<>();
+    private final List<Crawler> allCrawlers;
+    private final SimpMessagingTemplate template;
 
     @Autowired
-    public CrawlManager(List<Crawler> allCrawlers)
+    public CrawlManager(List<Crawler> allCrawlers, SimpMessagingTemplate template)
     {
+        this.allCrawlers = allCrawlers;
+        this.template = template;
         for (Crawler crawler : allCrawlers)
         {
             this.crawlers.put(crawler.getCrawlFor(), crawler);
@@ -49,9 +54,8 @@ public class CrawlManager implements CrawlCallback
         return crawl.getId();
     }
 
-
     @Override
-    public void doCallback(String crawlId, Server server)
+    public void doCallback(CrawlStatusMessage message)
     {
 
     }
