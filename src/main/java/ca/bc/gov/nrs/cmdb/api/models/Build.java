@@ -17,6 +17,6 @@ public class Build extends Entity
 
     @Relationship(type = ComponentInstance.RELATIONSHIP_MANIFESTS_BUILD)
     private Set<ComponentInstance> instances;
-    
+
 
 }

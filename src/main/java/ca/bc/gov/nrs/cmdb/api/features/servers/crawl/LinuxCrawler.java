@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -206,4 +207,14 @@ public class LinuxCrawler implements Crawler
     {
         return unameResult.trim();
     }
+
+    public void getInstalledComponents(DefaultSessionFactory sessionFactory)
+    {
+        // find / -type d -name "apps_ux" 2>/dev/null
+        // List<String> knownInstallGlobs
+    }
+
+    public void gatherStandardApps(DefaultSessionFactory sessionFactory) {}
+
+
 }
