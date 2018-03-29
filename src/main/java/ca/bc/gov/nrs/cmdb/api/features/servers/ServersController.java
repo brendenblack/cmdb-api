@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers;
 
+import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.Cancel;
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.DoCrawl;
 import ca.bc.gov.nrs.cmdb.api.mediator.Mediator;
 import org.slf4j.Logger;
@@ -36,20 +37,30 @@ public class ServersController
         return this.mediator.send(message, Get.ServerEnvelope.class);
     }
 
-    @PutMapping("/{serverId}/crawl")
-    public void doCrawlServer(@PathVariable("serverId") long serverId, @RequestBody DoCrawl.Command message, HttpServletResponse response)
+    @PostMapping("/crawl")
+    public void doCrawlServer(@RequestBody DoCrawl.Command message, HttpServletResponse response)
     {
-        message.setServerId(serverId);
         DoCrawl.Model result = this.mediator.send(message, DoCrawl.Model.class);
 
         response.setStatus(HttpStatus.ACCEPTED.value());
-        response.setHeader("Location", result.getCrawlId());
+        for (String key : result.getHeaders().keySet())
+        {
+            response.addHeader(key, result.getHeaders().get(key));
+        };
+    }
+
+    @DeleteMapping("/crawl/{crawlId}")
+    public void cancelCrawl(@PathVariable String crawlId)
+    {
+        Cancel.Command message = new Cancel.Command();
+        message.setCrawlId(crawlId);
+
+        Cancel.Model result = this.mediator.send(message, Cancel.Model.class);
     }
 
     @GetMapping
     public GetAll.ServersEnvelope getAllServers()
     {
-        log.warn("Executing #getAllServers");
         GetAll.Query message = new GetAll.Query();
 
         return this.mediator.send(message, GetAll.ServersEnvelope.class);

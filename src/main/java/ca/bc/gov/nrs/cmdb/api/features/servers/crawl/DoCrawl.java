@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class DoCrawl
@@ -33,7 +34,7 @@ public class DoCrawl
     @Setter
     public static class Model
     {
-        private String crawlId;
+        private Map<String,String> headers;
     }
 
     @Component("doCrawlHandler")
@@ -77,10 +78,10 @@ public class DoCrawl
             UsernamePasswordSecret cred = (UsernamePasswordSecret)secret.get();
             log.info("Will attempt to crawl {} with username {}", server.get().getFqdn(), cred.getUsername());
 
-            String crawlId = this.crawlManager.doCrawl(server.get(), cred);
+            Map<String,String> crawlHeaders = this.crawlManager.doCrawl(server.get(), cred);
 
             Model model = new Model();
-            model.setCrawlId(crawlId);
+            model.setHeaders(crawlHeaders);
 
             return model;
         }

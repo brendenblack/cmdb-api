@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.HashSet;
@@ -26,8 +27,8 @@ public class Server extends Entity
     @Setter
     private String architecture;
 
-    @Relationship(type = RELATIONSHIP_HAS_FILESYSTEM)
     @Getter
+    @Relationship(type = RELATIONSHIP_HAS_FILESYSTEM)
     private Set<FileSystem> fileSystems = new HashSet<>();
 
     @Relationship(type = RELATIONSHIP_RUNS_OPERATING_SYSTEM)

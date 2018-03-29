@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +24,13 @@ public class EntityExceptionHandlerMiddleware extends ResponseEntityExceptionHan
     @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) throws JsonProcessingException
     {
+
         log.error("An exception occurred", ex);
         ObjectMapper mapper = new ObjectMapper();
         Map<String,String> map = new HashMap<>();
+        map.put("timestamp", new Date().toString());
         map.put("message", ex.getMessage());
+        map.put("path", request.getContextPath());
         String body = mapper.writeValueAsString(map);
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -43,6 +47,8 @@ public class EntityExceptionHandlerMiddleware extends ResponseEntityExceptionHan
         ObjectMapper mapper = new ObjectMapper();
         Map<String,String> map = new HashMap<>();
         map.put("message", e.getMessage());
+        map.put("timestamp", new Date().toString());
+        map.put("path", request.getContextPath());
         String body = mapper.writeValueAsString(map);
         return handleExceptionInternal(e, body, headers, status, request);
     }

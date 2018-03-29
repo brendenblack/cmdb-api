@@ -35,6 +35,8 @@ public class JschHelper
 
         log.trace(result.getStdout());
 
+        cmd.close();
+
         return result.getStdout().trim();
     }
 }
