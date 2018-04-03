@@ -22,21 +22,30 @@ public class JschHelper
      * @throws IOException
      * @throws JSchException
      */
-    public static String doExecuteCommand(DefaultSessionFactory sessionFactory, String command) throws IOException, JSchException
+    public static String doExecuteCommand(DefaultSessionFactory sessionFactory, String command) throws CrawlException
     {
         CommandRunner cmd = new CommandRunner(sessionFactory);
 
         log.trace("Attempting to execute command '{}' on {}", command, sessionFactory.getHostname());
-        CommandRunner.ExecuteResult result = cmd.execute(command);
-        if (result.getStderr() != null && result.getStderr().length() > 0)
+        CommandRunner.ExecuteResult result = null;
+        try
         {
-            log.warn("Stderr: {}", result.getStderr().trim());
+            result = cmd.execute(command);
+            if (result.getStderr() != null && result.getStderr().length() > 0)
+            {
+                log.warn("Stderr: {}", result.getStderr().trim());
+            }
+
+            log.trace(result.getStdout());
+
+            cmd.close();
+
+            return result.getStdout().trim();
         }
-
-        log.trace(result.getStdout());
-
-        cmd.close();
-
-        return result.getStdout().trim();
+        catch (JSchException | IOException e)
+        {
+            log.error("An error occurred while executing command {}", command, e);
+            throw new CrawlException(e);
+        }
     }
 }

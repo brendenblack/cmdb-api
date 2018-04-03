@@ -18,7 +18,7 @@ public class LinuxCrawler_ReadEtcReleaseResults_Tests
     @Test
     public void shouldReturnProperties() throws IOException
     {
-        this.sut = new LinuxCrawler();
+        this.sut = LinuxCrawlerFactory.getLinuxCrawler();
 
         File file = new File("src/test/resources/LinuxEtcRelease.txt");
         String content = new String(Files.readAllBytes(Paths.get("src/test/resources/LinuxEtcRelease.txt")));
@@ -32,7 +32,7 @@ public class LinuxCrawler_ReadEtcReleaseResults_Tests
     @Test
     public void propertiesShouldNotHaveSurroundingQuotes() throws IOException
     {
-        this.sut = new LinuxCrawler();
+        this.sut = LinuxCrawlerFactory.getLinuxCrawler();
         String content = new String(Files.readAllBytes(Paths.get("src/test/resources/LinuxEtcRelease.txt")));
 
         Properties properties = this.sut.readEtcReleaseResults(content);

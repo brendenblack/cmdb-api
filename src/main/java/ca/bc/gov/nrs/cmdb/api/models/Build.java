@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.cmdb.api.models;
 
+import ca.bc.gov.nrs.cmdb.api.models.components.Component;
+import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Relationship;

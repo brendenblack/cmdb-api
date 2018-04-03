@@ -1,26 +1,41 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
+import ca.bc.gov.nrs.cmdb.api.models.Project;
+import ca.bc.gov.nrs.cmdb.api.models.components.Component;
+import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.pastdev.jsch.DefaultSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("linuxCrawler")
 public class LinuxCrawler implements Crawler
 {
     private static final String OS_FAMILY = "Linux";
     private static final Logger log = LoggerFactory.getLogger(LinuxCrawler.class);
+    private final List<ComponentInstallationFinder> componentFinders;
+
+    @Autowired
+    public LinuxCrawler(List<ComponentInstallationFinder> componentFinders)
+    {
+
+        this.componentFinders = componentFinders;
+    }
 
     @Override
     public String getCrawlFor()
@@ -34,29 +49,24 @@ public class LinuxCrawler implements Crawler
         OperatingSystem os = new OperatingSystem();
 
         String catCommand = "cat /etc/os-release";
-        try
-        {
-            String catResults = JschHelper.doExecuteCommand(sessionFactory, catCommand);
-            Properties properties = readEtcReleaseResults(catResults);
-            os.setFamily(OS_FAMILY);
-            os.setVariantId(properties.getProperty("VARIANT_ID"));
-            os.setVersion(properties.getProperty("VERSION_ID"));
-            os.setVersionName(properties.getProperty("VERSION"));
-            os.setName(properties.getProperty("NAME"));
 
-            log.trace("Host: [family: {}] [variant: {}] [version: {}] [version name: {}] [name: {}]",
-                      os.getFamily(),
-                      os.getVariantId(),
-                      os.getVersion(),
-                      os.getVersionName(),
-                      os.getName());
+        String catResults = JschHelper.doExecuteCommand(sessionFactory, catCommand);
+        Properties properties = readEtcReleaseResults(catResults);
+        os.setFamily(OS_FAMILY);
+        os.setVariantId(properties.getProperty("VARIANT_ID"));
+        os.setVersion(properties.getProperty("VERSION_ID"));
+        os.setVersionName(properties.getProperty("VERSION"));
+        os.setName(properties.getProperty("NAME"));
 
-            return os;
-        }
-        catch (IOException | JSchException e)
-        {
-            throw new CrawlException(e);
-        }
+        log.trace("Host: [family: {}] [variant: {}] [version: {}] [version name: {}] [name: {}]",
+                  os.getFamily(),
+                  os.getVariantId(),
+                  os.getVersion(),
+                  os.getVersionName(),
+                  os.getName());
+
+        return os;
+
     }
 
     public Properties readEtcReleaseResults(String result)
@@ -97,17 +107,9 @@ public class LinuxCrawler implements Crawler
     @Override
     public Set<FileSystem> getFileSystems(DefaultSessionFactory sessionFactory)
     {
-        String command = "df -T";
-        try
-        {
-            String dfResults = JschHelper.doExecuteCommand(sessionFactory, command);
-            return readDfResults(dfResults);
+        String dfResults = JschHelper.doExecuteCommand(sessionFactory, "df -T");
+        return readDfResults(dfResults);
 
-        }
-        catch (IOException | JSchException e)
-        {
-            throw new CrawlException(e);
-        }
     }
 
     public Set<FileSystem> readDfResults(String dfResults)
@@ -191,16 +193,107 @@ public class LinuxCrawler implements Crawler
     public String getArchitecture(DefaultSessionFactory sessionFactory)
     {
         String command = "uname -i";
-        try
-        {
-            String result = JschHelper.doExecuteCommand(sessionFactory, command);
+        String result = JschHelper.doExecuteCommand(sessionFactory, command);
+        return readUnameIResults(result);
+    }
 
-            return readUnameIResults(result);
-        }
-        catch (IOException | JSchException e)
+    @Override
+    public Set<ComponentInstance> getComponents(DefaultSessionFactory sessionFactory, Set<FileSystem> filesystems)
+    {
+        Set<ComponentInstallation> componentInstallations = new HashSet<>();
+
+        Map<String, Object> environment = new HashMap<>();
+        environment.put("defaultSessionFactory", sessionFactory);
+        try (java.nio.file.FileSystem sshfs = FileSystems.newFileSystem(new URI("ssh.unix://" + sessionFactory.getUsername() + "@" + sessionFactory.getHostname() + "/"), environment))
         {
+            for (ComponentInstallationFinder finder : componentFinders)
+            {
+                log.debug("Looking for components using {}", finder.getClass().getName());
+                componentInstallations.addAll(finder.getComponentInstallations(sshfs));
+            }
+        }
+        catch (IOException | URISyntaxException e)
+        {
+            log.error("An exception occurred while fetching components", e);
             throw new CrawlException(e);
         }
+
+        log.info("Component crawling complete, found {} installations. Converting to component instances", componentInstallations.size());
+
+        return convertInstallationsToInstances(componentInstallations);
+    }
+
+    public Set<ComponentInstance> convertInstallationsToInstances(Set<ComponentInstallation> installations)
+    {
+        Set<String> projectKeys = installations
+                .stream()
+                .map(c -> c.getProjectKey())
+                .collect(Collectors.toSet());
+
+        Map<String, Project> projects = new HashMap<>();
+        for (String projectKey : projectKeys)
+        {
+            Project project = new Project();
+            project.setAcronym(projectKey);
+            projects.put(projectKey, project);
+        }
+
+        Set<String> componentNames = installations.stream()
+                .map(c -> c.getComponentName())
+                .collect(Collectors.toSet());
+
+        // sort filesystems by their "mounted on" length, so we can try to match the most specific one first
+//        Comparator<FileSystem> fsComparator =Comparator.comparingInt(f -> f.getMountedOn().length());
+//        List<FileSystem> sortedFilesystems = new ArrayList<>();
+//        sortedFilesystems.addAll(filesystems);
+//        sortedFilesystems.sort(fsComparator);
+
+        Map<String, Component> components = new HashMap<>();
+        for (String componentName : componentNames)
+        {
+            if (!components.containsKey(componentName))
+            {
+                Component component = new Component();
+                component.setName(componentName);
+                components.put(componentName, component);
+            }
+        }
+
+        Set<ComponentInstance> instances = new HashSet<>();
+
+        for (ComponentInstallation ci : installations)
+        {
+            ComponentInstance instance = new ComponentInstance();
+            Component component = components.get(ci.getComponentName());
+            Project project = projects.get(ci.getProjectKey());
+            component.setProject(project);
+            project.addComponent(component);
+            instance.setComponent(component);
+            instance.setVersion(ci.getComponentVersion());
+            instance.setInstallPath(ci.getInstallPath().toAbsolutePath().toString());
+
+//            for (FileSystem fs : sortedFilesystems)
+//            {
+//                if (ci.getInstallPath().toAbsolutePath().toString().startsWith(fs.getMountedOn()))
+//                {
+//                    log.info("Component {} is installed at {} which appears to be on file system {} ({})",
+//                             ci.getComponentName(),
+//                             ci.getInstallPath(),
+//                             fs.getName(),
+//                             fs.getMountedOn());
+//                    instance.setFilesystem(fs);
+//                }
+//            }
+
+            if (instance.getFilesystem() == null)
+            {
+                log.warn("Unable to determine a filesystem for {}", instance.getComponent().getName());
+            }
+
+            instances.add(instance);
+        }
+
+        return instances;
     }
 
     public String readUnameIResults(String unameResult)
@@ -210,8 +303,42 @@ public class LinuxCrawler implements Crawler
 
     public void getInstalledComponents(DefaultSessionFactory sessionFactory)
     {
-        // find / -type d -name "apps_ux" 2>/dev/null
-        // List<String> knownInstallGlobs
+        // execute a find command to find all instances of apps_ux because of servers with multiple environment
+        // installations that would have more than one.
+        String command = "find / -type d -name \"apps_ux\" 2>/dev/null";
+        String installLocationsResult = JschHelper.doExecuteCommand(sessionFactory, command);
+        Set<String> installLocations = readFindInstallDirsResult(installLocationsResult);
+
+        Map<String, Object> environment = new HashMap<String, Object>();
+        environment.put("defaultSessionFactory", sessionFactory);
+        try (java.nio.file.FileSystem sshfs = FileSystems.newFileSystem(new URI("ssh.unix://" + sessionFactory.getUsername() + "@" + sessionFactory.getHostname() + "/"), environment))
+        {
+            List<Path> projectFolders = new ArrayList<>(); // getProjectFolders(sshfs);
+            log.info("Found {} project folders", projectFolders.size());
+
+            for (Path p : projectFolders)
+            {
+//                List<Installation> apps = getInstalledApplicationsForProject(p);
+//                log.info("Found {} component folders in project {}",
+//                         installedApplications.size(),
+//                         p.getFileName().toString());
+//                installedApplications.addAll(apps);
+            }
+
+
+        }
+        catch (URISyntaxException | IOException e)
+        {
+            log.error("An error occurred while attempting to create a connection", e);
+            throw new CrawlException(e);
+        }
+    }
+
+
+
+    public Set<String> readFindInstallDirsResult(String result)
+    {
+        return new HashSet<String>(Arrays.asList(result.split("\n")));
     }
 
     public void gatherStandardApps(DefaultSessionFactory sessionFactory) {}

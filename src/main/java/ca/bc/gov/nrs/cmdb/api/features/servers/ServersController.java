@@ -3,6 +3,8 @@ package ca.bc.gov.nrs.cmdb.api.features.servers;
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.Cancel;
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.DoCrawl;
 import ca.bc.gov.nrs.cmdb.api.mediator.Mediator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/servers")
+@Api(value = "/servers", description = "Operations that manage compute node resources", tags = "Servers controller")
 public class ServersController
 {
     public static final String PATH = "/servers";
@@ -22,11 +25,12 @@ public class ServersController
     private final Mediator mediator;
 
     @Autowired
-    public ServersController( Mediator mediator)
+    public ServersController(Mediator mediator)
     {
         this.mediator = mediator;
     }
 
+    @ApiOperation(value = "Get a server by ID", notes = "Retrieve details about a server by its ID")
     @GetMapping("/{serverId}")
     public Get.ServerEnvelope getServer(@PathVariable("serverId") long serverId)
     {
@@ -58,6 +62,7 @@ public class ServersController
         Cancel.Model result = this.mediator.send(message, Cancel.Model.class);
     }
 
+    @ApiOperation(value = "Get a server by ID", notes = "Retrieve details about a server by its ID")
     @GetMapping
     public GetAll.ServersEnvelope getAllServers()
     {

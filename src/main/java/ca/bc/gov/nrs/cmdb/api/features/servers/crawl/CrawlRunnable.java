@@ -202,15 +202,9 @@ public class CrawlRunnable implements Runnable
     public String determineOsFamily()
     {
         String command = "uname -s";
-        try
-        {
-            String result = JschHelper.doExecuteCommand(this.sessionFactory, command);
-            return result.trim();
-        }
-        catch (IOException | JSchException e)
-        {
-            throw new CrawlException(e);
-        }
+        String result = JschHelper.doExecuteCommand(this.sessionFactory, command);
+        return result.trim();
+
     }
 
 

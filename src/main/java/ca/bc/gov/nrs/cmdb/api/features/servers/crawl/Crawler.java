@@ -1,11 +1,10 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
+import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
-import com.jcraft.jsch.JSchException;
 import com.pastdev.jsch.DefaultSessionFactory;
 
-import java.io.IOException;
 import java.util.Set;
 
 public interface Crawler
@@ -28,4 +27,6 @@ public interface Crawler
     Set<FileSystem> getFileSystems(DefaultSessionFactory sessionFactory);
 
     String getArchitecture(DefaultSessionFactory sessionFactory);
+
+    Set<ComponentInstance> getComponents(DefaultSessionFactory defaultSessionFactory, Set<FileSystem> filesystems);
 }

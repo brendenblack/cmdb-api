@@ -18,7 +18,7 @@ public class LinuxCrawler_ReadDfResults_Tests
     @Test
     public void shouldReturnProperties() throws IOException
     {
-        LinuxCrawler sut = new LinuxCrawler();
+        LinuxCrawler sut = LinuxCrawlerFactory.getLinuxCrawler();
         String content = new String(Files.readAllBytes(Paths.get("src/test/resources/LinuxDf.txt")));
 
         Set<FileSystem> filesystems = sut.readDfResults(content);
