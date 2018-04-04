@@ -229,8 +229,14 @@ public class SilentPersistingCallback implements CrawlCallback
                     log.info("Created component instance [name: {}] [version: {}] [server: {}] [path: {}]",
                              newlyCreatedInstance.getComponent().getName(),
                              newlyCreatedInstance.getVersion(),
-                             newlyCreatedInstance.getFilesystem().getServer().getFqdn(),
+                             Optional.ofNullable(newlyCreatedInstance).map(inst -> inst.getFilesystem()).map(f -> f.getServer()).map(s -> s.getFqdn()).orElse(""),
                              newlyCreatedInstance.getInstallPath());
+
+                    if (newlyCreatedInstance.getFilesystem() == null || newlyCreatedInstance.getFilesystem().getServer() == null)
+                    {
+                        log.warn("Danger! Something is null!");
+                    }
+
                     results.add(newlyCreatedInstance);
                 }
             }
