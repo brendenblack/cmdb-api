@@ -29,7 +29,7 @@ public class CrawlManager
 
     @Autowired
     public CrawlManager(List<Crawler> allCrawlers,
-                        @Qualifier("crawlWebsocketCallback") CrawlCallback callback)
+                        @Qualifier("websocketCrawlCallback") CrawlCallback callback)
     {
         this.allCrawlers = allCrawlers;
         this.callback = callback;

@@ -4,9 +4,11 @@ import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
 import ca.bc.gov.nrs.cmdb.api.models.Secret;
 import ca.bc.gov.nrs.cmdb.api.models.Server;
+import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CrawlResult
@@ -36,6 +38,10 @@ public class CrawlResult
     {
         return (server == null ) ? null : this.server.getFileSystems();
     }
+
+    @Getter
+    @Setter
+    private Set<ComponentInstance> componentInstances = new HashSet<>();
 
 
 }

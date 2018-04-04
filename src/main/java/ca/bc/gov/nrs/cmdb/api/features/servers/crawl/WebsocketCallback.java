@@ -1,8 +1,7 @@
 package ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
 import ca.bc.gov.nrs.cmdb.api.infrastructure.WebSocketConfiguration;
-import ca.bc.gov.nrs.cmdb.api.repositories.OperatingSystemRepository;
-import ca.bc.gov.nrs.cmdb.api.repositories.ServerRepository;
+import ca.bc.gov.nrs.cmdb.api.repositories.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -13,21 +12,24 @@ import org.springframework.stereotype.Component;
 
 /**
  * A callback implementation that will pass crawl updates to a Websocket topic, and defer persistence concerns to
- * {@link PersistingCrawlCallback}
+ * {@link SilentPersistingCallback}
  */
-@Component("crawlWebsocketCallback")
-public class CrawlWebsocketCallback extends PersistingCrawlCallback implements CrawlCallback
+@Component("websocketCrawlCallback")
+public class WebsocketCallback extends SilentPersistingCallback implements CrawlCallback
 {
-    private static final Logger log = LoggerFactory.getLogger(CrawlWebsocketCallback.class);
+    private static final Logger log = LoggerFactory.getLogger(WebsocketCallback.class);
 
     private final SimpMessagingTemplate template;
 
     @Autowired
-    public CrawlWebsocketCallback(SimpMessagingTemplate template,
-                                  ServerRepository serverRepository,
-                                  OperatingSystemRepository operatingSystemRepository)
+    public WebsocketCallback(ServerRepository serverRepository,
+                             OperatingSystemRepository operatingSystemRepository,
+                             ProjectRepository projectRepository,
+                             ComponentRepository componentRepository,
+                             ComponentInstanceRepository componentInstanceRepository,
+                             SimpMessagingTemplate template)
     {
-        super(serverRepository, operatingSystemRepository);
+        super(serverRepository, operatingSystemRepository, projectRepository, componentRepository, componentInstanceRepository);
         this.template = template;
     }
 

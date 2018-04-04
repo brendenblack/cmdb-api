@@ -220,11 +220,12 @@ public class LinuxCrawler implements Crawler
 
         log.info("Component crawling complete, found {} installations. Converting to component instances", componentInstallations.size());
 
-        return convertInstallationsToInstances(componentInstallations);
+        return convertInstallationsToInstances(componentInstallations, filesystems);
     }
 
-    public Set<ComponentInstance> convertInstallationsToInstances(Set<ComponentInstallation> installations)
+    public Set<ComponentInstance> convertInstallationsToInstances(Set<ComponentInstallation> installations, Set<FileSystem> filesystems)
     {
+        // Retrieve all unique project keys and create Project objects
         Set<String> projectKeys = installations
                 .stream()
                 .map(c -> c.getProjectKey())
@@ -238,15 +239,10 @@ public class LinuxCrawler implements Crawler
             projects.put(projectKey, project);
         }
 
+        // Retrieve all unique component names and create Component objects
         Set<String> componentNames = installations.stream()
                 .map(c -> c.getComponentName())
                 .collect(Collectors.toSet());
-
-        // sort filesystems by their "mounted on" length, so we can try to match the most specific one first
-//        Comparator<FileSystem> fsComparator =Comparator.comparingInt(f -> f.getMountedOn().length());
-//        List<FileSystem> sortedFilesystems = new ArrayList<>();
-//        sortedFilesystems.addAll(filesystems);
-//        sortedFilesystems.sort(fsComparator);
 
         Map<String, Component> components = new HashMap<>();
         for (String componentName : componentNames)
@@ -259,8 +255,14 @@ public class LinuxCrawler implements Crawler
             }
         }
 
-        Set<ComponentInstance> instances = new HashSet<>();
+        // sort filesystems by their "mounted on" length, so we can try to match the most specific one first
+        Comparator<FileSystem> fsComparator =Comparator.comparingInt(f -> f.getMountedOn().length());
+        List<FileSystem> sortedFilesystems = new ArrayList<>();
+        sortedFilesystems.addAll(filesystems);
+        sortedFilesystems.sort(fsComparator);
 
+        // transform ComponentInstallation (a local, temporary concept) in to ComponentInstance (persistent domain model)
+        Set<ComponentInstance> instances = new HashSet<>();
         for (ComponentInstallation ci : installations)
         {
             ComponentInstance instance = new ComponentInstance();
@@ -272,18 +274,18 @@ public class LinuxCrawler implements Crawler
             instance.setVersion(ci.getComponentVersion());
             instance.setInstallPath(ci.getInstallPath().toAbsolutePath().toString());
 
-//            for (FileSystem fs : sortedFilesystems)
-//            {
-//                if (ci.getInstallPath().toAbsolutePath().toString().startsWith(fs.getMountedOn()))
-//                {
-//                    log.info("Component {} is installed at {} which appears to be on file system {} ({})",
-//                             ci.getComponentName(),
-//                             ci.getInstallPath(),
-//                             fs.getName(),
-//                             fs.getMountedOn());
-//                    instance.setFilesystem(fs);
-//                }
-//            }
+            for (FileSystem fs : sortedFilesystems)
+            {
+                if (ci.getInstallPath().toAbsolutePath().toString().startsWith(fs.getMountedOn()))
+                {
+                    log.info("Component {} is installed at {} which appears to be on file system {} ({})",
+                             ci.getComponentName(),
+                             ci.getInstallPath(),
+                             fs.getName(),
+                             fs.getMountedOn());
+                    instance.setFilesystem(fs);
+                }
+            }
 
             if (instance.getFilesystem() == null)
             {

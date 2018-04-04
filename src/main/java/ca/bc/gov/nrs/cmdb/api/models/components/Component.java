@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.Required;
 
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class Component extends Entity
     public final static String RELATIONSHIP_IS_OF_TYPE = "IS_OF_TYPE";
 
     @Relationship(type = Project.RELATIONSHIP_HAS_COMPONENTS, direction = Relationship.INCOMING)
+    @Required
     private Project project;
 
     @Relationship(type = Build.RELATIONSHIP_BUILD_OF, direction = Relationship.INCOMING)

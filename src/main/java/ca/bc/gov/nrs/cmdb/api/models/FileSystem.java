@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class FileSystem extends Entity
 
     private String mountedOn;
 
+    @JsonIgnore
     @Relationship(type = Server.RELATIONSHIP_HAS_FILESYSTEM, direction = Relationship.INCOMING)
     private Server server;
 

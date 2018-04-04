@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.cmdb.api.models.components;
 
 import ca.bc.gov.nrs.cmdb.api.models.Build;
+import ca.bc.gov.nrs.cmdb.api.models.Entity;
 import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import org.neo4j.ogm.annotation.Required;
 
 @Getter
 @Setter
-public class ComponentInstance
+public class ComponentInstance extends Entity
 {
     public static final String RELATIONSHIP_MANIFESTS_COMPONENT = "MANIFESTS_COMPONENT";
     public static final String RELATIONSHIP_MANIFESTS_BUILD = "MANIFESTS_BUILD";

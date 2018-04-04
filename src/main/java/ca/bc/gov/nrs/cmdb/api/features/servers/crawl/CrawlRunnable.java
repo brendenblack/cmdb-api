@@ -4,6 +4,7 @@ import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
 import ca.bc.gov.nrs.cmdb.api.models.Server;
 import ca.bc.gov.nrs.cmdb.api.models.UsernamePasswordSecret;
+import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import com.jcraft.jsch.JSchException;
 import com.pastdev.jsch.DefaultSessionFactory;
 import lombok.Getter;
@@ -158,8 +159,31 @@ public class CrawlRunnable implements Runnable
                       architecture,
                       filesystems.size());
             server.hasFileSystems(filesystems);
-            info("Discovered " + filesystems.size() + " filesystems");
+            info("Discovered " + filesystems.size() + " filesystems, checking for installed applications...");
 
+            if (this.cancel)
+            {
+                warn(CANCELLATION_MESSAGE);
+                ongoing.remove(this.id);
+                return;
+            }
+
+            Set<ComponentInstance> apps = crawler.getComponents(this.sessionFactory, filesystems);
+            result.setComponentInstances(apps);
+            info("Discovered " + apps.size() + " application installations");
+            if (log.isDebugEnabled())
+            {
+                for (ComponentInstance app : apps)
+                {
+                    log.debug("Component instance [project: {}] [name: {}] [version: {}] [path: {}}",
+                              app.getComponent().getProject().getAcronym(),
+                              app.getComponent().getName(),
+                              app.getVersion(),
+                              app.getInstallPath());
+                }
+            }
+
+            // One final check in case the user wanted to cancel during the previous long running process
             if (this.cancel)
             {
                 warn(CANCELLATION_MESSAGE);

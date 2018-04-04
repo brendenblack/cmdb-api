@@ -18,6 +18,8 @@ public interface Crawler
     String getCrawlFor();
 
     /**
+     * Retrieves a basic set of facts about the target host's operating system, to populate an {@link OperatingSystem}
+     * object.
      *
      * @param sessionFactory
      * @return

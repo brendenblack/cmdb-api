@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Server extends Entity
     @Setter
     private String architecture;
 
+    @JsonIgnore
     @Getter
     @Relationship(type = RELATIONSHIP_HAS_FILESYSTEM)
     private Set<FileSystem> fileSystems = new HashSet<>();
@@ -38,11 +40,12 @@ public class Server extends Entity
 
     /**
      * Adds a given {@link FileSystem} to this server's filesystem collection
+     *
      * @param fs
      */
-    public void hasFileSystem(FileSystem fs)
+    public boolean hasFileSystem(FileSystem fs)
     {
-        this.fileSystems.add(fs);
+        return this.fileSystems.add(fs);
     }
 
     /**

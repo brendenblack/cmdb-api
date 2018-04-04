@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.cmdb.api.models;
 
 import ca.bc.gov.nrs.cmdb.api.models.components.Component;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Index;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = "acronym", callSuper = false)
 public class Project extends Entity
 {
     public static final String RELATIONSHIP_HAS_COMPONENTS = "HAS_COMPONENTS";
