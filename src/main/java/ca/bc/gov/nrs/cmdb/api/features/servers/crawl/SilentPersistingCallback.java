@@ -253,9 +253,11 @@ public class SilentPersistingCallback implements CrawlCallback
         if (existingServer.isPresent())
         {
             server = existingServer.get();
+            log.debug("Server {} already exists with id {}", server.getFqdn(), server.getId());
         }
         else
         {
+            log.debug("Server {} does not yet exist, creating...", result.getServer().getFqdn());
             server = new Server();
             server.setFqdn(result.getServer().getFqdn());
         }
@@ -271,27 +273,41 @@ public class SilentPersistingCallback implements CrawlCallback
                 // Check to see if this OS is already represented in the database; if it is add a reference to the existing
                 // one to the server
                 server.setOperatingSystem(existingOs.get());
+                log.debug("Using existing OS reference {} {}",
+                          existingOs.get().getName(),
+                          existingOs.get().getVersion());
             }
             else
             {
                 server.setOperatingSystem(result.getServer().getOperatingSystem());
+                log.debug("Adding new OS reference {} {}",
+                          result.getServer().getOperatingSystem().getName(),
+                          result.getServer().getOperatingSystem().getVersion());
             }
         }
 
         server.setArchitecture(result.getServer().getArchitecture());
-
-        // TODO: TRACE lines, remove
-
-        for (FileSystem fs : server.getFileSystems())
-        {
-            log.trace("Filesystem: [name: {}] [mounted on: {}] ", fs.getName(), fs.getMountedOn());
-        }
+        log.debug("Setting architecture to {}", result.getServer().getArchitecture());
 
         for (FileSystem fs : result.getFileSystems())
         {
-            log.trace("Attempting to add filesystem [name: {}] [mounted on: {}] ", fs.getName(), fs.getMountedOn());
-            boolean added = server.hasFileSystem(fs);
-            log.trace("Added? {}", added);
+            Optional<FileSystem> existingFilesystem = server.getFileSystems().stream()
+                    .filter(f -> f.getMountedOn().equals(fs.getMountedOn()))
+                    .findFirst();
+
+            if (existingFilesystem.isPresent())
+            {
+                FileSystem f = existingFilesystem.get();
+                f.setAvailable(fs.getAvailable());
+                f.setUsed(fs.getUsed());
+                f.setSize(fs.getSize());
+                f.setType(fs.getType());
+            }
+            else
+            {
+                log.trace("Attempting to add filesystem [name: {}] [mounted on: {}] ", fs.getName(), fs.getMountedOn());
+                boolean added = server.hasFileSystem(fs);
+            }
         }
 
         log.info("Saving server from crawl update [fqdn: {}] [os: {} - {}] [filesystems: {}]",

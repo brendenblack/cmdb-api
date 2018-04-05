@@ -114,6 +114,7 @@ public class LinuxCrawler implements Crawler
 
     public Set<FileSystem> readDfResults(String dfResults)
     {
+        int units = 1024;
         String[] lines = dfResults.split("\n");
         Set<FileSystem> filesystems = new HashSet<>();
         for (String line : lines)
@@ -136,7 +137,7 @@ public class LinuxCrawler implements Crawler
                 try
                 {
                     long size = Long.parseLong(cols[2]);
-                    fs.setSize(size);
+                    fs.setSize(size * units);
                 }
                 catch (NumberFormatException e)
                 {
@@ -147,7 +148,7 @@ public class LinuxCrawler implements Crawler
                 try
                 {
                     long used = Long.parseLong(cols[3]);
-                    fs.setUsed(used);
+                    fs.setUsed(used * units);
                 }
                 catch (NumberFormatException e)
                 {
@@ -158,7 +159,7 @@ public class LinuxCrawler implements Crawler
                 try
                 {
                     long avail = Long.parseLong(cols[4]);
-                    fs.setAvailable(avail);
+                    fs.setAvailable(avail * units);
                 }
                 catch (NumberFormatException e)
                 {

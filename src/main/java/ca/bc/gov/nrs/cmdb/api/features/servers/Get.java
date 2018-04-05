@@ -8,6 +8,7 @@ import ca.bc.gov.nrs.cmdb.api.models.Server;
 import ca.bc.gov.nrs.cmdb.api.repositories.ServerRepository;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -50,19 +51,15 @@ public class Get
         private List<FileSystemModel> filesystems = new ArrayList<>();
     }
 
+    @Getter
+    @Setter
     public static class FileSystemModel
     {
         private String mountedOn;
-
-        public String getMountedOn()
-        {
-            return mountedOn;
-        }
-
-        public void setMountedOn(String mountedOn)
-        {
-            this.mountedOn = mountedOn;
-        }
+        private String freeSpace;
+        private String totalSpace;
+        private String usedSpace;
+        private String type;
     }
 
     @Component
@@ -93,6 +90,10 @@ public class Get
                     FileSystemModel fsmodel = new FileSystemModel();
                     fsmodel.setMountedOn(fs.getMountedOn());
                     model.getFilesystems().add(fsmodel);
+                    fsmodel.setUsedSpace(FileUtils.byteCountToDisplaySize(fs.getUsed()));
+                    fsmodel.setFreeSpace(FileUtils.byteCountToDisplaySize(fs.getAvailable()));
+                    fsmodel.setTotalSpace(FileUtils.byteCountToDisplaySize(fs.getSize()));
+                    fsmodel.setType(fs.getType());
                 }
 
                 ServerEnvelope envelope = new ServerEnvelope();
@@ -104,6 +105,20 @@ public class Get
                 log.warn("No server was found with id {}", message.getId());
                 throw new HttpException(HttpStatus.NOT_FOUND, "No server was found with id " + message.getId());
             }
+        }
+
+        public static String humanReadableByteCount(long bytes, boolean si)
+        {
+            // https://stackoverflow.com/a/3758880
+            int unit = si ? 1000 : 1024;
+            if (bytes < unit)
+            {
+                return bytes + " B";
+            }
+
+            int exp = (int) (Math.log(bytes) / Math.log(unit));
+            String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+            return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
         }
 
         @Override

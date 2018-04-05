@@ -17,7 +17,10 @@ import java.util.List;
 
 public class GetAll
 {
-    public static class Query implements IRequest {}
+    public static class Query implements IRequest
+    {
+        public String fields;
+    }
 
     @Getter
     @Setter
