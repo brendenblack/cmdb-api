@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.pastdev.jsch" level="WARN"/>
+    <logger name="it.ca.bc.gov.nrs.cmdb" level="TRACE"/>
+    <logger name="ca.bc.gov.nrs.cmdb" level="TRACE"/>
+</configuration>

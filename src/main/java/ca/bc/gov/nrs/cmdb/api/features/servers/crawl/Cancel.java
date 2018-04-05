@@ -1,0 +1,66 @@
+package ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
+
+import ca.bc.gov.nrs.cmdb.api.infrastructure.HttpException;
+import ca.bc.gov.nrs.cmdb.api.mediator.IRequest;
+import ca.bc.gov.nrs.cmdb.api.mediator.IRequestHandler;
+import lombok.Getter;
+import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+
+public class Cancel
+{
+    @Getter
+    @Setter
+    public static class Command implements IRequest
+    {
+        private String crawlId;
+    }
+
+    @Getter
+    @Setter
+    public static class Model
+    {
+        private boolean cancelled;
+    }
+
+    public static class Handler implements IRequestHandler<Command, Model>
+    {
+        private static Logger log = LoggerFactory.getLogger(Handler.class);
+        private final CrawlManager crawlManager;
+
+        public Handler(CrawlManager crawlManager)
+        {
+            this.crawlManager = crawlManager;
+        }
+
+        @Override
+        public Model handle(Command message)
+        {
+            CrawlRunnable runnable = this.crawlManager.getCrawlsInProgress().get(message.getCrawlId());
+            if (runnable == null)
+            {
+                throw new HttpException(HttpStatus.NOT_FOUND, "Unable to find an in-progress crawl with id " + message.getCrawlId());
+            }
+
+            runnable.cancel();;
+
+            Model model = new Model();
+            model.setCancelled(true);
+            return model;
+        }
+
+        @Override
+        public Class getRequestType()
+        {
+            return Command.class;
+        }
+
+        @Override
+        public Class getReturnType()
+        {
+            return Model.class;
+        }
+    }
+}

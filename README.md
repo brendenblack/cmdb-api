@@ -9,6 +9,11 @@
 1. Modify `src/main/resources/application.properties` to include the newly created password
 1. From the project root directory `mvn spring-boot:run`
 
+## Testing
+Testing expects a file at `test/resources/application-test.properties` to exist with the following contents:
+* ssh.username: the username that should be used to connect to the test server
+* ssh.password: the password for the provided username
+
 
 ------------------------
 
