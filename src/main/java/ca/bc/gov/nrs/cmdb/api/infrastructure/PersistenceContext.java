@@ -3,6 +3,7 @@ package ca.bc.gov.nrs.cmdb.api.infrastructure;
 import org.neo4j.ogm.session.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,15 @@ public class PersistenceContext
         return new SessionFactory(configuration(), "ca.bc.gov.nrs.cmdb.api.models");
     }
 
+    @Value("${neo4j.username:neo4j}")
+    private String neo4jUsername;
+
+    @Value("${neo4j.password:password}")
+    private String neo4jPassword;
+
+    @Value("${neo4j.uri:bolt://localhost}")
+    private String neo4jUri;
+
     @Bean
     public Neo4jTransactionManager transactionManager() throws Exception
     {
@@ -32,8 +42,8 @@ public class PersistenceContext
     public org.neo4j.ogm.config.Configuration configuration()
     {
         return new org.neo4j.ogm.config.Configuration.Builder()
-                .uri("bolt://localhost")
-                .credentials("neo4j", "password")
+                .uri(this.neo4jUri)
+                .credentials(this.neo4jUsername, this.neo4jPassword)
                 .build();
     }
 }

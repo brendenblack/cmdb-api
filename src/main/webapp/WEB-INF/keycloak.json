@@ -1,0 +1,9 @@
+{
+  "realm" : "SpringBootKeycloak",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApGrn3lQbCm6J0MQTQwXYItwkj5RS1eXzVoq2r4MwdhtW19fdPT8z2GYhH9OGK9g3ddY/80Q7DtP+sRcbeYNgBd3+HUj6mmT91FYQ7Fn1D/nWxG6oEaKr135AJPMOFMgxzgtmdQmM1b1YGgpMDuu2/LcWBiisxDkb1K2b33iQ+ScBTjhIjMMXz1e247QFe+jyRfZRozQ0uy0vFMH/KV470lOLLX8oykMeARlknqezHeuzgACiJwjtXXXwUQ0tSogY5ux39QyaC79119hyp8XB+lMlk0BvRtS6R6Su12SYUdGKgPw1Np9AHmnUbtJTVa0dyR1myb9qNu2pgnxHQ1zblQIDAQAB",
+  "auth-server-url" : "http://localhost:8180/auth",
+  "bearer-only": true,
+  "ssl-required" : "external",
+  "resource" : "login-app",
+  "public-client" : true
+}
