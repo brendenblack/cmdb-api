@@ -1,0 +1,143 @@
+{
+  "_class": "hudson.maven.MavenModuleSet",
+  "actions": [{
+    "_class": "hudson.plugins.promoted_builds.PromotedProjectAction"
+  }, {
+    "_class": "hudson.model.ParametersDefinitionProperty",
+    "parameterDefinitions": [{
+      "_class": "hudson.model.StringParameterDefinition",
+      "defaultParameterValue": {
+        "_class": "hudson.model.StringParameterValue",
+        "value": "master"
+      },
+      "description": "",
+      "name": "targetBranch",
+      "type": "StringParameterDefinition"
+    }, {
+      "_class": "hudson.model.StringParameterDefinition",
+      "defaultParameterValue": {
+        "_class": "hudson.model.StringParameterValue",
+        "value": ""
+      },
+      "description": "",
+      "name": "sourceBranch",
+      "type": "StringParameterDefinition"
+    }
+    ]
+  }, {}, {}, null, {}, {}, {}, {}, {}, {
+    "_class": "org.jenkinsci.plugins.testresultsanalyzer.TestResultsAnalyzerAction"
+  }, {
+    "_class": "com.cloudbees.plugins.credentials.ViewCredentialsAction"
+  }
+  ],
+  "description": "",
+  "displayName": "aqua-as-cfg",
+  "displayNameOrNull": null,
+  "fullDisplayName": "AQUA » aqua-as-cfg",
+  "fullName": "AQUA/aqua-as-cfg",
+  "name": "aqua-as-cfg",
+  "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/",
+  "buildable": true,
+  "builds": [{
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 4,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/"
+  }, {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 3,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/3/"
+  }, {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 2,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/2/"
+  }, {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 1,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/1/"
+  }
+  ],
+  "color": "blue",
+  "firstBuild": {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 1,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/1/"
+  },
+  "healthReport": [{
+    "description": "Build stability: No recent builds failed.",
+    "iconClassName": "icon-health-80plus",
+    "iconUrl": "health-80plus.png",
+    "score": 100
+  }
+  ],
+  "inQueue": false,
+  "keepDependencies": false,
+  "lastBuild": {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 4,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/"
+  },
+  "lastCompletedBuild": {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 4,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/"
+  },
+  "lastFailedBuild": null,
+  "lastStableBuild": {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 4,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/"
+  },
+  "lastSuccessfulBuild": {
+    "_class": "hudson.maven.MavenModuleSetBuild",
+    "number": 4,
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/"
+  },
+  "lastUnstableBuild": null,
+  "lastUnsuccessfulBuild": null,
+  "nextBuildNumber": 5,
+  "property": [{
+    "_class": "hudson.plugins.promoted_builds.JobPropertyImpl"
+  }, {
+    "_class": "com.sonyericsson.rebuild.RebuildSettings"
+  }, {
+    "_class": "hudson.model.ParametersDefinitionProperty",
+    "parameterDefinitions": [{
+      "_class": "hudson.model.StringParameterDefinition",
+      "defaultParameterValue": {
+        "_class": "hudson.model.StringParameterValue",
+        "name": "targetBranch",
+        "value": "master"
+      },
+      "description": "",
+      "name": "targetBranch",
+      "type": "StringParameterDefinition"
+    }, {
+      "_class": "hudson.model.StringParameterDefinition",
+      "defaultParameterValue": {
+        "_class": "hudson.model.StringParameterValue",
+        "name": "sourceBranch",
+        "value": ""
+      },
+      "description": "",
+      "name": "sourceBranch",
+      "type": "StringParameterDefinition"
+    }
+    ]
+  }
+  ],
+  "queueItem": null,
+  "concurrentBuild": false,
+  "downstreamProjects": [],
+  "scm": {
+    "_class": "hudson.plugins.git.GitSCM"
+  },
+  "upstreamProjects": [],
+  "modules": [{
+    "name": "ca.bc.gov.nrs.aqua:aqua-as-cfg",
+    "url": "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/",
+    "color": "blue",
+    "displayName": "aqua-as-cfg"
+  }
+  ]
+}
+a

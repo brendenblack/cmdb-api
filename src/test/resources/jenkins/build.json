@@ -1,0 +1,491 @@
+{
+  "_class" : "hudson.maven.MavenModuleSetBuild",
+  "actions" : [
+    {
+
+    },
+    {
+      "_class" : "hudson.model.CauseAction",
+      "causes" : [
+        {
+          "_class" : "hudson.model.Cause$UserIdCause",
+          "shortDescription" : "Started by user PSHOWELL",
+          "userId" : "PSHOWELL",
+          "userName" : "PSHOWELL"
+        }
+      ]
+    },
+    {
+      "_class" : "hudson.model.CauseAction",
+      "causes" : [
+        {
+          "_class" : "com.sonyericsson.rebuild.RebuildCause",
+          "shortDescription" : "Rebuilds build #3",
+          "upstreamBuild" : 3,
+          "upstreamProject" : "AQUA/aqua-as-cfg",
+          "upstreamUrl" : "job/AQUA/job/aqua-as-cfg/"
+        }
+      ]
+    },
+    {
+      "_class" : "hudson.model.ParametersAction",
+      "parameters" : [
+        {
+          "_class" : "hudson.model.StringParameterValue",
+          "name" : "targetBranch",
+          "value" : "master"
+        },
+        {
+          "_class" : "hudson.model.StringParameterValue",
+          "name" : "sourceBranch",
+          "value" : "release/1.0.0"
+        }
+      ]
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+      "_class" : "hudson.plugins.git.util.BuildData",
+      "buildsByBranchName" : {
+        "HEAD" : {
+          "_class" : "hudson.plugins.git.util.Build",
+          "buildNumber" : 4,
+          "buildResult" : null,
+          "marked" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "refs/remotes/origin/release/1.0.0"
+              }
+            ]
+          },
+          "revision" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "origin/release/1.0.0"
+              },
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "HEAD"
+              },
+              {
+                "SHA1" : "f9e0c784e1b2b1ed4d433b2e5284bb4860801dee",
+                "name" : "origin/master"
+              }
+            ]
+          }
+        },
+        "origin/master" : {
+          "_class" : "hudson.plugins.git.util.Build",
+          "buildNumber" : 4,
+          "buildResult" : null,
+          "marked" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "refs/remotes/origin/release/1.0.0"
+              }
+            ]
+          },
+          "revision" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "origin/release/1.0.0"
+              },
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "HEAD"
+              },
+              {
+                "SHA1" : "f9e0c784e1b2b1ed4d433b2e5284bb4860801dee",
+                "name" : "origin/master"
+              }
+            ]
+          }
+        },
+        "refs/remotes/origin/release/1.0.0" : {
+          "_class" : "hudson.plugins.git.util.Build",
+          "buildNumber" : 4,
+          "buildResult" : null,
+          "marked" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "refs/remotes/origin/release/1.0.0"
+              }
+            ]
+          },
+          "revision" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "origin/release/1.0.0"
+              },
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "HEAD"
+              },
+              {
+                "SHA1" : "f9e0c784e1b2b1ed4d433b2e5284bb4860801dee",
+                "name" : "origin/master"
+              }
+            ]
+          }
+        },
+        "origin/release/1.0.0" : {
+          "_class" : "hudson.plugins.git.util.Build",
+          "buildNumber" : 4,
+          "buildResult" : null,
+          "marked" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "refs/remotes/origin/release/1.0.0"
+              }
+            ]
+          },
+          "revision" : {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "branch" : [
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "origin/release/1.0.0"
+              },
+              {
+                "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+                "name" : "HEAD"
+              },
+              {
+                "SHA1" : "f9e0c784e1b2b1ed4d433b2e5284bb4860801dee",
+                "name" : "origin/master"
+              }
+            ]
+          }
+        }
+      },
+      "lastBuiltRevision" : {
+        "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+        "branch" : [
+          {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "name" : "origin/release/1.0.0"
+          },
+          {
+            "SHA1" : "8b2d726ede5fe5dacb2985f4dcde7a9ef48cb3b5",
+            "name" : "HEAD"
+          },
+          {
+            "SHA1" : "f9e0c784e1b2b1ed4d433b2e5284bb4860801dee",
+            "name" : "origin/master"
+          }
+        ]
+      },
+      "remoteUrls" : [
+        "https://bwa.nrs.gov.bc.ca/int/stash/scm/aqua/aqua-as-cfg.git"
+      ],
+      "scmName" : ""
+    },
+    {
+      "_class" : "hudson.plugins.git.GitTagAction",
+      "tags" : [
+
+      ]
+    },
+    {
+
+    },
+    {
+      "_class" : "hudson.plugins.promoted_builds.PromotedBuildAction",
+      "promotions" : [
+        {
+
+        },
+        {
+
+        }
+      ]
+    },
+    {
+      "_class" : "hudson.maven.reporters.MavenAggregatedArtifactRecord",
+      "moduleRecords" : [
+        {
+          "attachedArtifacts" : [
+            {
+              "artifactId" : "aqua-as-cfg",
+              "canonicalName" : "aqua-as-cfg-1.0.0-configure.zip",
+              "classifier" : "configure",
+              "fileName" : "aqua-as-cfg-1.0.0-configure.zip",
+              "groupId" : "ca.bc.gov.nrs.aqua",
+              "md5sum" : "97129726bc89e7bb639c45c67a2e0610",
+              "type" : "zip",
+              "version" : "1.0.0"
+            },
+            {
+              "artifactId" : "aqua-as-cfg",
+              "canonicalName" : "aqua-as-cfg-1.0.0-install.zip",
+              "classifier" : "install",
+              "fileName" : "aqua-as-cfg-1.0.0-install.zip",
+              "groupId" : "ca.bc.gov.nrs.aqua",
+              "md5sum" : "1afd9a72c75777b02a68070d37c8a57b",
+              "type" : "zip",
+              "version" : "1.0.0"
+            }
+          ],
+          "mainArtifact" : {
+            "artifactId" : "aqua-as-cfg",
+            "canonicalName" : "aqua-as-cfg-1.0.0.jar",
+            "classifier" : null,
+            "fileName" : "aqua-as-cfg-1.0.0.jar",
+            "groupId" : "ca.bc.gov.nrs.aqua",
+            "md5sum" : "358c5d9de8aa6888c7ae57b4e2c90d63",
+            "type" : "jar",
+            "version" : "1.0.0"
+          },
+          "parent" : {
+            "number" : 4,
+            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/"
+          },
+          "pomArtifact" : {
+            "artifactId" : "aqua-as-cfg",
+            "canonicalName" : "aqua-as-cfg-1.0.0.pom",
+            "classifier" : null,
+            "fileName" : "pom.xml",
+            "groupId" : "ca.bc.gov.nrs.aqua",
+            "md5sum" : "476b295d98ee8573c8dd7b62d7b7c1c7",
+            "type" : "pom",
+            "version" : "1.0.0"
+          },
+          "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+        }
+      ]
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    }
+  ],
+  "artifacts" : [
+
+  ],
+  "building" : false,
+  "description" : null,
+  "displayName" : "#4 (1.0.0)",
+  "duration" : 23484,
+  "estimatedDuration" : 43050,
+  "executor" : null,
+  "fullDisplayName" : "AQUA » aqua-as-cfg #4 (1.0.0)",
+  "id" : "4",
+  "keepLog" : false,
+  "number" : 4,
+  "queueId" : 2871,
+  "result" : "SUCCESS",
+  "timestamp" : 1516298681307,
+  "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/4/",
+  "builtOn" : "wii2",
+  "changeSet" : {
+    "_class" : "hudson.plugins.git.GitChangeSetList",
+    "items" : [
+      {
+        "_class" : "hudson.plugins.git.GitChangeSet",
+        "affectedPaths" : [
+          "pom.xml"
+        ],
+        "commitId" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+        "timestamp" : 1516269549000,
+        "author" : {
+          "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+          "fullName" : "john.cox"
+        },
+        "authorEmail" : "john.cox@cgi.com",
+        "comment" : "Removing snapshot\n",
+        "date" : "2018-01-18T01:59:09-0800",
+        "id" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+        "msg" : "Removing snapshot",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "pom.xml"
+          }
+        ]
+      },
+      {
+        "_class" : "hudson.plugins.git.GitChangeSet",
+        "affectedPaths" : [
+          "src/main/resources/lineOfBusiness.json"
+        ],
+        "commitId" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+        "timestamp" : 1516294075000,
+        "author" : {
+          "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+          "fullName" : "PHOWELLS"
+        },
+        "authorEmail" : "phowells@vividsolutions.com",
+        "comment" : "Adding staff Rejected State\n",
+        "date" : "2018-01-18T08:47:55-0800",
+        "id" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+        "msg" : "Adding staff Rejected State",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "src/main/resources/lineOfBusiness.json"
+          }
+        ]
+      }
+    ],
+    "kind" : "git"
+  },
+  "culprits" : [
+    {
+      "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+      "description" : null,
+      "fullName" : "john.cox",
+      "id" : "john.cox",
+      "property" : [
+        {
+          "_class" : "jenkins.security.ApiTokenProperty"
+        },
+        {
+          "_class" : "com.cloudbees.plugins.credentials.UserCredentialsProvider$UserCredentialsProperty"
+        },
+        {
+          "_class" : "hudson.model.MyViewsProperty"
+        },
+        {
+          "_class" : "hudson.model.PaneStatusProperties"
+        },
+        {
+          "_class" : "hudson.search.UserSearchProperty",
+          "insensitiveSearch" : false
+        },
+        {
+          "_class" : "hudson.tasks.Mailer$UserProperty",
+          "address" : "john.cox@cgi.com"
+        },
+        {
+          "_class" : "hudson.plugins.favorite.user.FavoriteUserProperty"
+        },
+        {
+          "_class" : "org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty"
+        }
+      ]
+    },
+    {
+      "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+      "description" : null,
+      "fullName" : "PHOWELLS",
+      "id" : "phowells",
+      "property" : [
+        {
+          "_class" : "hudson.model.PaneStatusProperties"
+        },
+        {
+          "_class" : "jenkins.security.ApiTokenProperty"
+        },
+        {
+          "_class" : "com.cloudbees.plugins.credentials.UserCredentialsProvider$UserCredentialsProperty"
+        },
+        {
+          "_class" : "hudson.model.MyViewsProperty"
+        },
+        {
+          "_class" : "hudson.search.UserSearchProperty",
+          "insensitiveSearch" : false
+        },
+        {
+          "_class" : "hudson.tasks.Mailer$UserProperty",
+          "address" : "phowells@vividsolutions.com"
+        },
+        {
+          "_class" : "hudson.plugins.favorite.user.FavoriteUserProperty"
+        },
+        {
+          "_class" : "org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty"
+        }
+      ]
+    }
+  ],
+  "mavenArtifacts" : {
+    "moduleRecords" : [
+      {
+        "attachedArtifacts" : [
+          {
+            "artifactId" : "aqua-as-cfg",
+            "canonicalName" : "aqua-as-cfg-1.0.0-configure.zip",
+            "classifier" : "configure",
+            "fileName" : "aqua-as-cfg-1.0.0-configure.zip",
+            "groupId" : "ca.bc.gov.nrs.aqua",
+            "md5sum" : "97129726bc89e7bb639c45c67a2e0610",
+            "type" : "zip",
+            "version" : "1.0.0"
+          },
+          {
+            "artifactId" : "aqua-as-cfg",
+            "canonicalName" : "aqua-as-cfg-1.0.0-install.zip",
+            "classifier" : "install",
+            "fileName" : "aqua-as-cfg-1.0.0-install.zip",
+            "groupId" : "ca.bc.gov.nrs.aqua",
+            "md5sum" : "1afd9a72c75777b02a68070d37c8a57b",
+            "type" : "zip",
+            "version" : "1.0.0"
+          }
+        ],
+        "mainArtifact" : {
+          "artifactId" : "aqua-as-cfg",
+          "canonicalName" : "aqua-as-cfg-1.0.0.jar",
+          "classifier" : null,
+          "fileName" : "aqua-as-cfg-1.0.0.jar",
+          "groupId" : "ca.bc.gov.nrs.aqua",
+          "md5sum" : "358c5d9de8aa6888c7ae57b4e2c90d63",
+          "type" : "jar",
+          "version" : "1.0.0"
+        },
+        "parent" : {
+          "number" : 4,
+          "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/"
+        },
+        "pomArtifact" : {
+          "artifactId" : "aqua-as-cfg",
+          "canonicalName" : "aqua-as-cfg-1.0.0.pom",
+          "classifier" : null,
+          "fileName" : "pom.xml",
+          "groupId" : "ca.bc.gov.nrs.aqua",
+          "md5sum" : "476b295d98ee8573c8dd7b62d7b7c1c7",
+          "type" : "pom",
+          "version" : "1.0.0"
+        },
+        "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+      }
+    ]
+  },
+  "mavenVersionUsed" : "3.3.1"
+}

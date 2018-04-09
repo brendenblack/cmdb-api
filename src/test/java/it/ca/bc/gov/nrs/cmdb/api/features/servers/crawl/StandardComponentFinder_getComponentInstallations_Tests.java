@@ -2,6 +2,7 @@ package it.ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.ComponentInstallation;
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.StandardComponentFinderImpl;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class StandardComponentFinder_getComponentInstallations_Tests extends Ses
     private static final Logger log = LoggerFactory.getLogger(StandardComponentFinder_getComponentInstallations_Tests.class);
 
     @Test
+    @Ignore("too slow")
     public void should() throws URISyntaxException, IOException
     {
         Map<String, Object> environment = new HashMap<>();
