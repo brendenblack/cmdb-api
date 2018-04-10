@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.text.SimpleDateFormat;
 import java.util.Set;
 
 @Getter
@@ -13,12 +14,40 @@ import java.util.Set;
 public class Build extends Entity
 {
     public static final String RELATIONSHIP_BUILD_OF = "BUILD_OF";
+    public static final String RELATIONSHIP_BUILT_ON = "BUILT_ON";
 
     @Relationship(type = RELATIONSHIP_BUILD_OF)
     private Component component;
 
     @Relationship(type = ComponentInstance.RELATIONSHIP_MANIFESTS_BUILD)
     private Set<ComponentInstance> instances;
+
+    private int number;
+
+    private String jobClass;
+
+    private int duration;
+
+    private String displayName;
+
+    private String url;
+
+    private int queueId;
+
+    private int timestamp;
+
+    @Relationship(type = RELATIONSHIP_BUILT_ON)
+    private Server server;
+
+
+//    log.debug("Build [class: {}] [duration: {}] [display: {}] [url: {}] [queue id: {}] [timestamp: {}] [built on: {}]",
+//    jobClass,
+//    duration,
+//    displayName,
+//    url,
+//    queueid,
+//    timestamp,
+//    builtOn);
 
 
 }

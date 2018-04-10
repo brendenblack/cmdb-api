@@ -14,7 +14,8 @@ Testing expects a file at `test/resources/application-test.properties` to exist 
 * ssh.username: the username that should be used to connect to the test server
 * ssh.password: the password for the provided username
 
-
+The `ut.ca.bc.gov.nrs.cmdb.*` package is meant for fast, in-memory tests, while the `it.ca.bc.gov.nrs.cmdb.*` package is 
+the place for tests that rely on out-of-process services.
 ------------------------
 
 ## Technology
@@ -39,3 +40,4 @@ SSH in Java
 [project website](http://www.jcraft.com/jsch/)
 
 includes [JSch Extension](https://github.com/lucastheisen/jsch-extension) and [JSch NIO](https://github.com/lucastheisen/jsch-nio)
+

@@ -214,10 +214,46 @@
       "_class" : "hudson.plugins.promoted_builds.PromotedBuildAction",
       "promotions" : [
         {
-
+          "badges" : [
+            {
+              "_class" : "hudson.plugins.promoted_builds.conditions.ManualCondition$Badge"
+            }
+          ],
+          "name" : "0_INTEGRATION",
+          "process" : {
+            "name" : "0_INTEGRATION",
+            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/promotion/process/0_INTEGRATION/",
+            "color" : "blue"
+          },
+          "promotionBuilds" : [
+            {
+              "number" : 6,
+              "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/promotion/process/0_INTEGRATION/6/"
+            }
+          ]
         },
         {
-
+          "badges" : [
+            {
+              "_class" : "hudson.plugins.promoted_builds.conditions.ManualCondition$Badge"
+            }
+          ],
+          "name" : "2_TEST",
+          "process" : {
+            "name" : "2_TEST",
+            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/promotion/process/2_TEST/",
+            "color" : "blue"
+          },
+          "promotionBuilds" : [
+            {
+              "number" : 2,
+              "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/promotion/process/2_TEST/2/"
+            },
+            {
+              "number" : 1,
+              "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/promotion/process/2_TEST/1/"
+            }
+          ]
         }
       ]
     },
@@ -258,8 +294,113 @@
             "version" : "1.0.0"
           },
           "parent" : {
+            "actions" : [
+              {
+
+              },
+              {
+
+              },
+              {
+
+              },
+              {
+
+              },
+              {
+                "_class" : "hudson.maven.reporters.MavenArtifactRecord",
+                "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+              },
+              {
+
+              },
+              {
+
+              }
+            ],
+            "artifacts" : [
+
+            ],
+            "building" : false,
+            "description" : null,
+            "displayName" : "#4",
+            "duration" : 5557,
+            "estimatedDuration" : 8919,
+            "executor" : null,
+            "fullDisplayName" : "AQUA » aqua-as-cfg » aqua-as-cfg #4",
+            "id" : "4",
+            "keepLog" : false,
             "number" : 4,
-            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/"
+            "queueId" : -1,
+            "result" : "SUCCESS",
+            "timestamp" : 1516298685292,
+            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/",
+            "builtOn" : "wii2",
+            "changeSet" : {
+              "_class" : "hudson.maven.FilteredChangeLogSet",
+              "items" : [
+                {
+                  "_class" : "hudson.plugins.git.GitChangeSet",
+                  "affectedPaths" : [
+                    "pom.xml"
+                  ],
+                  "commitId" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+                  "timestamp" : 1516269549000,
+                  "author" : {
+                    "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+                    "fullName" : "john.cox"
+                  },
+                  "authorEmail" : "john.cox@cgi.com",
+                  "comment" : "Removing snapshot\n",
+                  "date" : "2018-01-18T01:59:09-0800",
+                  "id" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+                  "msg" : "Removing snapshot",
+                  "paths" : [
+                    {
+                      "editType" : "edit",
+                      "file" : "pom.xml"
+                    }
+                  ]
+                },
+                {
+                  "_class" : "hudson.plugins.git.GitChangeSet",
+                  "affectedPaths" : [
+                    "src/main/resources/lineOfBusiness.json"
+                  ],
+                  "commitId" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+                  "timestamp" : 1516294075000,
+                  "author" : {
+                    "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+                    "fullName" : "PHOWELLS"
+                  },
+                  "authorEmail" : "phowells@vividsolutions.com",
+                  "comment" : "Adding staff Rejected State\n",
+                  "date" : "2018-01-18T08:47:55-0800",
+                  "id" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+                  "msg" : "Adding staff Rejected State",
+                  "paths" : [
+                    {
+                      "editType" : "edit",
+                      "file" : "src/main/resources/lineOfBusiness.json"
+                    }
+                  ]
+                }
+              ],
+              "kind" : null
+            },
+            "culprits" : [
+              {
+                "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+                "fullName" : "PHOWELLS"
+              },
+              {
+                "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+                "fullName" : "john.cox"
+              }
+            ],
+            "mavenArtifacts" : {
+              "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+            }
           },
           "pomArtifact" : {
             "artifactId" : "aqua-as-cfg",
@@ -434,6 +575,140 @@
       ]
     }
   ],
+  "fingerprint" : [
+    {
+      "fileName" : "ca.bc.gov.nrs.aqua:aqua-as-cfg-1.0.0-configure.zip",
+      "hash" : "97129726bc89e7bb639c45c67a2e0610",
+      "original" : {
+        "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+        "number" : 4
+      },
+      "timestamp" : 1516298697148,
+      "usage" : [
+        {
+          "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        },
+        {
+          "name" : "AQUA/aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fileName" : "ca.bc.gov.nrs.aqua:aqua-as-cfg-1.0.0-install.zip",
+      "hash" : "1afd9a72c75777b02a68070d37c8a57b",
+      "original" : {
+        "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+        "number" : 4
+      },
+      "timestamp" : 1516298697149,
+      "usage" : [
+        {
+          "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        },
+        {
+          "name" : "AQUA/aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fileName" : "ca.bc.gov.nrs.aqua:aqua-as-cfg-1.0.0.jar",
+      "hash" : "358c5d9de8aa6888c7ae57b4e2c90d63",
+      "original" : {
+        "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+        "number" : 4
+      },
+      "timestamp" : 1516298697149,
+      "usage" : [
+        {
+          "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        },
+        {
+          "name" : "AQUA/aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fileName" : "ca.bc.gov.nrs.aqua:aqua-as-cfg:pom.xml",
+      "hash" : "476b295d98ee8573c8dd7b62d7b7c1c7",
+      "original" : {
+        "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+        "number" : 4
+      },
+      "timestamp" : 1516298697148,
+      "usage" : [
+        {
+          "name" : "AQUA/aqua-as-cfg/ca.bc.gov.nrs.aqua:aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        },
+        {
+          "name" : "AQUA/aqua-as-cfg",
+          "ranges" : {
+            "ranges" : [
+              {
+                "end" : 5,
+                "start" : 4
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "mavenArtifacts" : {
     "moduleRecords" : [
       {
@@ -470,8 +745,113 @@
           "version" : "1.0.0"
         },
         "parent" : {
+          "actions" : [
+            {
+
+            },
+            {
+
+            },
+            {
+
+            },
+            {
+
+            },
+            {
+              "_class" : "hudson.maven.reporters.MavenArtifactRecord",
+              "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+            },
+            {
+
+            },
+            {
+
+            }
+          ],
+          "artifacts" : [
+
+          ],
+          "building" : false,
+          "description" : null,
+          "displayName" : "#4",
+          "duration" : 5557,
+          "estimatedDuration" : 8919,
+          "executor" : null,
+          "fullDisplayName" : "AQUA » aqua-as-cfg » aqua-as-cfg #4",
+          "id" : "4",
+          "keepLog" : false,
           "number" : 4,
-          "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/"
+          "queueId" : -1,
+          "result" : "SUCCESS",
+          "timestamp" : 1516298685292,
+          "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/",
+          "builtOn" : "wii2",
+          "changeSet" : {
+            "_class" : "hudson.maven.FilteredChangeLogSet",
+            "items" : [
+              {
+                "_class" : "hudson.plugins.git.GitChangeSet",
+                "affectedPaths" : [
+                  "pom.xml"
+                ],
+                "commitId" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+                "timestamp" : 1516269549000,
+                "author" : {
+                  "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+                  "fullName" : "john.cox"
+                },
+                "authorEmail" : "john.cox@cgi.com",
+                "comment" : "Removing snapshot\n",
+                "date" : "2018-01-18T01:59:09-0800",
+                "id" : "b816ac3e92b52488b4e65c8ef0b626f14fdcb4c7",
+                "msg" : "Removing snapshot",
+                "paths" : [
+                  {
+                    "editType" : "edit",
+                    "file" : "pom.xml"
+                  }
+                ]
+              },
+              {
+                "_class" : "hudson.plugins.git.GitChangeSet",
+                "affectedPaths" : [
+                  "src/main/resources/lineOfBusiness.json"
+                ],
+                "commitId" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+                "timestamp" : 1516294075000,
+                "author" : {
+                  "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+                  "fullName" : "PHOWELLS"
+                },
+                "authorEmail" : "phowells@vividsolutions.com",
+                "comment" : "Adding staff Rejected State\n",
+                "date" : "2018-01-18T08:47:55-0800",
+                "id" : "4bc17cc9f5cc339cd73a1c932da7a8c034a0df82",
+                "msg" : "Adding staff Rejected State",
+                "paths" : [
+                  {
+                    "editType" : "edit",
+                    "file" : "src/main/resources/lineOfBusiness.json"
+                  }
+                ]
+              }
+            ],
+            "kind" : null
+          },
+          "culprits" : [
+            {
+              "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/phowells",
+              "fullName" : "PHOWELLS"
+            },
+            {
+              "absoluteUrl" : "https://apps.nrs.gov.bc.ca/int/jenkins/user/john.cox",
+              "fullName" : "john.cox"
+            }
+          ],
+          "mavenArtifacts" : {
+            "url" : "https://apps.nrs.gov.bc.ca/int/jenkins/job/AQUA/job/aqua-as-cfg/ca.bc.gov.nrs.aqua$aqua-as-cfg/4/mavenArtifacts/"
+          }
         },
         "pomArtifact" : {
           "artifactId" : "aqua-as-cfg",
