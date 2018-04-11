@@ -1,10 +1,7 @@
 package ut.ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
-import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.BuildService;
-import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.GetBuildInfo;
-import ca.bc.gov.nrs.cmdb.api.repositories.ComponentRepository;
-import ca.bc.gov.nrs.cmdb.api.repositories.ProjectRepository;
-import org.junit.BeforeClass;
+import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.BuildInfo;
+import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.MinistryJenkinsClientImpl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -16,13 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.isNotNull;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertThat;
 
-public class GetBuildInfoHandler_ReadBuildInfoResponse_Tests
+public class JenkinsClient_ReadBuildInfoResponse_Tests
 {
-    private static final Logger log = LoggerFactory.getLogger(GetBuildInfoHandler_ReadBuildInfoResponse_Tests.class);
+    private static final Logger log = LoggerFactory.getLogger(JenkinsClient_ReadBuildInfoResponse_Tests.class);
 
     @Rule
     public ErrorCollector collector = new ErrorCollector();
@@ -31,17 +26,13 @@ public class GetBuildInfoHandler_ReadBuildInfoResponse_Tests
     public void shouldReturnBuildInfo() throws IOException
     {
         String content = new String(Files.readAllBytes(Paths.get("src/test/resources/jenkins/build.json")));
-        GetBuildInfo.Handler sut = new GetBuildInfo.Handler("url",
-                                 "username",
-                                 "password",
-                                 mock(ProjectRepository.class),
-                                 mock(ComponentRepository.class),
-                                 mock(BuildService.class));
+        MinistryJenkinsClientImpl sut = new MinistryJenkinsClientImpl();
 
-        GetBuildInfo.BuildInfo result = sut.readBuildInfoResponse(content);
+        BuildInfo result = sut.readBuildInfoResponse(content);
 
-        collector.checkThat(result, is(notNullValue()));
-        collector.checkThat(result, isA(GetBuildInfo.BuildInfo.class));
+        assertThat(result, is(notNullValue()));
+        assertThat(result, isA(BuildInfo.class));
+
         collector.checkThat(result.getJobClass(), is("hudson.maven.MavenModuleSetBuild"));
         collector.checkThat(result.getDuration(), is(23484));
         collector.checkThat(result.getQueueId(), is(2871));
@@ -52,5 +43,6 @@ public class GetBuildInfoHandler_ReadBuildInfoResponse_Tests
         collector.checkThat(result.getBuiltOn(), is("wii2"));
         collector.checkThat(result.getSourceBranch(), is("release/1.0.0"));
         collector.checkThat(result.getTargetBranch(), is("master"));
+        collector.checkThat(result.getPromotions().size(), is(3));
     }
 }

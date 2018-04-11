@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
+import ca.bc.gov.nrs.cmdb.api.models.Build;
 import ca.bc.gov.nrs.cmdb.api.models.Project;
 import ca.bc.gov.nrs.cmdb.api.models.components.Component;
 import ca.bc.gov.nrs.cmdb.api.repositories.ComponentRepository;
@@ -124,6 +125,11 @@ public class BuildService
         {
             this.displayName = displayName;
             return this;
+        }
+
+        public Build build()
+        {
+            return null;
         }
     }
 

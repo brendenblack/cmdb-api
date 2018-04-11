@@ -38,16 +38,4 @@ public class Build extends Entity
 
     @Relationship(type = RELATIONSHIP_BUILT_ON)
     private Server server;
-
-
-//    log.debug("Build [class: {}] [duration: {}] [display: {}] [url: {}] [queue id: {}] [timestamp: {}] [built on: {}]",
-//    jobClass,
-//    duration,
-//    displayName,
-//    url,
-//    queueid,
-//    timestamp,
-//    builtOn);
-
-
 }
