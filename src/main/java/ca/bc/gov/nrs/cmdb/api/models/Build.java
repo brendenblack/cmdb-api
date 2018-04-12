@@ -4,6 +4,7 @@ import ca.bc.gov.nrs.cmdb.api.models.components.Component;
 import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import lombok.Getter;
 import lombok.Setter;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class Build extends Entity
 
     private String displayName;
 
+    @Index(unique = true)
     private String url;
 
     private int queueId;

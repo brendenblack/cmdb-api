@@ -1,40 +1,39 @@
 package ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
 import ca.bc.gov.nrs.cmdb.api.models.Build;
-import ca.bc.gov.nrs.cmdb.api.models.Project;
+import ca.bc.gov.nrs.cmdb.api.models.Server;
 import ca.bc.gov.nrs.cmdb.api.models.components.Component;
-import ca.bc.gov.nrs.cmdb.api.repositories.ComponentRepository;
-import ca.bc.gov.nrs.cmdb.api.repositories.ProjectRepository;
+import ca.bc.gov.nrs.cmdb.api.repositories.*;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BuildService
 {
-    private final ComponentRepository componentRepository;
-    private final ProjectRepository projectRepository;
+    private final CmdbContext context;
 
-    public BuildService(ComponentRepository componentRepository, ProjectRepository projectRepository)
+    @Autowired
+    public BuildService(CmdbContext context)
     {
-
-        this.componentRepository = componentRepository;
-        this.projectRepository = projectRepository;
+        this.context = context;
     }
 
     public Builder builder()
     {
-        return new Builder(this.componentRepository, this.projectRepository);
+        return new Builder(this.context);
     }
 
     public Builder buildOf(String componentName)
     {
-        Builder builder = new Builder(this.componentRepository, this.projectRepository);
+        Builder builder = new Builder(this.context);
         builder.ofComponent(componentName);
         return builder;
     }
 
     public Builder buildOf(Component component)
     {
-        Builder builder = new Builder(this.componentRepository, this.projectRepository);
+        Builder builder = new Builder(this.context);
         builder.ofComponent(component);
         return builder;
     }
@@ -42,8 +41,8 @@ public class BuildService
 
     public static class Builder
     {
-        private final ComponentRepository componentRepository;
-        private final ProjectRepository repository;
+
+        private final CmdbContext context;
 
         private Component component;
         private String componentName;
@@ -55,11 +54,11 @@ public class BuildService
         private int timestamp;
         private String builtOn;
         private String url;
+        private int buildNumber;
 
-        private Builder(ComponentRepository componentRepository, ProjectRepository repository)
+        private Builder(CmdbContext context)
         {
-            this.componentRepository = componentRepository;
-            this.repository = repository;
+            this.context = context;
         }
 
         private Builder ofComponent(Component component)
@@ -89,6 +88,12 @@ public class BuildService
         public Builder ofDuration(int duration)
         {
             this.duration = duration;
+            return this;
+        }
+
+        public Builder withBuildNumber(int buildNumber)
+        {
+            this.buildNumber = buildNumber;
             return this;
         }
 
@@ -129,7 +134,36 @@ public class BuildService
 
         public Build build()
         {
-            return null;
+
+            if (this.url == null)
+            {
+                throw new IllegalStateException("Cannot create a Build record without a valid URL");
+            }
+
+            Build build = this.context.getBuildRepository()
+                    .findByUrl(this.url)
+                    .orElse(new Build());
+
+            build.setUrl(this.url);
+            build.setDisplayName(this.displayName);
+            build.setDuration(this.duration);
+            build.setJobClass(this.jobClass);
+            build.setNumber(this.buildNumber);
+            build.setTimestamp(this.timestamp);
+            build.setQueueId(this.queueId);
+
+            Server server = this.context.getServerRepository()
+                    .findByFqdn(this.builtOn)
+                    .orElse(new Server());
+
+            if (StringUtils.isBlank(server.getFqdn()))
+            {
+                server.setFqdn(this.builtOn);
+            }
+
+            build.setServer(server);
+
+            return build;
         }
     }
 
