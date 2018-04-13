@@ -22,6 +22,7 @@ public class BuildInfo
     private String targetBranch;
     private String sha1;
     private Set<Promotion> promotions = new HashSet<>();
+    private int number;
 
     public void addPromotion(String environment, int number, String url)
     {

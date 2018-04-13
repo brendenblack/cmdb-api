@@ -1,12 +1,11 @@
 package ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
 import ca.bc.gov.nrs.cmdb.api.mediator.Mediator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/load/jenkins")
 public class JenkinsLoadController
 {
+    private static final Logger log = LoggerFactory.getLogger(JenkinsLoadController.class);
+
     private final Mediator mediator;
 
     @Autowired
@@ -51,8 +52,31 @@ public class JenkinsLoadController
         message.setBuildNumber(buildNumber);
 
         GetBuildInfo.Model result = this.mediator.send(message, GetBuildInfo.Model.class);
+    }
+
+    @PostMapping("/build/{project}/{component}")
+    public void addBuildInfo(@PathVariable String project,
+                             @PathVariable String component,
+                             @RequestBody AddBuildInfo.Command message,
+                             HttpServletResponse response)
+    {
+//        AddBuildInfo.Command message = new AddBuildInfo.Command();
+        message.setProject(project);
+        message.setComponent(component);
+
+        log.info(message.getJson());
 
 
+        AddBuildInfo.Model result = this.mediator.send(message, AddBuildInfo.Model.class);
+        String path = "/build/" +
+                project +
+                "/" +
+                component +
+                "/" +
+                result.getBuildNumber();
+
+        response.setHeader("Location", path);
+        response.setStatus(HttpStatus.CREATED.value());
     }
 
 

@@ -126,6 +126,7 @@ public class MinistryJenkinsClientImpl implements JenkinsClient
         try
         {
             JsonNode json = mapper.readTree(response);
+            build.setNumber(json.get("number").asInt());
             build.setJobClass(json.get("_class").asText());
             build.setDuration(json.get("duration").asInt());
             build.setDisplayName(json.get("displayName").asText());

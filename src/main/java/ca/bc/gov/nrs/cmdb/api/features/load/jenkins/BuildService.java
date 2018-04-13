@@ -144,6 +144,7 @@ public class BuildService
                     .findByUrl(this.url)
                     .orElse(new Build());
 
+            build.setComponent(this.component);
             build.setUrl(this.url);
             build.setDisplayName(this.displayName);
             build.setDuration(this.duration);
