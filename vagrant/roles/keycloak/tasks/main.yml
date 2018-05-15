@@ -1,0 +1,71 @@
+- name: 'keycloak group'
+  group:
+    name: 'keycloak'
+  become: yes
+
+- name: 'keycloak user'
+  user:
+    name: keycloak
+    group: keycloak
+    home: '/opt/keycloak'
+    shell: '/sbin/nologin'
+  become: yes
+
+- name: "download Keycloak from {{ keycloak_url }}"
+  get_url:
+    url: "{{ keycloak_url }}"
+    dest: "/tmp/{{ keycloak_archive }}"
+
+- name: "installation directory: {{ keycloak_dir }}"
+  file:
+    path: "{{ keycloak_dir }}"
+    state: directory
+    mode: 0755
+
+- name: 'extract Keycloak'
+  unarchive:
+    src: "/tmp/{{ keycloak_archive }}"
+    dest: "{{ keycloak_dir }}"
+
+- name: "log directory: {{ keycloak_log_dir }}"
+  file:
+    path: "{{ keycloak_log_dir }}"
+    state: 'directory'
+    owner: 'keycloak'
+    group: 'keycloak'
+    mode: 0755
+
+- name: "data directory: {{ keycloak_data_dir }}"
+  file:
+    path: "{{ keycloak_data_dir }}"
+    state: 'directory'
+    owner: 'keycloak'
+    group: 'keycloak'
+    mode: 0755
+
+- name: "temp directory: {{ keycloak_temp_dir }}"
+  file:
+    path: "{{ keycloak_temp_dir }}"
+    state: 'directory'
+    owner: 'keycloak'
+    group: 'keycloak'
+    mode: 0755
+
+- name: "configuration directory: {{ keycloak_config_dir }}"
+  file:
+    path: "{{ keycloak_config_dir }}"
+    state: 'directory'
+    mode: 0755
+    owner: 'keycloak'
+    group: 'keycloak'
+    recurse: yes
+
+- name: 'systemd setup'
+  template:
+    src: 'keycloak.service.j2'
+    dest: '/etc/systemd/system/keycloak.service'
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify: reload systemd

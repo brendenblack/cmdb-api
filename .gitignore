@@ -23,3 +23,12 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+
+### Logging
+*.log
+*.gz
+
+
+### Vagrant
+.vagrant/
