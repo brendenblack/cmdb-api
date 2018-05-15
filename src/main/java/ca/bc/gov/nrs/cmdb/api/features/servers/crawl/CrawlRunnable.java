@@ -5,14 +5,12 @@ import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
 import ca.bc.gov.nrs.cmdb.api.models.Server;
 import ca.bc.gov.nrs.cmdb.api.models.UsernamePasswordSecret;
 import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
-import com.jcraft.jsch.JSchException;
 import com.pastdev.jsch.DefaultSessionFactory;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -176,7 +174,7 @@ public class CrawlRunnable implements Runnable
                 for (ComponentInstance app : apps)
                 {
                     log.debug("Component instance [project: {}] [name: {}] [version: {}] [path: {}}",
-                              app.getComponent().getProject().getAcronym(),
+                              app.getComponent().getProject().getKey(),
                               app.getComponent().getName(),
                               app.getVersion(),
                               app.getInstallPath());

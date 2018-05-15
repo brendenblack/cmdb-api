@@ -80,21 +80,21 @@ public class SilentPersistingCallback implements CrawlCallback
         Map<String,Project> map = new HashMap<>();
         for (Project p : projects)
         {
-            Optional<Project> project = this.projectRepository.findByAcronym(p.getAcronym());
+            Optional<Project> project = this.projectRepository.findByAcronym(p.getKey());
             if (project.isPresent())
             {
-                log.debug("Using existing project object with key {}", project.get().getAcronym());
+                log.debug("Using existing project object with key {}", project.get().getKey());
                 // if this project already exists, return the existing object
-                map.put(project.get().getAcronym(), project.get());
+                map.put(project.get().getKey(), project.get());
             }
             else
             {
-                log.debug("No project exists with key {}, creating...", p.getAcronym());
+                log.debug("No project exists with key {}, creating...", p.getKey());
                 // if this project doesn't exist already, we'll create it with what little information we have on hand
                 Project newlyCreatedProject = this.projectRepository.save(p);
-                map.put(newlyCreatedProject.getAcronym(), newlyCreatedProject);
+                map.put(newlyCreatedProject.getKey(), newlyCreatedProject);
                 log.debug("A project with key {} has been persisted with id {}",
-                          newlyCreatedProject.getAcronym(),
+                          newlyCreatedProject.getKey(),
                           newlyCreatedProject.getId());
             }
         }
@@ -119,7 +119,7 @@ public class SilentPersistingCallback implements CrawlCallback
             if (existingComponent.isPresent())
             {
                 // TODO: this is NPE bait
-                if (!existingComponent.get().getProject().getAcronym().equalsIgnoreCase(c.getProject().getAcronym()))
+                if (!existingComponent.get().getProject().getKey().equalsIgnoreCase(c.getProject().getKey()))
                 {
                     log.warn("This is bad");
                 }
@@ -129,11 +129,11 @@ public class SilentPersistingCallback implements CrawlCallback
             else
             {
                 log.debug("No component exists with name {}, creating it", c.getName());
-                Project p = projects.get(c.getProject().getAcronym());
+                Project p = projects.get(c.getProject().getKey());
                 if (p == null)
                 {
                     log.error("A project with key {} has not been provided, cannot create component {}",
-                              c.getProject().getAcronym(),
+                              c.getProject().getKey(),
                               c.getName());
                     continue;
                 }

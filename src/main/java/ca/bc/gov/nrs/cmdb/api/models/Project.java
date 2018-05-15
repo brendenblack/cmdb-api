@@ -13,14 +13,21 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "acronym", callSuper = false)
+@EqualsAndHashCode(of = "key", callSuper = false)
 public class Project extends Entity
 {
     public static final String RELATIONSHIP_HAS_COMPONENTS = "HAS_COMPONENTS";
 
+    private Project() {}
+
+    Project(String key)
+    {
+        this.key = key;
+    }
+
     @Required
     @Index(unique = true)
-    private String acronym;
+    private String key;
 
     private String name;
 
@@ -32,5 +39,35 @@ public class Project extends Entity
     public void addComponent(Component component)
     {
         this.components.add(component);
+    }
+
+    public static ProjectBuilder createProject(String key)
+    {
+        return new ProjectBuilder(key);
+    }
+
+    public static class ProjectBuilder
+    {
+        private String key;
+        private String name;
+
+        ProjectBuilder(String key)
+        {
+            this.key = key;
+        }
+
+        public ProjectBuilder name(String name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public Project build()
+        {
+            Project project = new Project(this.key);
+            project.setName(this.name);
+            return project;
+        }
+
     }
 }

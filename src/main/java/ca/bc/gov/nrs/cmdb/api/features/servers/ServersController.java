@@ -2,6 +2,7 @@ package ca.bc.gov.nrs.cmdb.api.features.servers;
 
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.Cancel;
 import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.DoCrawl;
+import ca.bc.gov.nrs.cmdb.api.infrastructure.CmdbPermissions;
 import ca.bc.gov.nrs.cmdb.api.mediator.Mediator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +67,7 @@ public class ServersController
 
     @ApiOperation(value = "Get a server by ID", notes = "Retrieve details about a server by its ID")
     @GetMapping
+    @Secured(CmdbPermissions.ROLE_READER)
     public GetAll.ServersEnvelope getAllServers()
     {
         GetAll.Query message = new GetAll.Query();
@@ -75,7 +79,6 @@ public class ServersController
     public void createServer(@RequestBody Create.Command message, HttpServletResponse response)
     {
         long id = this.mediator.send(message, Long.class);
-
         response.setStatus(HttpStatus.CREATED.value());
         response.setHeader("Location", PATH + "/" + id);
     }

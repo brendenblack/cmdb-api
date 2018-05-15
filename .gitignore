@@ -24,4 +24,11 @@ dist/
 nbdist/
 .nb-gradle/
 
-output.log*
+
+### Logging
+*.log
+*.gz
+
+
+### Vagrant
+.vagrant/

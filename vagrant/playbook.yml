@@ -1,0 +1,56 @@
+---
+- name: 'provision CMDB development box'
+  hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: 'packages are installed'
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - 'gzip'
+        - 'java-1.8.0-openjdk-devel'
+        - 'tar'
+
+  roles:
+    - name: keycloak
+  
+  tasks: 
+    - name: 'wait for Keycloak to start up'
+      uri:
+        url: 'http://localhost:8080/auth/realms'
+        status_code: 401
+      register: result
+      until: result.status == 401
+      retries: 60
+      delay: 1
+
+    - name: 'fetch admin token'
+      uri:
+        url: 'http://localhost:8080/auth/realms/master/protocol/openid-connect/token'
+        method: 'POST'
+        body: 'username=admin&password=admin&grant_type=password&client_id=admin-cli'
+        status_code: 200
+        headers:
+          Content-Type: "application/x-www-form-urlencoded"
+      register: token
+
+    - debug:
+        var: token
+
+    # if the realm already exists, the service returns a 409; this should result in an "OK" status from Ansible
+    - name: 'create realm'
+      uri:
+        url: 'http://localhost:8080/auth/admin/realms/'
+        method: 'POST'
+        body: "{{ lookup('file', 'realm-export.json') }}"
+        body_format: 'json'
+        status_code: 201, 409
+        headers:
+          Authorization: "Bearer {{ token.content.access_token }}"
+          # Content-Type: 'application/json'
+      register: create_realm_result
+      changed_when: create_realm_result.status == 201
+
+    

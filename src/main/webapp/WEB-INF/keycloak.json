@@ -1,0 +1,9 @@
+{
+  "realm" : "CmdbRealm",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu5ErKHKZmS5dvgYxin5xhaZOOytBIQpJq3cbIBZXGhaT0gmX70b4W15i1f2szxhMHOFoU0T5VrbASdRTO9iFvf8g2imRGcNEMAe88BUjvJGoam8czn7gUK+TV3c1kRzKFgsk0cRriUTgjmrDh9G6dY/f4gEZa9SXEZdY43CpfjCVnCsFHwaC7RlBQNRhQ9N4H00EIjeJMjD/kDJX3HCv03O0jd13mLSw+PoY+W+uLNDEiuqd9ZMuy+Fe8Nl8CQDA+rP/4KXpGhsnkwDXZGppL2zTIjjeiP1xg4dv55ocV7hBav8Ys6jUO/0Kd4yB/C06d7a4MwJAddJ99b1/NUUaVQIDAQAB",
+  "auth-server-url" : "http://localhost:8280/auth",
+  "bearer-only": true,
+  "ssl-required" : "external",
+  "resource" : "login-app",
+  "public-client" : true
+}

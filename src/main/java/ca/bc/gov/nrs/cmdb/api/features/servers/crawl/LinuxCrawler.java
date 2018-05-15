@@ -5,7 +5,6 @@ import ca.bc.gov.nrs.cmdb.api.models.components.Component;
 import ca.bc.gov.nrs.cmdb.api.models.components.ComponentInstance;
 import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
 import ca.bc.gov.nrs.cmdb.api.models.OperatingSystem;
-import com.jcraft.jsch.JSchException;
 import com.pastdev.jsch.DefaultSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -236,7 +233,7 @@ public class LinuxCrawler implements Crawler
         for (String projectKey : projectKeys)
         {
             Project project = new Project();
-            project.setAcronym(projectKey);
+            project.setKey(projectKey);
             projects.put(projectKey, project);
         }
 

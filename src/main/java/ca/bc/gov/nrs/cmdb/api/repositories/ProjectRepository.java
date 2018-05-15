@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ProjectRepository extends Neo4jRepository<Project, Long>
 {
-    Optional<Project> findByAcronym(String acronym);
+    Optional<Project> findByKey(String key);
 }
