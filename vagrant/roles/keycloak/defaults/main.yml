@@ -1,0 +1,11 @@
+keycloak_version:       '4.0.0.Beta2'
+
+keycloak_archive:       "keycloak-{{ keycloak_version }}.tar.gz"
+keycloak_url:           "https://downloads.jboss.org/keycloak/{{ keycloak_version }}/{{ keycloak_archive }}"
+
+keycloak_dir:           '/var/lib/keycloak'
+keycloak_jboss_home:    "{{ keycloak_dir }}/keycloak-{{ keycloak_version }}"
+keycloak_log_dir:       "{{ keycloak_jboss_home }}/standalone/log"
+keycloak_data_dir:      "{{ keycloak_jboss_home }}/standalone/data"
+keycloak_temp_dir:      "{{ keycloak_jboss_home }}/standalone/temp"
+keycloak_config_dir:    "{{ keycloak_jboss_home }}/standalone/configuration"

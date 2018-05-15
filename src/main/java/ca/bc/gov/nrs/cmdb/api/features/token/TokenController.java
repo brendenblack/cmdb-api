@@ -1,7 +1,9 @@
 package ca.bc.gov.nrs.cmdb.api.features.token;
 
+import ca.bc.gov.nrs.cmdb.api.infrastructure.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +20,16 @@ public class TokenController
     }
 
     @GetMapping
-    public String get()
+    @PreAuthorize(Roles.HAS_ROLE_SERVICE)
+    public String getServiceRole()
     {
         return "hello world";
+    }
+
+    @GetMapping("/user")
+    @PreAuthorize(Roles.HAS_ROLE_USER)
+    public String getUserRole()
+    {
+        return "hello, user";
     }
 }

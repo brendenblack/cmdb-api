@@ -5,6 +5,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 $scriptsWithSudo = <<SCRIPT
+  sudo echo "timeout=140" >> /etc/yum.conf
+  sudo echo "minrate=1" >> /etc/yum.conf
+  sudo rpm -iUvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  sudo yum -y update
+  sudo yum -y install kernel* dkms gcc
   echo 'Generating private/public key pair'
   sudo -Hu vagrant ssh-keygen -q -f /home/vagrant/.ssh/id_rsa -t rsa -N ''
   sudo -Hu vagrant cp /home/vagrant/.ssh/id_rsa /home/vagrant/ansible_private_key
@@ -23,12 +28,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.cpus = 2
+    v.name = "CMDB development box"
   end
+  config.vbguest.auto_update = true
 
   config.ssh.insert_key = true
 
-  config.vm.hostname = "cmdb-dev"
-  config.vm.synced_folder '.', '/vagrant'
+  config.vm.hostname = "cmdbdev"
+  # config.vm.synced_folder ".", "/vagrant", type: "smb"
   config.vm.network 'private_network', ip: '192.168.33.10'
   config.vm.network "forwarded_port", guest: 8080, host: 8180
 
@@ -37,10 +44,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.inventory_path = 'hosts'
-    ansible.limit = 'all'
-    ansible.verbose        = true
-    ansible.install        = true
+    ansible.playbook        = "playbook.yml"
+    ansible.inventory_path  = 'hosts'
+    ansible.limit           = 'all'
+    ansible.verbose         = true
+    ansible.install         = true
   end
 end
