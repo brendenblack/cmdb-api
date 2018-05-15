@@ -28,3 +28,7 @@ nbdist/
 ### Logging
 *.log
 *.gz
+
+
+### Vagrant
+.vagrant/

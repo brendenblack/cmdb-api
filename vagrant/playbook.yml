@@ -1,0 +1,61 @@
+---
+- name: 'provision CMDB development box'
+  hosts: all
+  become: yes
+  become_user: vagrant
+  vars:
+    keycloak_version: '4.0.0.Beta2'
+    keycloak_archive: "keycloak-{{ keycloak_version }}.tar.gz"
+    keycloak_url: "https://downloads.jboss.org/keycloak/{{ keycloak_version }}/{{ keycloak_archive }}"
+  tasks:
+    - name: 'install Open JDK 8'
+      yum:
+        name: 
+        state: present
+      with_items:
+        - 'gzip'
+        - 'java-1.8.0-openjdk-devel'
+        - 'tar'
+          
+    - name: "download Keycloak from {{ keycloak_url }}"
+      get_url:
+        url: "{{ keycloak_url }}"
+        dest: "/tmp/{{ keycloak_archive }}"
+      
+    - name: 'Wildfly group'
+      group:
+        name: 'wildfly'
+    
+    - name: 'Wildfly user'
+      user:
+        name: wildfly
+        group: wildfly
+        home: '/opt/wildfly'
+        shell: '/sbin/nologin'
+    
+    - name: 'Wildfly service configuration'
+      template:
+        src: 'wildfly.conf.j2'
+        dest: '/etc/default/wildfly'
+    
+    - name: 'Wildfly init.d'
+      template:
+        src: 'wildfly-init-redhat.sh.j2'
+        dest: '/etc/init.d/wildfly'
+  
+    - name: 'extract Keycloak'
+      unarchive:
+        src: "/tmp/{{ keycloak_archive }}"
+        dest: "/usr/keycloak-{{ keycloak_version }}"
+        creates: "/opt/keycloak-{{ keycloak_version }}/bin/standalone.sh"
+        owner: 'wildfly'
+        group: 'wildfly'
+  
+   - name: 'Keycloak log directory'
+     file:
+       path: '/var/log/wildfly'
+       state: 'directory'
+       owner: wildfly
+       group: wildfly
+       mode: 0755
+
