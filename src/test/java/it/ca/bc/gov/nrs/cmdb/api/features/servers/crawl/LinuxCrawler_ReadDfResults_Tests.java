@@ -1,10 +1,9 @@
 package it.ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
-import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.LinuxCrawler;
-import ca.bc.gov.nrs.cmdb.api.models.FileSystem;
+import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.LinuxCrawler;
+import ca.bc.gov.nrs.infra.cmdb.models.FileSystem;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

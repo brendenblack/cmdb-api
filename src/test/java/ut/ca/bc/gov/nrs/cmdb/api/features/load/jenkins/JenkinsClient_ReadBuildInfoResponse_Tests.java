@@ -1,7 +1,7 @@
 package ut.ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
-import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.BuildInfo;
-import ca.bc.gov.nrs.cmdb.api.features.load.jenkins.MinistryJenkinsClientImpl;
+import ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins.BuildInfo;
+import ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins.MinistryJenkinsClientImpl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;

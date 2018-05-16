@@ -1,7 +1,7 @@
 package it.ca.bc.gov.nrs.cmdb.api.features.servers.crawl;
 
-import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.ComponentInstallation;
-import ca.bc.gov.nrs.cmdb.api.features.servers.crawl.StandardComponentFinderImpl;
+import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.ComponentInstallation;
+import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.StandardComponentFinderImpl;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
