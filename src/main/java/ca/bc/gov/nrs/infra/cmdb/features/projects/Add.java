@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.infra.cmdb.features.projects;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

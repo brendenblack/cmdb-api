@@ -1,11 +1,11 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
-import ca.bc.gov.nrs.infra.cmdb.models.FileSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.repositories.ServerRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ServerRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;

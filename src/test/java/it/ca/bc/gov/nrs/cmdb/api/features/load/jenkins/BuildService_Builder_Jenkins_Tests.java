@@ -1,7 +1,7 @@
 package it.ca.bc.gov.nrs.cmdb.api.features.load.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.repositories.CmdbContext;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import it.ca.bc.gov.nrs.cmdb.api.infrastructure.TestPersistenceContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;

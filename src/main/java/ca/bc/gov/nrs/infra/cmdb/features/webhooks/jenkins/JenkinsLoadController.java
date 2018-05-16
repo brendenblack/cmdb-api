@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.Mediator;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,23 +57,20 @@ public class JenkinsLoadController
     @PostMapping("/build/{project}/{component}")
     public void addBuildInfo(@PathVariable String project,
                              @PathVariable String component,
-                             @RequestBody AddBuildInfo.Command message,
+                             @RequestBody AddBuild.Command message,
                              HttpServletResponse response)
     {
-//        AddBuildInfo.Command message = new AddBuildInfo.Command();
-        message.setProject(project);
-        message.setComponent(component);
+        message.setProjectKey(project);
+        message.setComponentName(component);
 
-        log.info(message.getJson());
+        AddBuild.Model result = this.mediator.send(message, AddBuild.Model.class);
 
-
-        AddBuildInfo.Model result = this.mediator.send(message, AddBuildInfo.Model.class);
         String path = "/build/" +
                 project +
                 "/" +
                 component +
                 "/" +
-                result.getBuildNumber();
+                result.getId();
 
         response.setHeader("Location", path);
         response.setStatus(HttpStatus.CREATED.value());

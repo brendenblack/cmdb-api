@@ -1,15 +1,15 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
-import ca.bc.gov.nrs.infra.cmdb.models.Build;
-import ca.bc.gov.nrs.infra.cmdb.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.models.components.Component;
-import ca.bc.gov.nrs.infra.cmdb.repositories.BuildRepository;
-import ca.bc.gov.nrs.infra.cmdb.repositories.ComponentRepository;
-import ca.bc.gov.nrs.infra.cmdb.repositories.ProjectRepository;
-import ca.bc.gov.nrs.infra.cmdb.services.DefaultJenkinsServiceImpl;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;
+import ca.bc.gov.nrs.infra.cmdb.domain.services.jenkins.DefaultJenkinsServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -47,13 +47,13 @@ public class GetBuildInfo
         private final ComponentRepository componentRepository;
         private final DefaultJenkinsServiceImpl buildService;
         private final JenkinsClient jenkinsClient;
-        private final BuildRepository buildRepository;
+        private final JenkinsBuildRepository buildRepository;
 
         @Autowired
         public Handler(JenkinsClient jenkinsClient,
                        ProjectRepository projectRepository,
                        ComponentRepository componentRepository,
-                       BuildRepository buildRepository,
+                       JenkinsBuildRepository buildRepository,
                        DefaultJenkinsServiceImpl buildService)
         {
             this.jenkinsClient = jenkinsClient;
@@ -109,7 +109,7 @@ public class GetBuildInfo
                 component = oComponent.get();
             }
 
-            Build builder = this.buildService.buildOf(component)
+            JenkinsBuild builder = this.buildService.buildOf(component)
                     .builtOn(buildInfo.getBuiltOn())
                     .ofDuration(buildInfo.getDuration())
                     .ofJenkinsJobType(buildInfo.getJobClass())

@@ -1,8 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.WebSocketConfiguration;
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.models.UsernamePasswordSecret;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.UsernamePasswordSecret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

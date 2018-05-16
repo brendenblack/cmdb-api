@@ -3,7 +3,7 @@ package ca.bc.gov.nrs.infra.cmdb.features.servers;
 import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.Cancel;
 import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.DoCrawl;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.CmdbPermissions;
-import ca.bc.gov.nrs.infra.cmdb.mediator.Mediator;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

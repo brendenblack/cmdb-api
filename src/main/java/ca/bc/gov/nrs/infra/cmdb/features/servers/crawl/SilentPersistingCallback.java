@@ -1,13 +1,13 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
-import ca.bc.gov.nrs.infra.cmdb.models.FileSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.OperatingSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.models.components.Component;
-import ca.bc.gov.nrs.infra.cmdb.models.components.ComponentInstance;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.OperatingSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.components.ComponentInstance;
 import ca.bc.gov.nrs.cmdb.api.repositories.*;
-import ca.bc.gov.nrs.infra.cmdb.repositories.*;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

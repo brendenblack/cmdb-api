@@ -1,8 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
-import ca.bc.gov.nrs.infra.cmdb.repositories.CmdbContext;
-import ca.bc.gov.nrs.infra.cmdb.services.DefaultJenkinsServiceImpl;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
+import ca.bc.gov.nrs.infra.cmdb.domain.services.jenkins.DefaultJenkinsServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @deprecated use {@link UpsertBuildRecords} instead
+ */
+@Deprecated
 public class AddBuildInfo
 {
     @Getter
@@ -87,7 +91,7 @@ public class AddBuildInfo
 //                component = oComponent.get();
 //            }
 //
-//            Build build = this.buildService.buildOf(component)
+//            Build build = this.buildService.of(component)
 //                    .withBuildNumber(buildInfo.getNumber())
 //                    .builtOn(buildInfo.getBuiltOn())
 //                    .ofDuration(buildInfo.getDuration())

@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.secrets;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.Mediator;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

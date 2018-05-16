@@ -1,8 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
-import ca.bc.gov.nrs.infra.cmdb.models.components.ComponentInstance;
-import ca.bc.gov.nrs.infra.cmdb.models.FileSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.OperatingSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.components.ComponentInstance;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.OperatingSystem;
 import com.pastdev.jsch.DefaultSessionFactory;
 
 import java.util.Set;

@@ -17,7 +17,7 @@ public class PersistenceContext
     public SessionFactory getSessionFactory()
     {
         log.info("Creating session factory");
-        return new SessionFactory(configuration(), "ca.bc.gov.nrs.cmdb.api.models");
+        return new SessionFactory(configuration(), "ca.bc.gov.nrs.infra.cmdb.domain.models");
     }
 
     @Value("${neo4j.username:neo4j}")

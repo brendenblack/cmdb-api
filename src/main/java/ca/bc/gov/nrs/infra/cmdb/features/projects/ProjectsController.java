@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.projects;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.Mediator;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;

@@ -1,8 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;

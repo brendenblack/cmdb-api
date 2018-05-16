@@ -1,9 +1,9 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers;
 
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.repositories.ServerRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ServerRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;

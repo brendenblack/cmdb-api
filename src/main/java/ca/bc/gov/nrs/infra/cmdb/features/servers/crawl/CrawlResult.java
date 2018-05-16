@@ -1,10 +1,10 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
-import ca.bc.gov.nrs.infra.cmdb.models.FileSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.OperatingSystem;
-import ca.bc.gov.nrs.infra.cmdb.models.Secret;
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.models.components.ComponentInstance;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.OperatingSystem;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Secret;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.components.ComponentInstance;
 import lombok.Getter;
 import lombok.Setter;
 

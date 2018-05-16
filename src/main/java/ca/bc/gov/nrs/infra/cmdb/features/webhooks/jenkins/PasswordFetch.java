@@ -1,10 +1,10 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.mediator.RequestHandler;
-import ca.bc.gov.nrs.infra.cmdb.models.Secret;
-import ca.bc.gov.nrs.infra.cmdb.repositories.SecretsRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Secret;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.SecretsRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

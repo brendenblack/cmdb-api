@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
-import ca.bc.gov.nrs.infra.cmdb.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
 import lombok.Getter;
 import lombok.Setter;
 
