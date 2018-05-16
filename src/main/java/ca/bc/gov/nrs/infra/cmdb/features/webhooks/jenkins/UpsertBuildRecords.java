@@ -53,7 +53,6 @@ public class UpsertBuildRecords
     }
 
     @Service
-    @RequestScope
     public static class Handler implements RequestHandler<Command,Model>
     {
         private final Logger log = LoggerFactory.getLogger(Handler.class);

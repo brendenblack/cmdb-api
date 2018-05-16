@@ -20,6 +20,10 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @deprecated set for extraction in to a more purpose-built service
+ */
+@Deprecated
 @Service("linuxCrawler")
 public class LinuxCrawler implements Crawler
 {
@@ -232,8 +236,7 @@ public class LinuxCrawler implements Crawler
         Map<String, Project> projects = new HashMap<>();
         for (String projectKey : projectKeys)
         {
-            Project project = new Project();
-            project.setKey(projectKey);
+            Project project = Project.createProject(projectKey).build();
             projects.put(projectKey, project);
         }
 
@@ -247,8 +250,10 @@ public class LinuxCrawler implements Crawler
         {
             if (!components.containsKey(componentName))
             {
-                Component component = new Component();
-                component.setName(componentName);
+                Component component = Component.ofName(componentName)
+                        .belongsTo(null)
+                        .build();
+
                 components.put(componentName, component);
             }
         }
@@ -266,7 +271,7 @@ public class LinuxCrawler implements Crawler
             ComponentInstance instance = new ComponentInstance();
             Component component = components.get(ci.getComponentName());
             Project project = projects.get(ci.getProjectKey());
-            component.setProject(project);
+            //component.setProject(project);
             project.addComponent(component);
             instance.setComponent(component);
             instance.setVersion(ci.getComponentVersion());

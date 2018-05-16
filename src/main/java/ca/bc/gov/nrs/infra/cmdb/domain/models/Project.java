@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,8 @@ public class Project extends Entity
 
     private String description;
 
-    @Relationship(type = RELATIONSHIP_HAS_COMPONENTS)
+    @Relationship(type = RELATIONSHIP_HAS_COMPONENTS, direction = Relationship.OUTGOING)
+    @JsonManagedReference
     private Set<Component> components = new HashSet<>();
 
     public void addComponent(Component component)

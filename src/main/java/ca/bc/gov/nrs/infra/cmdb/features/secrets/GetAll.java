@@ -1,6 +1,5 @@
 package ca.bc.gov.nrs.infra.cmdb.features.secrets;
 
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class GetAll
 {
-    public static class Query implements IRequest
+    public static class Query
     {}
 
     public static class SecretsEnvelope

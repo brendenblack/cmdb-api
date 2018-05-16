@@ -39,7 +39,7 @@ public class JenkinsBuild extends Entity
     }
 
     //region immutable fields
-    @Relationship(type = RELATIONSHIP_BUILD_OF)
+    @Relationship(type = RELATIONSHIP_BUILD_OF, direction = Relationship.OUTGOING)
     @Required
     private Component component;
 

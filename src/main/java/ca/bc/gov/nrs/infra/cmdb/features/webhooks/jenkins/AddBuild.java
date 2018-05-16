@@ -34,7 +34,7 @@ public class AddBuild
         private int queueId;
         private String jobType;
         private String displayName;
-        private String result;
+        private String result = "";
         private String performedOn;
 
     }
@@ -50,7 +50,6 @@ public class AddBuild
     }
 
     @Service
-    @RequestScope
     public static class Handler implements RequestHandler<Command,Model>
     {
         private final Logger log = LoggerFactory.getLogger(Handler.class);
@@ -70,27 +69,39 @@ public class AddBuild
         {
             final JenkinsBuildRepository repo = this.context.getBuildRepository();
 
+            log.debug("Looking up component {}/{}", message.getProjectKey(), message.getComponentName());
             Component component = this.irs.getOrCreateComponent(message.getProjectKey(), message.getComponentName());
+            if (component == null)
+            {
+                throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to create a component object with name " + message.getComponentName());
+            }
 
+            log.debug("Found component with id {}", component.getId());
 
+            log.debug("Looking for existing build {} #{}", component.getName(), message.getNumber());
             Optional<JenkinsBuild> existingBuild = repo.findByComponentAndNumber(component, message.getNumber());
+
             if (existingBuild.isPresent())
             {
+                log.debug("Found existing build with id {}, returning HTTP 409 Conflict", existingBuild.get().getId());
                 HttpException e = new HttpException(HttpStatus.CONFLICT, "A build record for " + message.getComponentName() + " #" + message.getNumber() + " already exists. Send a PATCH request to ___ to update it.");
                 e.addHeader("Location", existingBuild.get().getId().toString());
             }
 
+            log.debug("Found no existing build, will construct a new entry");
             // Safely convert the string value of the build result to an enum value
-            JenkinsBuild.Result buildResult = Optional
-                    .of(JenkinsBuild.Result.valueOf(message.getResult().trim().toUpperCase()))
-                    .orElse(JenkinsBuild.Result.UNKNOWN);
+//            JenkinsBuild.Result buildResult = Optional
+//                    .of(JenkinsBuild.Result.valueOf(message.getResult().trim().toUpperCase()))
+//                    .orElse(JenkinsBuild.Result.UNKNOWN);
+//
+//            log.debug("Result is {}", buildResult);
 
             JenkinsBuild build = JenkinsBuild.of(component)
                     .number(message.getNumber())
                     .url(message.getUrl())
                     .startedAt(message.getStartedAt())
                     .took(message.getDuration())
-                    .result(buildResult)
+                    .result(JenkinsBuild.Result.SUCCESS)
                     .triggeredBy(null) // TODO
                     .ofJobType(message.getJobType())
                     .withDisplayName(message.getDisplayName())
@@ -98,9 +109,11 @@ public class AddBuild
                     .queueId(message.getQueueId())
                     .build();
 
+            log.debug("Constructed build: {}", build.toString());
+
             build = repo.save(build);
 
-            log.trace("Constructed build: {}", build.toString());
+            log.debug("Persisted build with id {}", build.getId());
 
             try
             {

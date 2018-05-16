@@ -1,9 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Secret;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.SecretsRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,7 @@ public class PasswordFetch
 {
     @Getter
     @Setter
-    public static class Command implements IRequest
+    public static class Command
     {
         private long secretId;
     }

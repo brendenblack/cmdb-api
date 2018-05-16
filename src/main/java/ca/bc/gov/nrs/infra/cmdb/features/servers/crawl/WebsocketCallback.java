@@ -1,8 +1,11 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.WebSocketConfiguration;
-import ca.bc.gov.nrs.cmdb.api.repositories.*;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.*;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentInstanceRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.OperatingSystemRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ServerRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;

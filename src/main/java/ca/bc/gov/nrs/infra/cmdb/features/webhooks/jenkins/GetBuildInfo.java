@@ -1,15 +1,14 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.jenkins.DefaultJenkinsServiceImpl;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -24,7 +23,7 @@ public class GetBuildInfo
 {
     @Getter
     @Setter
-    public static class Command implements IRequest
+    public static class Command
     {
         private String stream;
         private String project;
@@ -87,11 +86,10 @@ public class GetBuildInfo
             if (!oComponent.isPresent())
             {
                 Project project;
-                Optional<Project> oProject = this.projectRepository.findByAcronym(message.getProject());
+                Optional<Project> oProject = this.projectRepository.findByKey(message.getProject());
                 if (!oProject.isPresent())
                 {
-                    project = new Project();
-                    project.setKey(message.getProject());
+                    project = Project.createProject(message.getProject()).build();
                     project = this.projectRepository.save(project);
                 }
                 else
@@ -99,9 +97,8 @@ public class GetBuildInfo
                     project = oProject.get();
                 }
 
-                component = new Component();
-                component.setName(message.getComponent());
-                component.setProject(project);
+                component = Component.ofName(message.getComponent())
+                        .belongsTo(project).build();
                 component = this.componentRepository.save(component);
             }
             else
@@ -110,7 +107,7 @@ public class GetBuildInfo
             }
 
             JenkinsBuild builder = this.buildService.buildOf(component)
-                    .builtOn(buildInfo.getBuiltOn())
+                    .builtOn(null)
                     .ofDuration(buildInfo.getDuration())
                     .ofJenkinsJobType(buildInfo.getJobClass())
                     .startedAt(buildInfo.getTimestamp())

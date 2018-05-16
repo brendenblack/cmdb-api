@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
@@ -22,6 +23,7 @@ public class Component extends Entity
 
     @Relationship(type = Project.RELATIONSHIP_HAS_COMPONENTS, direction = Relationship.INCOMING)
     @Required
+    @JsonBackReference
     private Project project;
 
     @Relationship(type = JenkinsBuild.RELATIONSHIP_BUILD_OF, direction = Relationship.INCOMING)

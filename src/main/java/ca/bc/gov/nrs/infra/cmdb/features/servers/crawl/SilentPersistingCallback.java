@@ -1,19 +1,27 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.ComponentInstance;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.OperatingSystem;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.ComponentInstance;
-import ca.bc.gov.nrs.cmdb.api.repositories.*;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.*;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentInstanceRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.OperatingSystemRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ServerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -81,7 +89,7 @@ public class SilentPersistingCallback implements CrawlCallback
         Map<String,Project> map = new HashMap<>();
         for (Project p : projects)
         {
-            Optional<Project> project = this.projectRepository.findByAcronym(p.getKey());
+            Optional<Project> project = this.projectRepository.findByKey(p.getKey());
             if (project.isPresent())
             {
                 log.debug("Using existing project object with key {}", project.get().getKey());
@@ -139,9 +147,9 @@ public class SilentPersistingCallback implements CrawlCallback
                     continue;
                 }
 
-                Component component = new Component();
-                component.setName(c.getName());
-                component.setProject(p);
+                Component component = Component.ofName(c.getName())
+                        .belongsTo(p)
+                        .build();
                 Component newlyCreatedComponent = this.componentRepository.save(component);
                 map.put(c.getName(), newlyCreatedComponent);
             }

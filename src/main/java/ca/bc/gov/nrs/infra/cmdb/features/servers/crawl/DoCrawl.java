@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Secret;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
@@ -24,7 +23,7 @@ public class DoCrawl
 {
     @Getter
     @Setter
-    public static class Command implements IRequest
+    public static class Command
     {
         private long serverId;
         private long secretId;

@@ -1,10 +1,9 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers;
 
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ServerRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class Get
 {
     @Getter
     @Setter
-    public static class Query implements IRequest
+    public static class Query
     {
         private long id;
     }

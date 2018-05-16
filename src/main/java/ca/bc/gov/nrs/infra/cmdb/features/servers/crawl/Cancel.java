@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ public class Cancel
 {
     @Getter
     @Setter
-    public static class Command implements IRequest
+    public static class Command
     {
         private String crawlId;
     }
