@@ -2,7 +2,7 @@ package ca.bc.gov.nrs.infra.cmdb.domain.services.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.ValidationException;

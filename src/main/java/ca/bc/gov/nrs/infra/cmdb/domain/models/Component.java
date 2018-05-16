@@ -1,8 +1,5 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models.components;
+package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
 import lombok.Getter;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;

@@ -1,6 +1,5 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

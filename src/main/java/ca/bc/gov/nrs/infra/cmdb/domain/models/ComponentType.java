@@ -1,6 +1,5 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models.components;
+package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.Set;

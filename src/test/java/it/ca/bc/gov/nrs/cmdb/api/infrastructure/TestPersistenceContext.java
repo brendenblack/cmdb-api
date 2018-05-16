@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @TestConfiguration
 @EnableNeo4jRepositories("ca.bc.gov.nrs.cmdb.api.repositories")
 @EnableTransactionManagement
-@ComponentScan("ca.bc.gov.nrs.cmdb.api")
+@ComponentScan("ca.bc.gov.nrs.infra.cmdb.domain.models")
 public class TestPersistenceContext
 {
     private static final Logger log = LoggerFactory.getLogger(TestPersistenceContext.class);
@@ -25,7 +25,7 @@ public class TestPersistenceContext
     public SessionFactory getSessionFactory()
     {
         log.info("Creating TEST session factory");
-        return new SessionFactory(configuration(), "ca.bc.gov.nrs.cmdb.api.models");
+        return new SessionFactory(configuration(), "ca.bc.gov.nrs.infra.cmdb.domain.models");
     }
 
     @Bean

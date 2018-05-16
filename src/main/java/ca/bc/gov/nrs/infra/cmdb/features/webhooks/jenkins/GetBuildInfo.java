@@ -5,7 +5,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.IRequest;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ComponentRepository;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.ProjectRepository;

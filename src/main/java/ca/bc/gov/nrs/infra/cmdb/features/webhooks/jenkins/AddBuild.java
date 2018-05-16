@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.components.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Optional;
