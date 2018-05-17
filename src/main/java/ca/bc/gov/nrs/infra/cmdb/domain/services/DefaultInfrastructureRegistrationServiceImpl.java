@@ -25,22 +25,27 @@ public class DefaultInfrastructureRegistrationServiceImpl implements Infrastruct
     @Override
     public Project getOrCreateProject(String projectKey)
     {
+        log.trace("Looking up project {}", projectKey);
         Optional<Project> existingProject = this.context.getProjectRepository().findByKey(projectKey);
         if (existingProject.isPresent())
         {
+            log.trace("Found project {} with id {}", projectKey, existingProject.get().getId());
             return existingProject.get();
         }
         else
         {
-            Project project = Project.createProject(projectKey).build();
-            return this.context.getProjectRepository().save(project);
+            log.trace("No project exists with key {}, creating it...", projectKey);
+            Project project = Project.withKey(projectKey).build();
+            project = this.context.getProjectRepository().save(project);
+            log.trace("Created project {} with id {}", project.getKey(), project.getId());
+            return project;
         }
     }
 
     @Override
     public Component getOrCreateComponent(String projectKey, String componentName)
     {
-        log.trace("Getting or creating component {}/{}", projectKey, componentName);
+        log.trace("Looking up component {}/{}", projectKey, componentName);
         Optional<Component> existingComponent = this.context.getComponentRepository().findByName(componentName);
         if (existingComponent.isPresent())
         {

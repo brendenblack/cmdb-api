@@ -9,6 +9,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.Required;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -18,7 +19,13 @@ public class Project extends Entity
 {
     public static final String RELATIONSHIP_HAS_COMPONENTS = "HAS_COMPONENTS";
 
-    private Project() {}
+    /**
+     * OGM requires a public no-args constructor
+     *
+     * @deprecated use the provided {@link Builder} instead ({@link #withKey(String)})
+     */
+    @Deprecated
+    public Project() {}
 
     Project(String key)
     {
@@ -42,31 +49,53 @@ public class Project extends Entity
         this.components.add(component);
     }
 
-    public static ProjectBuilder createProject(String key)
+    public static OptionalParameters withKey(String key)
     {
-        return new ProjectBuilder(key);
+        return new Builder(key);
     }
 
-    public static class ProjectBuilder
+    public interface OptionalParameters
     {
-        private String key;
-        private String name;
+        OptionalParameters name(String name);
 
-        ProjectBuilder(String key)
+        OptionalParameters description(String description);
+
+
+        Project build();
+    }
+
+
+    public static class Builder implements OptionalParameters
+    {
+        private final String key;
+        private String name;
+        private String description;
+
+        Builder(String key)
         {
             this.key = key;
         }
 
-        public ProjectBuilder name(String name)
+        @Override
+        public OptionalParameters name(String name)
         {
             this.name = name;
             return this;
         }
 
+        @Override
+        public OptionalParameters description(String description)
+        {
+            this.description = description;
+            return this;
+        }
+
+        @Override
         public Project build()
         {
             Project project = new Project(this.key);
-            project.setName(this.name);
+            project.setName(Optional.ofNullable(this.name).orElse(this.key));
+            project.setDescription(Optional.ofNullable(this.description).orElse(this.key + " project"));
             return project;
         }
 

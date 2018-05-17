@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Optional;
 
@@ -102,7 +101,7 @@ public class AddBuild
                     .startedAt(message.getStartedAt())
                     .took(message.getDuration())
                     .result(JenkinsBuild.Result.SUCCESS)
-                    .triggeredBy(null) // TODO
+                    .triggeredByUsername(null) // TODO
                     .ofJobType(message.getJobType())
                     .withDisplayName(message.getDisplayName())
                     .performedOn(null) // TODO

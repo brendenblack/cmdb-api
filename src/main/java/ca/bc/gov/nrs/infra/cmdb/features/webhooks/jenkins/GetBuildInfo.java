@@ -89,7 +89,7 @@ public class GetBuildInfo
                 Optional<Project> oProject = this.projectRepository.findByKey(message.getProject());
                 if (!oProject.isPresent())
                 {
-                    project = Project.createProject(message.getProject()).build();
+                    project = Project.withKey(message.getProject()).build();
                     project = this.projectRepository.save(project);
                 }
                 else

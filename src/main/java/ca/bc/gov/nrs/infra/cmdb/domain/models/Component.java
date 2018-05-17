@@ -8,12 +8,27 @@ import org.neo4j.ogm.annotation.Required;
 
 import java.util.Set;
 
+/**
+ * A component is a logical entity that belongs to a project and generally maps to a repository. They can be built,
+ * deployed and manifested as a service
+ *
+ * @see Project
+ * @see ComponentInstance
+ * @see JenkinsBuild
+ * @see JenkinsPromotion
+ */
 @Getter
 public class Component extends Entity
 {
     public final static String RELATIONSHIP_IS_OF_TYPE = "IS_OF_TYPE";
 
-    private Component() {}
+    /**
+     * OGM requires a public no-args constructor
+     *
+     * @deprecated use the provided {@link IdirUser.Builder} instead
+     */
+    @Deprecated
+    public Component() {}
 
     Component(Project project, String name)
     {

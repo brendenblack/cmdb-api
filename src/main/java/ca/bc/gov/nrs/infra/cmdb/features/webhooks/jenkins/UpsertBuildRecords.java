@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -119,7 +118,7 @@ public class UpsertBuildRecords
                                     .startedAt(b.getStartedAt())
                                     .took(b.getDuration())
                                     .result(buildResult)
-                                    .triggeredBy(null)
+                                    .triggeredByUsername(null)
                                     .ofJobType(b.getJobType())
                                     .withDisplayName(b.getDisplayName())
                                     .performedOn(server)

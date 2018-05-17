@@ -236,7 +236,7 @@ public class LinuxCrawler implements Crawler
         Map<String, Project> projects = new HashMap<>();
         for (String projectKey : projectKeys)
         {
-            Project project = Project.createProject(projectKey).build();
+            Project project = Project.withKey(projectKey).build();
             projects.put(projectKey, project);
         }
 

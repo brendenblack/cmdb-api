@@ -61,6 +61,18 @@ public class JenkinsBuild extends Entity
     @Required
     @Getter(AccessLevel.NONE)
     private long timestamp;
+
+    @Setter
+    @Required
+    private Result result;
+
+    /**
+     * The username as represented in Jenkins.This value may or may not map to an {@link IdirUser} object, and in the
+     * case where no such object can be found it is imperative to have this reference.
+     */
+    @Setter
+    @Required
+    private String triggeredByName;
     //endregion
 
     //region optional fields
@@ -107,21 +119,14 @@ public class JenkinsBuild extends Entity
 
         OptionalParameters performedOn(Server server);
 
-        JenkinsBuild build();
+        OptionalParameters triggeredBy(IdirUser user);
 
-        //.ofDuration(buildInfo.getDuration())
-//                            .ofJenkinsJobType(buildInfo.getJobClass())
-//                            .startedAt(buildInfo.getTimestamp())
-//                            .ofDuration(buildInfo.getDuration())
-//                            .withBuildUrl(buildInfo.getUrl())
-//                            .withDisplayName(buildInfo.getDisplayName())
-//                            .withQueueId(buildInfo.getQueueId())
-//                            .build();
+        JenkinsBuild build();
     }
 
     public interface RequiresTriggeredBy
     {
-        OptionalParameters triggeredBy(IdirUser user);
+        OptionalParameters triggeredByUsername(String username);
     }
 
     public interface RequiresResult
@@ -172,6 +177,7 @@ public class JenkinsBuild extends Entity
         private Server server;
         private IdirUser triggeredBy;
         private Result result;
+        private String triggeredByUsername;
 
         Builder(Component component)
         {
@@ -196,7 +202,8 @@ public class JenkinsBuild extends Entity
         @Override
         public OptionalParameters withDisplayName(String displayName)
         {
-            return null;
+            this.displayName = displayName;
+            return this;
         }
 
         @Override
@@ -217,10 +224,14 @@ public class JenkinsBuild extends Entity
         public JenkinsBuild build()
         {
             JenkinsBuild build = new JenkinsBuild(this.component, this.number);
+            build.setTimestamp(this.startedAt);
             build.setDisplayName(this.displayName);
             build.setDuration(this.duration);
             build.setJobClass(this.jobType);
-            return null;
+            build.setResult(this.result);
+            build.setTriggeredByName(triggeredByUsername);
+            build.setUrl(this.url);
+            return build;
         }
 
         @Override
@@ -244,9 +255,21 @@ public class JenkinsBuild extends Entity
             return this;
         }
 
+        /**
+         * Attaches the {@link IdirUser} responsible for triggering this build. If the {@link #triggeredByUsername} does
+         * not match the User's IDIR or a known alias, it will be added as an alias.
+         *
+         * @param user
+         * @return
+         */
         @Override
         public OptionalParameters triggeredBy(IdirUser user)
         {
+            if (!user.getId().equals(this.triggeredByUsername) && !user.getKnownAliases().contains(this.triggeredByUsername))
+            {
+                user.addAlias(this.triggeredByUsername);
+            }
+
             this.triggeredBy = user;
             return this;
         }
@@ -262,6 +285,13 @@ public class JenkinsBuild extends Entity
         public RequiresTriggeredBy result(JenkinsBuild.Result result)
         {
             this.result = result;
+            return this;
+        }
+
+        @Override
+        public OptionalParameters triggeredByUsername(String username)
+        {
+            this.triggeredByUsername = username;
             return this;
         }
     }
