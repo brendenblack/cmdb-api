@@ -15,28 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AddBuild
 {
     @Getter
     @Setter
-    public static class Command
-    {
-        private String projectKey;
-        private String componentName;
-        private int number;
-        private String url;
-        private long startedAt;
-        private long duration;
-        private String triggeredBy;
-        private int queueId;
-        private String jobType;
-        private String displayName;
-        private String result = "";
-        private String performedOn;
+    public static class Command extends AddBuildModel { }
 
-    }
+
 
     @Getter
     @Setter
@@ -82,7 +71,11 @@ public class AddBuild
 
             if (existingBuild.isPresent())
             {
-                log.debug("Found existing build with id {}, returning HTTP 409 Conflict", existingBuild.get().getId());
+                log.warn("Unable to create a new build record for {}/{} #{} because one already exists with id {}",
+                         message.getProjectKey(),
+                         message.getComponentName(),
+                         message.getNumber(),
+                         existingBuild.get().getId());
                 HttpException e = new HttpException(HttpStatus.CONFLICT, "A build record for " + message.getComponentName() + " #" + message.getNumber() + " already exists. Send a PATCH request to ___ to update it.");
                 e.addHeader("Location", existingBuild.get().getId().toString());
                 throw e;
@@ -101,7 +94,7 @@ public class AddBuild
                     .url(message.getUrl())
                     .startedAt(message.getStartedAt())
                     .took(message.getDuration())
-                    .result(JenkinsBuild.Result.SUCCESS)
+                    .result(message.getResult())
                     .triggeredByUsername(null) // TODO
                     .ofJobType(message.getJobType())
                     .withDisplayName(message.getDisplayName())

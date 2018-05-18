@@ -47,4 +47,6 @@ public class JenkinsBuild_BuilderTests
         collector.checkThat(build.getResult(), is(result));
         collector.checkThat(build.getTriggeredByName(), is(username));
     }
+
+
 }

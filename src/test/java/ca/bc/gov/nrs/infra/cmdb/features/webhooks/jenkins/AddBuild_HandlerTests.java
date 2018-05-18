@@ -24,9 +24,9 @@ import static org.hamcrest.Matchers.is;
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AddBuild_Tests
+public class AddBuild_HandlerTests
 {
-    private Logger log = LoggerFactory.getLogger(AddBuild_Tests.class);
+    private Logger log = LoggerFactory.getLogger(AddBuild_HandlerTests.class);
 
     @Autowired
     private AddBuild.Handler sut;
@@ -61,8 +61,8 @@ public class AddBuild_Tests
     {
         Component component = this.irs.getOrCreateComponent("AQUA", "aqua-permit-api");
         AddBuild.Command message = new AddBuild.Command();
-        message.setComponentName(component.getName());
-        message.setProjectKey(component.getProject().getKey());
+        message.setComponentName("aqua-permit-api");
+        message.setProjectKey("AQUA");
         message.setNumber(5);
         message.setDisplayName("AQUA/aqua-permit-api #5 1.0.0");
         message.setDuration(1000L);

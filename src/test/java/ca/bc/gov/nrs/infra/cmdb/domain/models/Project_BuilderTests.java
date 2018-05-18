@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class Project_BuilderTests
@@ -40,4 +41,15 @@ public class Project_BuilderTests
         collector.checkThat(project.getName(), is(name));
         collector.checkThat(project.getDescription(), is(description));
     }
+
+    @Test
+    public void shouldSetKeyUpperCase()
+    {
+        String key = "lowerc";
+
+        Project project = Project.withKey(key).build();
+
+        assertThat(project.getKey(), is(key.toUpperCase()));
+    }
+
 }

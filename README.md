@@ -62,16 +62,40 @@ The `ut.ca.bc.gov.nrs.cmdb.*` package is meant for fast, in-memory tests, while 
 the place for tests that rely on out-of-process services.
 ------------------------
 
+## Understanding this code base
+### Domain
+#### Models
+Models describe data entities, and attempt to bridge the gap between simple property bags and richer domain models. As
+much behaviour as possible is kept in these models, but their primary purpose is to be persisted to the Graph DB. These
+objects are heavily decorated with SDN annotations. The builder pattern is also used extensively here.
+
+#### Services
+While the service layer in general is one to be avoided ([slices, not layers](https://jimmybogard.com/vertical-slice-architecture/)),
+some shared functionality is stored here until a proper home for it emerges.
+
+### Infrastructure
+Stores concerns about the plumbing of the application:
+* Spring configuration
+* repositories
+* mediator
+* application permissions
+
+### Features
+
+------------------------
+
 ## Technology
 ### Neo4j Community Edition
-The most popular graph database
+A popular graph database
 
-[project website](https://neo4j.com)
+* [project website](https://neo4j.com)
 
-### Neo4j OGM
-An object graph mapping library for Neo4j
+### Spring Data Neo4j
+Adds [Spring Data](http://projects.spring.io/spring-data/) support for Neo4j, allowing for annotated POJOs and 
+auto-generated repositories. Uses Neo4j Object Graph Mapping library.
 
-[project website](https://neo4j.com/docs/ogm-manual/current/)
+* [project website](https://projects.spring.io/spring-data-neo4j/)
+* [ogm](https://neo4j.com/docs/ogm-manual/current/)
 
 ### Keycloak
 

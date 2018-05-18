@@ -9,10 +9,12 @@ import lombok.ToString;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.Required;
+import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.Set;
 
 @ToString
@@ -23,7 +25,31 @@ public class JenkinsBuild extends Entity
     public static final String RELATIONSHIP_BUILD_OF = "BUILD_OF";
     public static final String RELATIONSHIP_BUILT_ON = "BUILT_ON";
 
-    public static enum Result { SUCCESS, UNSTABLE, FAILURE, ABORTED, UNKNOWN };
+    /**
+     * An enumeration of all known statuses that a build can have in Jenkins
+     */
+    public enum Result {
+        /**
+         * Indicates that a build has completed successfully (green)
+         */
+        SUCCESS,
+        /**
+         * Indicates that a build has completed successfully but with warnings (yellow)
+         */
+        UNSTABLE,
+        /**
+         * Indicates that a build did not finish successfully (red)
+         */
+        FAILURE,
+        /**
+         * Indicates that a build was aborted by a user (grey)
+         */
+        ABORTED,
+        /**
+         * Indicates that this object was created with an unknown result value
+         */
+        UNKNOWN
+    };
 
     /**
      * OGM requires a public no-args constructor
@@ -134,6 +160,14 @@ public class JenkinsBuild extends Entity
     public interface RequiresResult
     {
         RequiresTriggeredBy result(JenkinsBuild.Result result);
+
+        /**
+         * Attempts to convert the string value of the build result to {@link Result} value. If this parsing is
+         * unsuccessful, a value of UNKNOWN will be assigned
+         * @param result
+         * @return
+         */
+        RequiresTriggeredBy result(String result);
     }
 
     public interface RequiresDuration
@@ -227,7 +261,10 @@ public class JenkinsBuild extends Entity
         {
             JenkinsBuild build = new JenkinsBuild(this.component, this.number);
             build.setTimestamp(this.startedAt);
-            build.setDisplayName(this.displayName);
+            String display = StringUtils.isEmpty(this.displayName) ?
+                    this.component.getProject().getKey() + "/" + this.component.getName() + " #" + this.number :
+                    this.displayName;
+            build.setDisplayName(display);
             build.setDuration(this.duration);
             build.setJobClass(this.jobType);
             build.setResult(this.result);
@@ -287,6 +324,21 @@ public class JenkinsBuild extends Entity
         public RequiresTriggeredBy result(JenkinsBuild.Result result)
         {
             this.result = result;
+            return this;
+        }
+
+        @Override
+        public RequiresTriggeredBy result(String result)
+        {
+            try
+            {
+                this.result = Result.valueOf(result.trim().toUpperCase());
+            }
+            catch (IllegalArgumentException | NullPointerException e)
+            {
+                this.result = Result.UNKNOWN;
+            }
+
             return this;
         }
 
