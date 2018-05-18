@@ -2,10 +2,9 @@ package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
-import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -19,7 +18,8 @@ import java.util.Date;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -57,7 +57,7 @@ public class AddBuild_Tests
 
 
     @Test
-    public void validCommandCreatesProject()
+    public void validCommandCreatesBuild()
     {
         Component component = this.irs.getOrCreateComponent("AQUA", "aqua-permit-api");
         AddBuild.Command message = new AddBuild.Command();
@@ -73,6 +73,35 @@ public class AddBuild_Tests
         Optional<JenkinsBuild> build = this.context.getBuildRepository().findById(response.getId());
 
         assertThat(build.isPresent(), is(true));
+    }
+
+    @Test(expected = HttpException.class)
+    public void existingBuildThrowsException()
+    {
+        Component component = this.irs.getOrCreateComponent("AQUA", "aqua-permit-api");
+        JenkinsBuild preExistingBuild = JenkinsBuild.of(component)
+                .number(5)
+                .url("http://example.org")
+                .startedAt(100000L)
+                .took(500L)
+                .result(JenkinsBuild.Result.SUCCESS)
+                .triggeredByUsername("user")
+                .build();
+        preExistingBuild = this.context.getBuildRepository().save(preExistingBuild);
+        log.debug("Saved a preexisting test build of {}/{} #{}",
+                preExistingBuild.getComponent().getProject().getKey(),
+                preExistingBuild.getComponent().getName(),
+                preExistingBuild.getNumber());
+        AddBuild.Command message = new AddBuild.Command();
+        message.setComponentName(preExistingBuild.getComponent().getName());
+        message.setProjectKey(preExistingBuild.getComponent().getProject().getKey());
+        message.setNumber(preExistingBuild.getNumber());
+        message.setDisplayName(preExistingBuild.getDisplayName());
+        message.setDuration(preExistingBuild.getDuration());
+        message.setStartedAt(100000L);
+        message.setTriggeredBy(preExistingBuild.getTriggeredByName());
+
+        this.sut.handle(message);
     }
 
 }

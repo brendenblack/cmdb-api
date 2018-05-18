@@ -104,7 +104,7 @@ public class UpsertBuildRecords
                                 .orElse(JenkinsBuild.Result.UNKNOWN);
 
 
-                        Optional<JenkinsBuild> existingBuild = this.context.getBuildRepository().findByComponentAndNumber(component, b.getNumber());
+                        Optional<JenkinsBuild> existingBuild = this.context.getBuildRepository().findByComponentNameAndNumber(component.getName(), b.getNumber());
 
                         if (existingBuild.isPresent())
                         {

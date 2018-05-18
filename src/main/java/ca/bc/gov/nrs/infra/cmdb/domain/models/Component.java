@@ -25,7 +25,7 @@ public class Component extends Entity
     /**
      * OGM requires a public no-args constructor
      *
-     * @deprecated use the provided {@link IdirUser.Builder} instead
+     * @deprecated use the provided {@link Builder} instead
      */
     @Deprecated
     public Component() {}
@@ -41,6 +41,7 @@ public class Component extends Entity
     @JsonBackReference
     private Project project;
 
+    @JsonBackReference
     @Relationship(type = JenkinsBuild.RELATIONSHIP_BUILD_OF, direction = Relationship.INCOMING)
     private Set<JenkinsBuild> builds;
 
@@ -50,24 +51,24 @@ public class Component extends Entity
     @Index(unique = true)
     private String name;
 
-    public static ComponentBuilder ofName(String name)
+    public static Builder ofName(String name)
     {
-        return new ComponentBuilder(name);
+        return new Builder(name);
     }
 
 
 
-    public static class ComponentBuilder
+    public static class Builder
     {
         private String name;
         private Project project;
 
-        ComponentBuilder(String name)
+        Builder(String name)
         {
             this.name = name;
         }
 
-        public ComponentBuilder belongsTo(Project project)
+        public Builder belongsTo(Project project)
         {
             this.project = project;
             return this;

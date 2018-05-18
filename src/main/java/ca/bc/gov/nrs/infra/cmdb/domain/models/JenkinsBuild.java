@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class JenkinsBuild extends Entity
     //region immutable fields
     @Relationship(type = RELATIONSHIP_BUILD_OF, direction = Relationship.OUTGOING)
     @Required
+    @JsonManagedReference
     private Component component;
 
     @Required

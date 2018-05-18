@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface JenkinsBuildRepository extends Neo4jRepository<JenkinsBuild, Long>
 {
-    Optional<JenkinsBuild> findByComponentAndNumber(Component component, int number);
+    Optional<JenkinsBuild> findByComponentNameAndNumber(String componentName, int number);
 
     Optional<JenkinsBuild> findByUrl(String url);
 

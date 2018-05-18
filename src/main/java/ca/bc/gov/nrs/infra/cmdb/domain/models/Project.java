@@ -73,7 +73,7 @@ public class Project extends Entity
 
         Builder(String key)
         {
-            this.key = key;
+            this.key = key.toUpperCase();
         }
 
         @Override

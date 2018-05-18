@@ -78,13 +78,14 @@ public class AddBuild
             log.debug("Found component with id {}", component.getId());
 
             log.debug("Looking for existing build {} #{}", component.getName(), message.getNumber());
-            Optional<JenkinsBuild> existingBuild = repo.findByComponentAndNumber(component, message.getNumber());
+            Optional<JenkinsBuild> existingBuild = repo.findByComponentNameAndNumber(component.getName(), message.getNumber());
 
             if (existingBuild.isPresent())
             {
                 log.debug("Found existing build with id {}, returning HTTP 409 Conflict", existingBuild.get().getId());
                 HttpException e = new HttpException(HttpStatus.CONFLICT, "A build record for " + message.getComponentName() + " #" + message.getNumber() + " already exists. Send a PATCH request to ___ to update it.");
                 e.addHeader("Location", existingBuild.get().getId().toString());
+                throw e;
             }
 
             log.debug("Found no existing build, will construct a new entry");
