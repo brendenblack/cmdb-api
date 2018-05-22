@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers.crawl;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.ComponentInstance;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.FileSystem;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.OperatingSystem;

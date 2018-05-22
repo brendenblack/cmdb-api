@@ -1,50 +1,67 @@
-package ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories;
+package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsResult;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
+import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class JenkinsBuildRepository_findByComponentNameAndNumberTests
+public class AddPromotion_HandlerTests
 {
+    private Logger log = LoggerFactory.getLogger(AddPromotion_HandlerTests.class);
+
+    @Autowired
+    private AddPromotion.Handler sut;
+
+    @Autowired
+    private CmdbContext context;
+
     @Autowired
     private InfrastructureRegistrationService irs;
 
-    @Autowired
-    private JenkinsBuildRepository sut;
-
     @Test
-    public void shouldDo()
+    public void validCommandReturnsId()
     {
-        int number = 5;
         Component component = this.irs.getOrCreateComponent("AQUA", "aqua-permit-api");
         JenkinsBuild preExistingBuild = JenkinsBuild.of(component)
-                .number(number)
+                .number(5)
                 .url("http://example.org")
                 .startedAt(100000L)
                 .took(500L)
                 .result(JenkinsResult.SUCCESS)
                 .triggeredByUsername("user")
                 .build();
-        preExistingBuild = this.sut.save(preExistingBuild);
+        this.context.getJenkinsBuildRepository().save(preExistingBuild);
+        AddPromotion.Command message = new AddPromotion.Command();
+        message.setComponentName("aqua-permit-api");
+        message.setProjectKey("AQUA");
+        message.setBuildNumber(5);
+        message.setPromotionNumber(5);
+        message.setEnvironmentName("0_INTEGRATION");
+        message.setDuration(1000L);
+        message.setStartedAt(new Date().getTime());
+        message.setTriggeredBy("brblack");
 
-        Optional<JenkinsBuild> result = this.sut.findByComponentNameAndNumber(component.getName(), number);
+        AddPromotion.Model response = this.sut.handle(message);
 
-        assertThat(result.isPresent(), is(true));
-
+//        assertThat("id", response.getId(), is(greaterThan(0L)));
     }
+
 }

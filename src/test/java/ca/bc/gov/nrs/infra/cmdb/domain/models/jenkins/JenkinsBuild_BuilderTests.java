@@ -1,5 +1,9 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models;
+package ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins;
 
+import ca.bc.gov.nrs.infra.cmdb.domain.models.IdirUser;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -28,7 +32,7 @@ public class JenkinsBuild_BuilderTests
         Instant instant = Instant.ofEpochMilli(startedAt);
         LocalDateTime startedAtDt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         long duration = 200L;
-        JenkinsBuild.Result result = JenkinsBuild.Result.SUCCESS;
+        JenkinsResult result = JenkinsResult.SUCCESS;
 
         JenkinsBuild build = JenkinsBuild.of(component)
             .number(number)

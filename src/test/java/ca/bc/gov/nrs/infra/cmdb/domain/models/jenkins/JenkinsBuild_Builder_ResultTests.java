@@ -1,5 +1,7 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models;
+package ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins;
 
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -44,7 +46,7 @@ public class JenkinsBuild_Builder_ResultTests
                 .triggeredByUsername(username)
                 .build();
 
-        assertThat(build.getResult(), is(JenkinsBuild.Result.SUCCESS));
+        assertThat(build.getResult(), is(JenkinsResult.SUCCESS));
     }
 
     @Test
@@ -72,7 +74,7 @@ public class JenkinsBuild_Builder_ResultTests
                 .triggeredByUsername(username)
                 .build();
 
-        assertThat(build.getResult(), is(JenkinsBuild.Result.FAILURE));
+        assertThat(build.getResult(), is(JenkinsResult.FAILURE));
     }
 
     @Test
@@ -100,7 +102,7 @@ public class JenkinsBuild_Builder_ResultTests
                 .triggeredByUsername(username)
                 .build();
 
-        assertThat(build.getResult(), is(JenkinsBuild.Result.UNKNOWN));
+        assertThat(build.getResult(), is(JenkinsResult.UNKNOWN));
     }
 
 

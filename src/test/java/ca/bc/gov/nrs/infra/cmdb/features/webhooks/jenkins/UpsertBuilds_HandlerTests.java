@@ -1,8 +1,9 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsResult;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class UpsertBuilds_HandlerTests
     {
         String component = "npe-test-api";
         int number = 123;
-        Optional<JenkinsBuild> nonExistentBuild = this.context.getBuildRepository().findByComponentNameAndNumber(component, number);
+        Optional<JenkinsBuild> nonExistentBuild = this.context.getJenkinsBuildRepository().findByComponentNameAndNumber(component, number);
         assertThat(nonExistentBuild.isPresent(), is(false));
         AddBuildModel build = new AddBuildModel();
         build.setProjectKey("NPE");
@@ -66,7 +67,7 @@ public class UpsertBuilds_HandlerTests
         command.setBuilds(builds);
 
         UpsertBuilds.Model result = this.sut.handle(command);
-        Optional<JenkinsBuild> existentBuild = this.context.getBuildRepository().findByComponentNameAndNumber(component, number);
+        Optional<JenkinsBuild> existentBuild = this.context.getJenkinsBuildRepository().findByComponentNameAndNumber(component, number);
 
         assertThat(existentBuild.isPresent(), is(true));
     }
@@ -84,11 +85,11 @@ public class UpsertBuilds_HandlerTests
                 .url("http://example.org")
                 .startedAt(1124985L)
                 .took(1245L)
-                .result(JenkinsBuild.Result.SUCCESS)
+                .result(JenkinsResult.SUCCESS)
                 .triggeredByUsername("user")
                 .build();
-        build = this.context.getBuildRepository().save(build);
-        Optional<JenkinsBuild> preExistingBuild = this.context.getBuildRepository().findByComponentNameAndNumber(build.getComponent().getName(), build.getNumber());
+        build = this.context.getJenkinsBuildRepository().save(build);
+        Optional<JenkinsBuild> preExistingBuild = this.context.getJenkinsBuildRepository().findByComponentNameAndNumber(build.getComponent().getName(), build.getNumber());
         String preExistingDisplayName = preExistingBuild.get().getDisplayName();
         AddBuildModel model = new AddBuildModel();
         model.setProjectKey(component.getProject().getKey());
@@ -101,7 +102,7 @@ public class UpsertBuilds_HandlerTests
         command.setBuilds(builds);
 
         UpsertBuilds.Model result = this.sut.handle(command);
-        Optional<JenkinsBuild> updatedBuild = this.context.getBuildRepository().findByComponentNameAndNumber(component.getName(), build.getNumber());
+        Optional<JenkinsBuild> updatedBuild = this.context.getJenkinsBuildRepository().findByComponentNameAndNumber(component.getName(), build.getNumber());
 
         assertThat(updatedBuild.isPresent(), is(true));
         assertThat(updatedBuild.get().getDisplayName(), not(preExistingDisplayName));

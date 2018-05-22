@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class AddBuild
@@ -55,7 +53,7 @@ public class AddBuild
         @Override
         public Model handle(Command message)
         {
-            final JenkinsBuildRepository repo = this.context.getBuildRepository();
+            final JenkinsBuildRepository repo = this.context.getJenkinsBuildRepository();
 
             log.debug("Looking up component {}/{}", message.getProjectKey(), message.getComponentName());
             Component component = this.irs.getOrCreateComponent(message.getProjectKey(), message.getComponentName());

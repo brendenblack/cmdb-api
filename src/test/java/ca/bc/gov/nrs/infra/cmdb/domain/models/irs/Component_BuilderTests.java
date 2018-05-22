@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models;
+package ca.bc.gov.nrs.infra.cmdb.domain.models.irs;
 
 import org.junit.Rule;
 import org.junit.Test;

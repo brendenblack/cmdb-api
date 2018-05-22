@@ -1,7 +1,7 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.services;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

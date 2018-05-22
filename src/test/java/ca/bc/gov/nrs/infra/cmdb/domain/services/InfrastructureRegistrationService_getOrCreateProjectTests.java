@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.services;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;

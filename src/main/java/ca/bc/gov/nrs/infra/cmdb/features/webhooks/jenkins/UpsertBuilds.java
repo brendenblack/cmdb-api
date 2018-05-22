@@ -1,9 +1,9 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.IdirUser;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Project;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
@@ -173,14 +173,14 @@ public class UpsertBuilds
 
 
                         Optional<JenkinsBuild> existingBuild = this.context
-                                .getBuildRepository()
+                                .getJenkinsBuildRepository()
                                 .findByComponentNameAndNumber(component.getName(), b.getNumber());
 
                         if (existingBuild.isPresent())
                         {
                             // TODO: update all mutable fields
                             existingBuild.get().setDisplayName(b.getDisplayName());
-                            JenkinsBuild updatedBuild = this.context.getBuildRepository().save(existingBuild.get());
+                            JenkinsBuild updatedBuild = this.context.getJenkinsBuildRepository().save(existingBuild.get());
                             result.addUpdatedBuild(updatedBuild);
                         }
                         else
@@ -198,7 +198,7 @@ public class UpsertBuilds
                                     .queueId(b.getQueueId())
                                     .build();
 
-                            build = this.context.getBuildRepository().save(build);
+                            build = this.context.getJenkinsBuildRepository().save(build);
                             log.debug("Saved new build with id {}", build.getId());
                             result.addNewBuild(build);
 

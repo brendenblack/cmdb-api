@@ -1,7 +1,8 @@
 package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsResult;
 import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
@@ -70,7 +71,7 @@ public class AddBuild_HandlerTests
         message.setTriggeredBy("brblack");
 
         AddBuild.Model response = this.sut.handle(message);
-        Optional<JenkinsBuild> build = this.context.getBuildRepository().findById(response.getId());
+        Optional<JenkinsBuild> build = this.context.getJenkinsBuildRepository().findById(response.getId());
 
         assertThat(build.isPresent(), is(true));
     }
@@ -84,10 +85,10 @@ public class AddBuild_HandlerTests
                 .url("http://example.org")
                 .startedAt(100000L)
                 .took(500L)
-                .result(JenkinsBuild.Result.SUCCESS)
+                .result(JenkinsResult.SUCCESS)
                 .triggeredByUsername("user")
                 .build();
-        preExistingBuild = this.context.getBuildRepository().save(preExistingBuild);
+        preExistingBuild = this.context.getJenkinsBuildRepository().save(preExistingBuild);
         log.debug("Saved a preexisting test build of {}/{} #{}",
                 preExistingBuild.getComponent().getProject().getKey(),
                 preExistingBuild.getComponent().getName(),

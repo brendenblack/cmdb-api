@@ -1,6 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 
 import java.util.Optional;

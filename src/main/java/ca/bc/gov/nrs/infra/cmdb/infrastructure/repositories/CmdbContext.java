@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 @Getter
 public class CmdbContext
 {
-    private final JenkinsBuildRepository buildRepository;
+    private final JenkinsBuildRepository jenkinsBuildRepository;
+    private final JenkinsPromotionRepository jenkinsPromotionRepository;
     private final ComponentInstanceRepository componentInstanceRepository;
     private final ComponentRepository componentRepository;
     private final ConnectionRepository connectionRepository;
@@ -23,6 +24,7 @@ public class CmdbContext
 
     @Autowired
     public CmdbContext(JenkinsBuildRepository buildRepository,
+                       JenkinsPromotionRepository jenkinsPromotionRepository,
                        ComponentInstanceRepository componentInstanceRepository,
                        ComponentRepository componentRepository,
                        ConnectionRepository connectionRepository,
@@ -32,7 +34,8 @@ public class CmdbContext
                        SecretsRepository secretsRepository,
                        ServerRepository serverRepository)
     {
-        this.buildRepository = buildRepository;
+        this.jenkinsBuildRepository = buildRepository;
+        this.jenkinsPromotionRepository = jenkinsPromotionRepository;
         this.componentInstanceRepository = componentInstanceRepository;
         this.componentRepository = componentRepository;
         this.connectionRepository = connectionRepository;

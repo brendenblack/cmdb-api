@@ -1,5 +1,10 @@
-package ca.bc.gov.nrs.infra.cmdb.domain.models;
+package ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins;
 
+import ca.bc.gov.nrs.infra.cmdb.domain.models.ComponentInstance;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.IdirUser;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -14,7 +19,6 @@ import org.springframework.util.StringUtils;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Optional;
 import java.util.Set;
 
 @ToString
@@ -24,32 +28,6 @@ public class JenkinsBuild extends Entity
 {
     public static final String RELATIONSHIP_BUILD_OF = "BUILD_OF";
     public static final String RELATIONSHIP_BUILT_ON = "BUILT_ON";
-
-    /**
-     * An enumeration of all known statuses that a build can have in Jenkins
-     */
-    public enum Result {
-        /**
-         * Indicates that a build has completed successfully (green)
-         */
-        SUCCESS,
-        /**
-         * Indicates that a build has completed successfully but with warnings (yellow)
-         */
-        UNSTABLE,
-        /**
-         * Indicates that a build did not finish successfully (red)
-         */
-        FAILURE,
-        /**
-         * Indicates that a build was aborted by a user (grey)
-         */
-        ABORTED,
-        /**
-         * Indicates that this object was created with an unknown result value
-         */
-        UNKNOWN
-    };
 
     /**
      * OGM requires a public no-args constructor
@@ -92,7 +70,7 @@ public class JenkinsBuild extends Entity
 
     @Setter
     @Required
-    private Result result;
+    private JenkinsResult result;
 
     /**
      * The username as represented in Jenkins.This value may or may not map to an {@link IdirUser} object, and in the
@@ -159,10 +137,10 @@ public class JenkinsBuild extends Entity
 
     public interface RequiresResult
     {
-        RequiresTriggeredBy result(JenkinsBuild.Result result);
+        RequiresTriggeredBy result(JenkinsResult result);
 
         /**
-         * Attempts to convert the string value of the build result to {@link Result} value. If this parsing is
+         * Attempts to convert the string value of the build result to {@link JenkinsResult} value. If this parsing is
          * unsuccessful, a value of UNKNOWN will be assigned
          * @param result
          * @return
@@ -212,7 +190,7 @@ public class JenkinsBuild extends Entity
         private int queueId;
         private Server server;
         private IdirUser triggeredBy;
-        private Result result;
+        private JenkinsResult result;
         private String triggeredByUsername;
 
         Builder(Component component)
@@ -321,7 +299,7 @@ public class JenkinsBuild extends Entity
         }
 
         @Override
-        public RequiresTriggeredBy result(JenkinsBuild.Result result)
+        public RequiresTriggeredBy result(JenkinsResult result)
         {
             this.result = result;
             return this;
@@ -332,11 +310,11 @@ public class JenkinsBuild extends Entity
         {
             try
             {
-                this.result = Result.valueOf(result.trim().toUpperCase());
+                this.result = JenkinsResult.valueOf(result.trim().toUpperCase());
             }
             catch (IllegalArgumentException | NullPointerException e)
             {
-                this.result = Result.UNKNOWN;
+                this.result = JenkinsResult.UNKNOWN;
             }
 
             return this;
