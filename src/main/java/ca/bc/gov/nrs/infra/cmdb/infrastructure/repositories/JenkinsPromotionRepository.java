@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface JenkinsPromotionRepository extends Neo4jRepository<JenkinsPromotion, Long>
 {
-    Optional<JenkinsPromotion> findByComponentNameAndBuildNumberAndPromotionNumber(String componentName, int buildNumber, int promotionNumber);
+    Optional<JenkinsPromotion> findByComponentNameAndBuildNumberAndNumber(String componentName, int buildNumber, int number);
 }

@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
+package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import java.io.IOException;
 

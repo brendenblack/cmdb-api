@@ -4,9 +4,12 @@ import ca.bc.gov.nrs.infra.cmdb.domain.models.*;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsPromotion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import net.sourceforge.plantuml.StringUtils;
 import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.Required;
 
@@ -22,6 +25,9 @@ import java.util.Set;
  * @see JenkinsPromotion
  */
 @Getter
+@NodeEntity
+@ToString(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 public class Component extends Entity
 {
     public final static String RELATIONSHIP_IS_OF_TYPE = "IS_OF_TYPE";
@@ -51,12 +57,9 @@ public class Component extends Entity
     /**
      * Builds created of this component
      */
-    @JsonBackReference
-    @Relationship(type = JenkinsBuild.RELATIONSHIP_BUILD_OF, direction = Relationship.INCOMING)
-    private Set<JenkinsBuild> builds;
-
-    @Relationship(type = RELATIONSHIP_IS_OF_TYPE)
-    private ComponentType componentType;
+//    @JsonBackReference
+//    @Relationship(type = JenkinsBuild.RELATIONSHIP_BUILD_OF, direction = Relationship.INCOMING)
+//    private Set<JenkinsBuild> builds;
 
     /**
      * The unique name of this component

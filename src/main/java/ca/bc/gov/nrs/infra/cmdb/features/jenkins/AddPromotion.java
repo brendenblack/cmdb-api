@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
+package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsPromotion;
@@ -10,6 +10,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildReposito
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsPromotionRepository;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class AddPromotion
 {
     @Getter
     @Setter
+    @ToString
     public static class Command
     {
         private String projectKey;
@@ -31,7 +33,6 @@ public class AddPromotion
         private int promotionNumber;
 
         private String environmentName;
-
         private String url;
         private long startedAt;
         private long duration;
@@ -40,9 +41,16 @@ public class AddPromotion
         private String result = "";
     }
 
+    @Getter
+    @Setter
     public static class Model
     {
-
+        public long id;
+        private String projectKey;
+        private String componentName;
+        private int buildNumber;
+        private String environment;
+        private int promotionNumber;
     }
 
     @Service
@@ -53,8 +61,7 @@ public class AddPromotion
         private final InfrastructureRegistrationService irs;
 
         @Autowired
-        public Handler(CmdbContext context,
-                       InfrastructureRegistrationService irs)
+        Handler(CmdbContext context, InfrastructureRegistrationService irs)
         {
             this.context = context;
             this.irs = irs;
@@ -63,6 +70,7 @@ public class AddPromotion
         @Override
         public Model handle(Command message)
         {
+            log.debug("Request to add promotion record: {}", message.toString());
             final JenkinsBuildRepository buildRepository = this.context.getJenkinsBuildRepository();
             Optional<JenkinsBuild> existingBuild = buildRepository.findByComponentNameAndNumber(message.getComponentName(), message.getBuildNumber());
             if (!existingBuild.isPresent())
@@ -78,7 +86,7 @@ public class AddPromotion
             JenkinsBuild build = existingBuild.get();
 
             final JenkinsPromotionRepository promotionRepository = this.context.getJenkinsPromotionRepository();
-            Optional<JenkinsPromotion> existingPromotion = promotionRepository.findByComponentNameAndBuildNumberAndPromotionNumber(
+            Optional<JenkinsPromotion> existingPromotion = promotionRepository.findByComponentNameAndBuildNumberAndNumber(
                     message.getComponentName(),
                     message.getBuildNumber(),
                     message.getPromotionNumber());
@@ -128,7 +136,10 @@ public class AddPromotion
             log.debug("Promotion id after save: {}", promotion.getId());
 
             Model model = new Model();
-
+            model.setProjectKey(promotion.getProjectKey());
+            model.setComponentName(promotion.getComponentName());
+            model.setBuildNumber(promotion.getBuildNumber());
+            model.setId(promotion.getId());
             return model;
         }
 

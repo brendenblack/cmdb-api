@@ -14,6 +14,8 @@ import lombok.ToString;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.Required;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
@@ -179,6 +181,8 @@ public class JenkinsBuild extends Entity
 
     public static class Builder implements RequiresTriggeredBy, RequiresResult, RequiresDuration, RequiresStartedTimestamp, RequiresBuildUrl, RequiresBuildNumber, OptionalParameters
     {
+        private final Logger log = LoggerFactory.getLogger(Builder.class);
+
         private final Component component;
 
         private int number;
@@ -248,6 +252,9 @@ public class JenkinsBuild extends Entity
             build.setResult(this.result);
             build.setTriggeredByName(triggeredByUsername);
             build.setUrl(this.url);
+
+            log.debug(build.toString());
+
             return build;
         }
 

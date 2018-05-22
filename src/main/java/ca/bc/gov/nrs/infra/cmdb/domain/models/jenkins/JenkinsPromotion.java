@@ -5,6 +5,7 @@ import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.IdirUser;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import lombok.*;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.Relationship;
@@ -99,9 +100,63 @@ public class JenkinsPromotion extends Entity
     public Component getComponent()
     {
         return Optional.ofNullable(this.build)
-                .map(b -> b.getComponent())
+                .map(JenkinsBuild::getComponent)
                 .orElse(null);
     }
+
+    /**
+     * Convenience method to safely access the name of the {@link Component} that was built and promoted
+     *
+     * @return The component name or "unknown" if something unexpected went wrong
+     */
+    public String getComponentName()
+    {
+        return Optional.ofNullable(this.build)
+                .map(JenkinsBuild::getComponent)
+                .map(Component::getName)
+                .orElse("unknown");
+    }
+
+    /**
+     * Convenience method to safely access the {@link Project} that the component being built and deployed belongs to
+     *
+     * @return The project, or null if something unexpected went wrong
+     */
+    public Project getProject()
+    {
+        return Optional.ofNullable(this.build)
+                .map(JenkinsBuild::getComponent)
+                .map(Component::getProject)
+                .orElse(null);
+    }
+
+    /**
+     * Convenience method to safely access the {@link Project#getKey() project key} that the component being built and
+     * deployed belongs to
+     *
+     * @return The project key or "UNKNOWN" if something unexpected went wrong
+     */
+    public String getProjectKey()
+    {
+        return Optional.ofNullable(this.build)
+                .map(JenkinsBuild::getComponent)
+                .map(Component::getProject)
+                .map(Project::getKey)
+                .orElse("UNKNOWN");
+    }
+
+    /**
+     * Convenience method to safely access the {@link JenkinsBuild#getNumber() build number} that is being promoted.
+     *
+     * @return The build number, or 0 if something unexpected went wrong
+     */
+    public int getBuildNumber()
+    {
+        return Optional.ofNullable(this.build)
+                .map(JenkinsBuild::getNumber)
+                .orElse(0);
+    }
+
 
     public static RequiresNumber of(JenkinsBuild build)
     {

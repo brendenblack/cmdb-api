@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
+package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
@@ -21,6 +21,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+
 
 @RunWith(SpringRunner.class)
 @Transactional

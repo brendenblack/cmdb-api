@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
+package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Secret;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;

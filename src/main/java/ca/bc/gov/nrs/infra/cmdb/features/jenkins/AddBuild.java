@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.webhooks.jenkins;
+package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
@@ -9,6 +9,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildReposito
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,22 @@ public class AddBuild
 {
     @Getter
     @Setter
-    public static class Command extends AddBuildModel { }
-
-
+    @ToString
+    public static class Command
+    {
+        private String projectKey;
+        private String componentName;
+        private int number;
+        private String url;
+        private long startedAt;
+        private long duration;
+        private String triggeredBy;
+        private int queueId;
+        private String jobType;
+        private String displayName;
+        private String result = "";
+        private String performedOn;
+    }
 
     @Getter
     @Setter

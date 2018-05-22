@@ -34,7 +34,11 @@ public class InfrastructureRegistrationService_getOrCreateProjectTests
     public void shouldReturnExistingProject_whenProjectExists()
     {
         Project project = Project.withKey("ABC").build();
-        project = this.context.getProjectRepository().save(project);
+        log.debug("Project ({}): {}", project.getId(), project.toString());
+        log.debug("Context: {}", this.context);
+        log.debug("Repository: {}", this.context.getProjectRepository());
+        this.context.getProjectRepository().save(project);
+        log.debug("id: {} - {}", project.getId(), project.toString());
 
         Project result = this.sut.getOrCreateProject(project.getKey());
 
