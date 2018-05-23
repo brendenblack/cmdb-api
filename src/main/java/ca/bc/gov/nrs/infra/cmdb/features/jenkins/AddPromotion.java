@@ -121,6 +121,7 @@ public class AddPromotion
 
 
             JenkinsPromotion promotion = JenkinsPromotion.of(build)
+                    .environment("0_INTEGRATION")
                     .number(message.getPromotionNumber())
                     .url(message.getUrl())
                     .startedAt(message.getStartedAt())

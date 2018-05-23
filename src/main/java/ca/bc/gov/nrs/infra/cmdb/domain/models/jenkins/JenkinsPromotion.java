@@ -29,9 +29,10 @@ public class JenkinsPromotion
     @Deprecated
     public JenkinsPromotion() {}
 
-    JenkinsPromotion(JenkinsBuild build, int number)
+    JenkinsPromotion(JenkinsBuild build, String environment, int number)
     {
         this.build = build;
+        this.environment = environment;
         this.number = number;
     }
 
@@ -44,6 +45,9 @@ public class JenkinsPromotion
     @Relationship(type = RELATIONSHIP_PROMOTION_OF)
     @Required
     private JenkinsBuild build;
+
+    @Required
+    private String environment;
 
     @Required
     private int number;
@@ -161,7 +165,7 @@ public class JenkinsPromotion
     }
 
 
-    public static RequiresNumber of(JenkinsBuild build)
+    public static RequiresEnvironment of(JenkinsBuild build)
     {
         return new Builder(build);
     }
@@ -227,11 +231,23 @@ public class JenkinsPromotion
          */
         RequiresBuildUrl number(int number);
     }
-    public static class Builder implements RequiresTriggeredBy, RequiresResult, RequiresDuration, RequiresStartedTimestamp, RequiresBuildUrl, RequiresNumber, OptionalParameters
+
+    public interface RequiresEnvironment
+    {
+        /**
+         * The name of the promotion process that was triggered
+         *
+         * @param environmentName
+         * @return
+         */
+        RequiresNumber environment(String environmentName);
+    }
+    public static class Builder implements RequiresEnvironment, RequiresTriggeredBy, RequiresResult, RequiresDuration, RequiresStartedTimestamp, RequiresBuildUrl, RequiresNumber, OptionalParameters
     {
         private final JenkinsBuild build;
 
         private int number;
+        private String environment;
         private String url;
         private long startedAt;
         private long duration;
@@ -281,7 +297,7 @@ public class JenkinsPromotion
         @Override
         public JenkinsPromotion build()
         {
-            JenkinsPromotion promotion = new JenkinsPromotion(this.build, this.number);
+            JenkinsPromotion promotion = new JenkinsPromotion(this.build, this.environment, this.number);
             promotion.setDuration(this.duration);
             // TODO
 
@@ -351,6 +367,13 @@ public class JenkinsPromotion
         public RequiresBuildUrl number(int number)
         {
             this.number = number;
+            return this;
+        }
+
+        @Override
+        public RequiresNumber environment(String environmentName)
+        {
+            this.environment = environmentName;
             return this;
         }
     }

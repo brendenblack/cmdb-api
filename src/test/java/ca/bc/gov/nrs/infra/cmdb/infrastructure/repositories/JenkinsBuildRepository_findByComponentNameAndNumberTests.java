@@ -28,7 +28,7 @@ public class JenkinsBuildRepository_findByComponentNameAndNumberTests
     private JenkinsBuildRepository sut;
 
     @Test
-    public void shouldDo()
+    public void shouldReturnBuild()
     {
         int number = 5;
         Component component = this.irs.getOrCreateComponent("AQUA", "aqua-permit-api");

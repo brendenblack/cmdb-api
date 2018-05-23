@@ -44,6 +44,7 @@ public class JenkinsPromotion_BuilderTests
                 .build();
 
         JenkinsPromotion sut = JenkinsPromotion.of(build)
+                .environment("0_INTEGRATION")
                 .number(number)
                 .url("")
                 .startedAt(startedAt)

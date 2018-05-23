@@ -5,10 +5,12 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.Setter;
 import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@NodeEntity
 @Getter
 public class IdirUser extends User
 {
