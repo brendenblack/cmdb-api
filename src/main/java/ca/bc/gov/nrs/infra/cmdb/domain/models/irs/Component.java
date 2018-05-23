@@ -4,14 +4,9 @@ import ca.bc.gov.nrs.infra.cmdb.domain.models.*;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsPromotion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import net.sourceforge.plantuml.StringUtils;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.Required;
+import org.neo4j.ogm.annotation.*;
 
 import java.util.Set;
 
@@ -28,7 +23,7 @@ import java.util.Set;
 @NodeEntity
 @ToString(of = "name")
 @EqualsAndHashCode(of = "name", callSuper = false)
-public class Component extends Entity
+public class Component
 {
     public final static String RELATIONSHIP_IS_OF_TYPE = "IS_OF_TYPE";
 
@@ -45,6 +40,11 @@ public class Component extends Entity
         this.project = project;
         this.name = name;
     }
+
+    @Id
+    @GeneratedValue
+    @Setter(value = AccessLevel.PRIVATE)
+    private Long id;
 
     /**
      * The project that this component belongs to

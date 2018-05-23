@@ -11,9 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.Required;
+import org.neo4j.ogm.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -26,7 +24,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode(callSuper = false, of = { "component", "number" })
 @Getter
-public class JenkinsBuild extends Entity
+public class JenkinsBuild
 {
     public static final String RELATIONSHIP_BUILD_OF = "BUILD_OF";
     public static final String RELATIONSHIP_BUILT_ON = "BUILT_ON";
@@ -44,6 +42,11 @@ public class JenkinsBuild extends Entity
         this.component = component;
         this.number = number;
     }
+
+    @Id
+    @GeneratedValue
+    @Setter(value = AccessLevel.PRIVATE)
+    private Long id;
 
     //region immutable fields
     @Relationship(type = RELATIONSHIP_BUILD_OF, direction = Relationship.OUTGOING)

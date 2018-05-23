@@ -7,9 +7,7 @@ import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import lombok.*;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.Required;
+import org.neo4j.ogm.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,7 +17,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode(callSuper = false, of = { "build", "number" })
 @Getter
-public class JenkinsPromotion extends Entity
+public class JenkinsPromotion
 {
     public final static String RELATIONSHIP_PROMOTION_OF = "PROMOTION_OF";
 
@@ -36,6 +34,11 @@ public class JenkinsPromotion extends Entity
         this.build = build;
         this.number = number;
     }
+
+    @Id
+    @GeneratedValue
+    @Setter(value = AccessLevel.PRIVATE)
+    private Long id;
 
     //region immutable fields
     @Relationship(type = RELATIONSHIP_PROMOTION_OF)

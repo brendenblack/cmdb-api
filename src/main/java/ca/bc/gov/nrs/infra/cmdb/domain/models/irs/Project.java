@@ -2,10 +2,7 @@ package ca.bc.gov.nrs.infra.cmdb.domain.models.irs;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import net.sourceforge.plantuml.StringUtils;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
@@ -25,7 +22,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "key", callSuper = false)
 @ToString(of = {"key", "name", "description"})
 @NodeEntity
-public class Project extends Entity
+public class Project
 {
     public static final String RELATIONSHIP_HAS_COMPONENTS = "HAS_COMPONENTS";
 
@@ -41,6 +38,11 @@ public class Project extends Entity
     {
         this.key = key;
     }
+
+    @Id
+    @GeneratedValue
+    @Setter(value = AccessLevel.PRIVATE)
+    private Long id;
 
     @Required
     @Index(unique = true)
