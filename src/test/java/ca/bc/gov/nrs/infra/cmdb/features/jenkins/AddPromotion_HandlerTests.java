@@ -91,7 +91,7 @@ public class AddPromotion_HandlerTests
         message.setTriggeredBy("brblack");
 
         AddPromotion.Model response = this.sut.handle(message);
-        Optional<JenkinsPromotion> promotion = this.context.getJenkinsPromotionRepository().findByComponentNameAndBuildNumberAndNumber(component.getName(), preExistingBuild.getNumber(), 5);
+        Optional<JenkinsPromotion> promotion = this.context.getJenkinsPromotionRepository().findPromotion(component.getName(), preExistingBuild.getNumber(), "0_INTEGRATION", 5);
 
         assertThat(promotion.isPresent(), is(true));
     }
