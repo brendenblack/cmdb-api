@@ -63,4 +63,24 @@ public class DefaultInfrastructureRegistrationServiceImpl implements Infrastruct
             return this.context.getComponentRepository().save(component);
         }
     }
+
+    @Override
+    public Component getOrCreateComponent(Project project, String componentName)
+    {
+        Optional<Component> existingComponent = this.context.getComponentRepository().findByName(componentName);
+        if (existingComponent.isPresent())
+        {
+            log.debug("Found existing component with id {}", existingComponent.get().getId());
+            return existingComponent.get();
+        }
+        else
+        {
+            log.debug("No component found, creating it");
+            Component component = Component.ofName(componentName)
+                    .belongsTo(project)
+                    .build();
+
+            return this.context.getComponentRepository().save(component);
+        }
+    }
 }

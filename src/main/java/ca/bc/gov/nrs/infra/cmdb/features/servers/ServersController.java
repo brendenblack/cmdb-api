@@ -1,7 +1,5 @@
 package ca.bc.gov.nrs.infra.cmdb.features.servers;
 
-import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.Cancel;
-import ca.bc.gov.nrs.infra.cmdb.features.servers.crawl.DoCrawl;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.CmdbPermissions;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import io.swagger.annotations.Api;
@@ -11,7 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,26 +46,26 @@ public class ServersController
         return this.mediator.send(message, Get.ServerEnvelope.class);
     }
 
-    @PostMapping("/crawl")
-    public void doCrawlServer(@RequestBody DoCrawl.Command message, HttpServletResponse response)
-    {
-        DoCrawl.Model result = this.mediator.send(message, DoCrawl.Model.class);
-
-        response.setStatus(HttpStatus.ACCEPTED.value());
-        for (String key : result.getHeaders().keySet())
-        {
-            response.addHeader(key, result.getHeaders().get(key));
-        };
-    }
-
-    @DeleteMapping("/crawl/{crawlId}")
-    public void cancelCrawl(@PathVariable String crawlId)
-    {
-        Cancel.Command message = new Cancel.Command();
-        message.setCrawlId(crawlId);
-
-        Cancel.Model result = this.mediator.send(message, Cancel.Model.class);
-    }
+//    @PostMapping("/crawl")
+//    public void doCrawlServer(@RequestBody DoCrawl.Command message, HttpServletResponse response)
+//    {
+//        DoCrawl.Model result = this.mediator.send(message, DoCrawl.Model.class);
+//
+//        response.setStatus(HttpStatus.ACCEPTED.value());
+//        for (String key : result.getHeaders().keySet())
+//        {
+//            response.addHeader(key, result.getHeaders().get(key));
+//        };
+//    }
+//
+//    @DeleteMapping("/crawl/{crawlId}")
+//    public void cancelCrawl(@PathVariable String crawlId)
+//    {
+//        Cancel.Command message = new Cancel.Command();
+//        message.setCrawlId(crawlId);
+//
+//        Cancel.Model result = this.mediator.send(message, Cancel.Model.class);
+//    }
 
     @ApiOperation(value = "Get a server by ID", notes = "Retrieve details about a server by its ID")
     @GetMapping

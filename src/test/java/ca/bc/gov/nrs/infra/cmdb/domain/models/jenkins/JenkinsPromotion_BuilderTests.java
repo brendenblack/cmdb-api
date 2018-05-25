@@ -50,12 +50,13 @@ public class JenkinsPromotion_BuilderTests
                 .startedAt(startedAt)
                 .took(duration)
                 .result(result)
-                .triggeredByUsername("")
+                .triggeredByUsername("myuser")
                 .build();
 
         collector.checkThat(sut.getBuild(), not(nullValue()));
         collector.checkThat(sut.getBuild(), is(build));
-        collector.checkThat(sut.getDuration(), is(duration));
-        collector.checkThat(sut.getNumber(), is(number));
+        collector.checkThat("Duration", sut.getDuration(), is(duration));
+        collector.checkThat("Number", sut.getNumber(), is(number));
+        collector.checkThat("Triggered by", sut.getTriggeredByName(), is("myuser"));
     }
 }

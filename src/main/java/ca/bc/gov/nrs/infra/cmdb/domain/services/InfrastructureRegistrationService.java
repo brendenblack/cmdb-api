@@ -13,4 +13,6 @@ public interface InfrastructureRegistrationService
 
     Component getOrCreateComponent(String projectKey, String componentName);
 
+    Component getOrCreateComponent(Project project, String componentName);
+
 }

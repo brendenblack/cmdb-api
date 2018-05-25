@@ -3,6 +3,9 @@ package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.Mediator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +90,16 @@ public class JenkinsController
         response.setHeader("Location", path);
         response.setStatus(HttpStatus.CREATED.value());
 
+    }
+
+    @ApiOperation(
+            value = "Bulk import of data retrieved from Jenkins",
+            response = Import.Model.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = Import.Model.class)})
+    @PostMapping("/import")
+    public Import.Model importData(@ApiParam(required = true, name = "message", type = "object") @RequestBody Import.Command message)
+    {
+        return this.mediator.send(message, Import.Model.class);
     }
 }

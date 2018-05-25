@@ -299,6 +299,10 @@ public class JenkinsPromotion
         {
             JenkinsPromotion promotion = new JenkinsPromotion(this.build, this.environment, this.number);
             promotion.setDuration(this.duration);
+            promotion.setTriggeredByName(this.triggeredByUsername);
+            promotion.setUrl(this.url);
+            promotion.setTimestamp(this.startedAt);
+            promotion.setResult(this.result);
             // TODO
 
             return promotion;

@@ -4,12 +4,19 @@ import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsPromotion;
+import ca.bc.gov.nrs.infra.cmdb.features.jenkins.BuildImportDeserializer;
+import ca.bc.gov.nrs.infra.cmdb.features.jenkins.Import;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -127,5 +134,16 @@ public class JenkinsTestHelper
 
 
     private Map<String,List<String>> components = new HashMap<>();
+
+    public Import.Command readBuildsJson() throws IOException
+    {
+        String content = new String(Files.readAllBytes(Paths.get("src/test/resources/jenkins/builds.json")));
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Import.Command.class, new BuildImportDeserializer());
+        mapper.registerModule(module);
+
+        return mapper.readValue(content, Import.Command.class);
+    }
 
 }
