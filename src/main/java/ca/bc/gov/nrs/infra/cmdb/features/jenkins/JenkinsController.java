@@ -62,10 +62,10 @@ public class JenkinsController
             response = AddPromotion.Model.class
     )
     @PostMapping("/project/{project}/component/{component}/build/{buildNumber}")
-    public void addPromotion(@PathVariable String project,
-                             @PathVariable String component,
-                             @PathVariable int buildNumber,
-                             @RequestBody AddPromotion.Command message,
+    public void addPromotion(@ApiParam(value = "The key of the target project") @PathVariable String project,
+                             @ApiParam(value = "The component name") @PathVariable String component,
+                             @ApiParam(value = "The Jenkins-assigned build number") @PathVariable int buildNumber,
+                             @ApiParam(value = "Description of the Jenkins build event") @RequestBody AddPromotion.Command message,
                              HttpServletResponse response)
     {
         message.setProjectKey(project);

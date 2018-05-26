@@ -8,6 +8,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsPromotionRepository;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class AddPromotion
     @Getter
     @Setter
     @ToString
+    @ApiModel("jenkinsAddPromotionCommand")
     public static class Command
     {
         private String projectKey;
@@ -43,6 +45,7 @@ public class AddPromotion
 
     @Getter
     @Setter
+    @ApiModel("jenkinsAddPromotionModel")
     public static class Model
     {
         public long id;

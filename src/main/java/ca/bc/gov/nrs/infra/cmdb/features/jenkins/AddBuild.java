@@ -7,6 +7,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.JenkinsBuildRepository;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ public class AddBuild
     @Getter
     @Setter
     @ToString
+    @ApiModel("jenkinsAddBuildCommand")
     public static class Command
     {
         private String projectKey;
@@ -41,6 +43,7 @@ public class AddBuild
 
     @Getter
     @Setter
+    @ApiModel("jenkinsAddBuildModel")
     public static class Model
     {
         public long id;

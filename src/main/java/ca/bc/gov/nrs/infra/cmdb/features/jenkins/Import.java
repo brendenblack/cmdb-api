@@ -44,7 +44,7 @@ public class Import
     @Getter
     @Setter
     @ToString
-    @ApiModel("ImportCommand")
+    @ApiModel("jenkinsImportCommand")
     public static class Command
     {
         private List<ProjectModel> projects = new ArrayList<>();
@@ -98,7 +98,7 @@ public class Import
 
     @Getter
     @Setter
-    @ApiModel("ImportModel")
+    @ApiModel("jenkinsImportModel")
     public static class Model
     {
 
