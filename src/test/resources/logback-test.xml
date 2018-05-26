@@ -4,5 +4,6 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="com.pastdev.jsch" level="WARN"/>
     <logger name="it.ca.bc.gov.nrs.cmdb" level="TRACE"/>
-    <logger name="ca.bc.gov.nrs.cmdb" level="TRACE"/>
+    <logger name="ut.ca.bc.gov.nrs.cmdb" level="TRACE"/>
+    <logger name="ca.bc.gov.nrs.infra.cmdb" level="TRACE"/>
 </configuration>
