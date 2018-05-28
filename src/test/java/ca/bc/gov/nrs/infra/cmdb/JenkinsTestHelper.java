@@ -135,6 +135,12 @@ public class JenkinsTestHelper
 
     private Map<String,List<String>> components = new HashMap<>();
 
+    /**
+     * Reads a builds.json file in the test resources folder and uses {@link BuildImportDeserializer} to deserialize
+     * the contents as an {@link Import.Command} object
+     * @return
+     * @throws IOException
+     */
     public Import.Command readBuildsJson() throws IOException
     {
         String content = new String(Files.readAllBytes(Paths.get("src/test/resources/jenkins/builds.json")));

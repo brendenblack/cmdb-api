@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.infra.cmdb.features.projects;
+package ca.bc.gov.nrs.infra.cmdb.features.irs.projects;
 
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import io.swagger.annotations.ApiModel;

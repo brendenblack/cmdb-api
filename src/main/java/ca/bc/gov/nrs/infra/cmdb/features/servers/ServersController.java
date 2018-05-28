@@ -25,6 +25,7 @@ public class ServersController
 {
     public static final String PATH = "/servers";
 
+
     private static final Logger log = LoggerFactory.getLogger(ServersController.class);
 
     private final Mediator mediator;

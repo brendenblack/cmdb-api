@@ -57,4 +57,6 @@ public class InfrastructureRegistrationService_getOrCreateProjectTests
 
         assertThat(existentProject.isPresent(), is(true));
     }
+
+
 }

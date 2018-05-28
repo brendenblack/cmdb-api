@@ -1,7 +1,7 @@
-package ca.bc.gov.nrs.infra.cmdb.features.projects;
+package ca.bc.gov.nrs.infra.cmdb.features.irs.projects;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
-import ca.bc.gov.nrs.infra.cmdb.domain.services.InfrastructureRegistrationService;
+import ca.bc.gov.nrs.infra.cmdb.features.irs.IrsRoutes;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
@@ -27,10 +27,12 @@ public class Add
         private String key;
     }
 
+    @Getter
+    @Setter
     @ApiModel("projectAddModel")
     public static class Model
     {
-
+        private String link;
     }
 
     @Service("addProjectHandler")
@@ -66,7 +68,7 @@ public class Add
             this.context.getProjectRepository().save(project);
 
             Model result = new Model();
-
+            result.setLink(IrsRoutes.makeProjectLink(project));
             return result;
         }
 

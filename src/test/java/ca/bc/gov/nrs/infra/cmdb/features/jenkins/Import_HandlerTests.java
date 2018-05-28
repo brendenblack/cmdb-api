@@ -2,6 +2,7 @@ package ca.bc.gov.nrs.infra.cmdb.features.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.JenkinsTestHelper;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;
+import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Project;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsBuild;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsPromotion;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins.JenkinsResult;
@@ -57,6 +58,38 @@ public class Import_HandlerTests
 
         assertThat(component.isPresent(), is(true));
     }
+
+    @Test
+    public void shouldReturnCountOfCreatedItems() throws IOException
+    {
+        Import.Command command = this.helper.readBuildsJson();
+
+        Import.Model result = this.sut.handle(command);
+        long createdBuilds = result.getResults().stream()
+                .filter(r -> r.getType().equalsIgnoreCase(JenkinsBuild.class.getName()) && r.getStatus().equalsIgnoreCase("created"))
+                .count();
+
+        assertThat(createdBuilds, is(71L));
+    }
+
+//    @Test
+//    public void shouldReturnCountOfUpdatedItems() throws IOException
+//    {
+//        Project project = Project.withKey("AQUA").build();
+//        Component component = Component.ofName("aqua-as-cfg").belongsTo(project).build();
+//        this.context.getProjectRepository().save(project);
+//        this.context.getComponentRepository().save(component);
+//        JenkinsBuild build = JenkinsBuild.of(component).number(4).url("").startedAt(0L).took(0L).result("SUCCESS").triggeredByUsername("user").build();
+//        this.context.getJenkinsBuildRepository().save(build);
+//        Import.Command command = this.helper.readBuildsJson();
+//
+//        Import.Model result = this.sut.handle(command);
+//        long updatedBuilds = result.getResults().stream()
+//                .filter(r -> r.getType().equalsIgnoreCase(JenkinsBuild.class.getName()) && r.getStatus().equalsIgnoreCase("updated"))
+//                .count();
+//
+//        assertThat(updatedBuilds, is(1L));
+//    }
 
     @Test
     public void shouldCreateExpectedPromotions() throws IOException

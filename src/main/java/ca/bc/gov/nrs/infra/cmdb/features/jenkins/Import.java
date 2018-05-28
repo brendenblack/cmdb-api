@@ -94,86 +94,59 @@ public class Import
         private String triggeredBy;
     }
 
-
-
     @Getter
     @Setter
     @ApiModel("jenkinsImportModel")
     public static class Model
     {
+        private List<ResultModel> results = new ArrayList<>();
 
-//        List<SuccessModel> added = new ArrayList<>();
-//        List<SuccessModel> updated = new ArrayList<>();
-//        List<ErrorModel> errors = new ArrayList<>();
-//
-//        public void addNewBuild(JenkinsBuild build)
-//        {
-//            SuccessModel model = new SuccessModel();
-//
-//            model.setProjectKey(Optional.of(build)
-//                                        .map(b -> b.getComponent())
-//                                        .map(c -> c.getProject()).map(p -> p.getKey())
-//                                        .orElse("unknown"));
-//
-//            model.setComponentName(Optional.of(build)
-//                                           .map(b -> b.getComponent())
-//                                           .map(c -> c.getName())
-//                                           .orElse("unknown"));
-//
-//            model.setNumber(Optional.of(build)
-//                                    .map(b -> b.getNumber())
-//                                    .orElse(-1));
-//
-//            this.added.add(model);
-//        }
-//
-//        public void addUpdatedBuild(JenkinsBuild build)
-//        {
-//            SuccessModel model = new SuccessModel();
-//
-//            model.setProjectKey(Optional.of(build)
-//                                        .map(b -> b.getComponent())
-//                                        .map(c -> c.getProject())
-//                                        .map(p -> p.getKey())
-//                                        .orElse("unknown"));
-//
-//            model.setComponentName(Optional.of(build)
-//                                           .map(b -> b.getComponent())
-//                                           .map(c -> c.getName())
-//                                           .orElse("unknown"));
-//
-//            model.setNumber(build.getNumber());
-//
-//            this.updated.add(model);
-//        }
-//
-//        public void addError(String componentName, int number, String message)
-//        {
-//            ErrorModel model = new ErrorModel();
-//            model.setComponentName(componentName);
-//            model.setNumber(number);
-//            model.setMessage(message);
-//            errors.add(model);
-//        }
+        public void updated(JenkinsBuild build)
+        {
+            ResultModel r = new ResultModel();
+            r.setType(build.getClass().getName());
+            r.setStatus("updated");
+            r.setLink(JenkinsRoutes.makeLink(build));
+            results.add(r);
+        }
+
+        public void created(JenkinsBuild build)
+        {
+            ResultModel r = new ResultModel();
+            r.setType(build.getClass().getName());
+            r.setStatus("created");
+            r.setLink(JenkinsRoutes.makeLink(build));
+            results.add(r);
+        }
+
+        public void updated(JenkinsPromotion promotion)
+        {
+            ResultModel r = new ResultModel();
+            r.setType(promotion.getClass().getName());
+            r.setStatus("updated");
+            r.setLink(JenkinsRoutes.makeLink(promotion));
+            results.add(r);
+        }
+
+        public void created(JenkinsPromotion promotion)
+        {
+            ResultModel r = new ResultModel();
+            r.setType(promotion.getClass().getName());
+            r.setStatus("created");
+            r.setLink(JenkinsRoutes.makeLink(promotion));
+            results.add(r);
+        }
+
     }
 
     @Getter
     @Setter
-    public static class SuccessModel
+    @ToString
+    public static class ResultModel
     {
-        private String projectKey;
-        private String componentName;
-        private int number;
+        private String status;
+        private String type;
         private String link;
-    }
-
-    @Getter
-    @Setter
-    public static class ErrorModel
-    {
-        private String componentName;
-        private int number;
-        private String message;
     }
 
     @Service
@@ -209,6 +182,7 @@ public class Import
                 for (ComponentModel c : prj.getComponents())
                 {
                     Component component = this.irs.getOrCreateComponent(project, c.getComponentName());
+                    log.debug(component.toString());
                     for (BuildModel b : c.getBuilds())
                     {
                         Optional<JenkinsBuild> existingBuild = this.context.getJenkinsBuildRepository()
@@ -218,12 +192,13 @@ public class Import
                         {
                             log.warn("Build #{} of {} unexpectedly exists", existingBuild.get().getNumber(), existingBuild.get().getComponent().getName());
                             // TODO: update
+                            result.updated(existingBuild.get());
                         }
                         else
                         {
                             String url = new StringBuilder()
                                     .append("job/")
-                                    .append(component.getProject().getKey())
+                                    .append(project.getKey())
                                     .append("/job/")
                                     .append(component.getName())
                                     .append("/")
@@ -245,6 +220,9 @@ public class Import
 
                             log.debug(build.toString());
 
+                            this.context.getJenkinsBuildRepository().save(build);
+                            result.created(build);
+
                             for (PromotionModel p : b.getPromotions())
                             {
                                 log.trace(p.toString());
@@ -259,6 +237,7 @@ public class Import
                                 {
                                     log.debug("Promotion {}#{} already exists with id {}", p.getEnvironment(), p.getNumber(), existingPromotion.get().getId());
                                     // TODO: update
+                                    result.updated(existingBuild.get());
                                 }
                                 else
                                 {
@@ -276,116 +255,16 @@ public class Import
                                         .build();
 
                                     this.context.getJenkinsPromotionRepository().save(promotion);
+
+                                    result.created(promotion);
                                 }
                             }
                         }
-
                     }
                 }
             }
 
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//            // Get a listing of all components present in the command, which will limit the number of queries to the
-//            // database. The map keys are project keys and the values are sets of component names belonging to that
-//            // project
-//            Map<String,Set<String>> requestedComponents = makeProjectMap(message.getBuilds());
-//
-//            Map<String,Component> componentMap = new HashMap<>(); // cache components that have already been pulled from the DB
-//            for (Map.Entry<String,Set<String>> entry : requestedComponents.entrySet())
-//            {
-//                log.debug("Project {} has {} components represented", entry.getKey(), entry.getValue().size());
-//                for (String componentName : entry.getValue())
-//                {
-//                    Component component = (componentMap.containsKey(componentName)) ?
-//                            componentMap.get(componentName) : // first try to pull from the cache
-//                            this.irs.getOrCreateComponent(entry.getKey(), componentName); // otherwise hit the DB
-//
-//                    log.debug("Resolved component name {} to component with id {}", componentName, component.getId());
-//
-//                    List<AddBuildModel> componentBuilds = message.getBuilds()
-//                            .stream()
-//                            .filter(b -> b.getComponentName().equalsIgnoreCase(componentName))
-//                            .collect(Collectors.toList());
-//
-//                    log.debug("Component {} has {} associated builds to be added or updated",
-//                              component.getName(),
-//                              componentBuilds.size());
-//
-//                    for (AddBuildModel b : componentBuilds)
-//                    {
-//                        Server server = serverMap.get(""); // TODO
-//                        IdirUser user = usersMap.get(b.getTriggeredBy()); // TODO
-//
-//
-//                        Optional<JenkinsBuild> existingBuild = this.context
-//                                .getJenkinsBuildRepository()
-//                                .findByComponentNameAndNumber(component.getName(), b.getNumber());
-//
-//                        if (existingBuild.isPresent())
-//                        {
-//                            // TODO: update all mutable fields
-//                            existingBuild.get().setDisplayName(b.getDisplayName());
-//                            JenkinsBuild updatedBuild = this.context.getJenkinsBuildRepository().save(existingBuild.get());
-//                            result.addUpdatedBuild(updatedBuild);
-//                        }
-//                        else
-//                        {
-//                            JenkinsBuild build = JenkinsBuild.of(component)
-//                                    .number(b.getNumber())
-//                                    .url(b.getUrl())
-//                                    .startedAt(b.getStartedAt())
-//                                    .took(b.getDuration())
-//                                    .result(b.getResult())
-//                                    .triggeredByUsername(b.getTriggeredBy())
-//                                    .ofJobType(b.getJobType())
-//                                    .withDisplayName(b.getDisplayName())
-//                                    .performedOn(server)
-//                                    .queueId(b.getQueueId())
-//                                    .build();
-//
-//                            build = this.context.getJenkinsBuildRepository().save(build);
-//                            log.debug("Saved new build with id {}", build.getId());
-//                            result.addNewBuild(build);
-//
-//                        }
-//                    }
-//                }
-//            }
-
             return result;
-        }
-
-        public IdirUser lookupUser(String username)
-        {
-            return null;
-        }
-
-        public Server lookupServer(String fqdn)
-        {
-            // TODO:
-            // Hardcoding this value is a fragile approach, maybe a lookup of common names could be
-            // implemented? For now, this covers the known uses cases
-            if (!fqdn.endsWith(".bcgov"))
-            {
-                fqdn = fqdn + ".bcgov";
-            }
-            return null;
         }
 
         @Override

@@ -33,14 +33,14 @@ public class JenkinsController
             value = "Adds a build record for the specified component",
             response = AddBuild.Model.class
     )
-    @PostMapping("/project/{project}/component/{component}")
-    public void addBuild(@PathVariable String project,
-                         @PathVariable String component,
+    @PostMapping(JenkinsRoutes.POST_BUILD_ROUTE)
+    public void addBuild(@PathVariable String projectKey,
+                         @PathVariable String jobName,
                          @RequestBody AddBuild.Command message,
                          HttpServletResponse response)
     {
-        message.setProjectKey(project);
-        message.setComponentName(component);
+        message.setProjectKey(projectKey);
+        message.setComponentName(jobName);
 
         AddBuild.Model result = this.mediator.send(message, AddBuild.Model.class);
 
