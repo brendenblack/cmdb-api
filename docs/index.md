@@ -21,7 +21,7 @@ environment:
    upcoming releases, middle-tier upgrades, patches, etc.
    
 All three of these modes ought to be accounted for within this system. In addition to being a *dumb* store of data, 
-there can also be some limited form of intelligence in the form of business rules being applied to this data to make 
+there can also be some limited form of intelligence in the form of business rules being applied to this data to create 
 information. 
 
 

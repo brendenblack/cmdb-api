@@ -6,25 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Barlow:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Teko:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+    <link rel="stylesheet" th:href="@{/css/home/index.css}" />
     <title>Hello, world!</title>
 </head>
-<body>
-    <main role="main" class="container">
-        <h1 style="font-family: 'Teko', sans-serif;">Natural Resource Ministries' Configuration Management Database</h1>
+<body class="text-center">
+
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <div class="inner">
+            <h3 class="masthead-brand">CMDB</h3>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="/">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">Configuration management database.</h1>
+        <p class="lead">The CMDB project is a central storage for all details about the ISSS environment owned by the
+        Natural Resource Ministries.</p>
+        <p class="lead">
+            <a href="/swagger-ui.html" class="btn btn-lg btn-secondary">API docs</a>
+        </p>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted">Version: <span th:text="${version}"></span></span>
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p class="text-muted">Version: <span th:text="${version}"></span></p>
         </div>
     </footer>
+</div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/popper.js/1.14.1/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

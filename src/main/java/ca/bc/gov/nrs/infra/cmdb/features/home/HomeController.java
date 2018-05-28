@@ -15,8 +15,22 @@ public class HomeController
     @GetMapping("/")
     public String index(Model model)
     {
-        model.addAttribute("version", this.appVersion);
+        attachAppData(model);
         return "home/index";
+    }
+
+    @GetMapping("/jenkins")
+    public String jenkins(Model model)
+    {
+        attachAppData(model);
+        return "jenkins/index";
+    }
+
+    public Model attachAppData(Model model)
+    {
+        model.addAttribute("version", this.appVersion);
+
+        return model;
     }
 
 }

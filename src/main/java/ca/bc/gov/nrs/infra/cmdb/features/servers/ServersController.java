@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/servers")
-@Api(value = "/servers", description = "Operations that manage compute node resources", tags = "Servers controller")
+@Api(value = "/servers", description = "Operations that manage compute node resources", tags = "Servers")
 public class ServersController
 {
     public static final String PATH = "/servers";

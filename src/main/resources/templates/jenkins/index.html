@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Barlow:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Teko:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+    <link rel="stylesheet" th:href="@{/css/jenkins/index.css}" />
+    <title>Jenkins</title>
+</head>
+<body>
+<main role="main" class="container">
+    <h1>Natural Resource Ministries' Configuration Management Database</h1>
+    <h2>Jenkins</h2>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Version: <span th:text="${version}"></span></span>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script type="text/javascript" th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/popper.js/1.14.1/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/vue/2.5.13/vue.js}"></script><!-- TODO: min version -->
+<script type="text/javascript" th:src="@{/js/jenkins/index.js}"></script>
+</body>
+</html>

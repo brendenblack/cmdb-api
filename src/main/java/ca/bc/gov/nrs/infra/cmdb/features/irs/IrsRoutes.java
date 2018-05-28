@@ -19,15 +19,25 @@ public class IrsRoutes
 
     public static final String GET_COMPONENT_ROUTE = BASE + GET_PROJECT_ROUTE + "/components/" + COMPONENT_NAME_PLACEHOLDER;
 
-    public static String makeProjectLink(Project project)
+    public static String makeLink(Project project)
     {
-        return GET_PROJECT_ROUTE.replace(PROJECT_KEY_PLACEHOLDER, project.getKey());
+        return makeLink(project.getKey());
     }
 
-    public static String makeGetComponentLink(Component component)
+    public static String makeLink(Component component)
+    {
+       return makeLink(component.getProject().getKey(), component.getName());
+    }
+
+    public static String makeLink(String projectKey, String componentName)
     {
         return GET_COMPONENT_ROUTE
-                .replace(PROJECT_KEY_PLACEHOLDER, component.getProject().getKey())
-                .replace(COMPONENT_NAME_PLACEHOLDER, component.getName());
+                .replace(PROJECT_KEY_PLACEHOLDER, projectKey)
+                .replace(COMPONENT_NAME_PLACEHOLDER, componentName);
+    }
+
+    public static String makeLink(String projectKey)
+    {
+        return GET_PROJECT_ROUTE.replace(PROJECT_KEY_PLACEHOLDER, projectKey);
     }
 }

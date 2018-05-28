@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
-@Api(value = "/jenkins", description = "Endpoints for loading and retrieving data from Jenkins", consumes = "application/json", produces = "application/json")
+@Api(value = "/jenkins",
+     tags = "Jenkins",
+     description = "Endpoints for loading and retrieving data from Jenkins",
+     consumes = "application/json",
+     produces = "application/json")
 @RestController
 @RequestMapping("/jenkins")
 public class JenkinsController

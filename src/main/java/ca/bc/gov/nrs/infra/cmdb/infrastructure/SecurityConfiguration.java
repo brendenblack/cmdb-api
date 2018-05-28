@@ -72,14 +72,22 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter
         return registrationBean;
     }
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        // TODO: properly secure endpoints
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/api-docs", "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
-                .anyRequest().authenticated();
+//                anyRequest().permitAll();
+                .antMatchers(
+                        "/api-docs",
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
+                .antMatchers("/api/*").hasRole("USER")
+                .anyRequest().permitAll();
     }
 }

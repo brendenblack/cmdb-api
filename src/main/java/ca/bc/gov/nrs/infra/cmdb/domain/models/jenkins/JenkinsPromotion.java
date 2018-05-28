@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models.jenkins;
 
 import ca.bc.gov.nrs.infra.cmdb.domain.models.ComponentInstance;
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.IdirUser;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.Server;
 import ca.bc.gov.nrs.infra.cmdb.domain.models.irs.Component;

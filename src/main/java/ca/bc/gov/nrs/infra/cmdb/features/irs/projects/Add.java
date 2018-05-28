@@ -6,6 +6,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ public class Add
     @ApiModel("projectAddCommand")
     public static class Command
     {
+        @ApiParam("The unique key assigned to the project in IRS")
         private String key;
     }
 
@@ -59,8 +61,8 @@ public class Add
                         existingProject.get().getKey(),
                         existingProject.get().getId());
 
-                HttpException alreadyExistsException = new HttpException(HttpStatus.CONFLICT, "");
-                alreadyExistsException.addHeader("Location", "");
+                HttpException alreadyExistsException = new HttpException(HttpStatus.CONFLICT, "This project already exists");
+                alreadyExistsException.addHeader("Location", IrsRoutes.makeLink(existingProject.get()));
                 throw alreadyExistsException;
             }
 
@@ -68,7 +70,7 @@ public class Add
             this.context.getProjectRepository().save(project);
 
             Model result = new Model();
-            result.setLink(IrsRoutes.makeProjectLink(project));
+            result.setLink(IrsRoutes.makeLink(project));
             return result;
         }
 

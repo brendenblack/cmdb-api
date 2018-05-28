@@ -1,8 +1,11 @@
 package ca.bc.gov.nrs.infra.cmdb.domain.models.irs;
 
-import ca.bc.gov.nrs.infra.cmdb.domain.models.Entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.sourceforge.plantuml.StringUtils;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;

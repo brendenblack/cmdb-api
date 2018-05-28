@@ -7,6 +7,7 @@ import ca.bc.gov.nrs.infra.cmdb.infrastructure.HttpException;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.mediator.RequestHandler;
 import ca.bc.gov.nrs.infra.cmdb.infrastructure.repositories.CmdbContext;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ public class Add
     public static class Command
     {
         private String projectKey;
+        @ApiParam("The unique name of this component")
         private String name;
     }
 
@@ -59,6 +61,20 @@ public class Add
                 throw new HttpException(HttpStatus.BAD_REQUEST, "No project found with key " + message.getProjectKey() + ", unable to created component");
             }
 
+            Optional<Component> existingComponent = this.context.getComponentRepository().findByName(message.getName());
+            if (existingComponent.isPresent())
+            {
+                log.warn("Unable to create a new component with name {} because it already exists with id {}",
+                         existingComponent.get().getName(),
+                         existingComponent.get().getId());
+
+                HttpException alreadyExistsException = new HttpException(HttpStatus.CONFLICT, "This component already exists");
+                alreadyExistsException.addHeader("Location", IrsRoutes.makeLink(existingComponent.get()));
+                throw alreadyExistsException;
+            }
+
+
+
             Component component = Component.ofName(message.getName())
                     .belongsTo(project.get())
                     .build();
@@ -66,7 +82,7 @@ public class Add
             this.context.getComponentRepository().save(component);
 
             Model result = new Model();
-            result.setLink(IrsRoutes.makeGetComponentLink(component));
+            result.setLink(IrsRoutes.makeLink(component));
             return result;
         }
 
